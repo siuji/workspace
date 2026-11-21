@@ -8,6 +8,8 @@ mercado: retail
 midias: [d-film-tv, d-social, d-performance-crm, d-retail-pos, d-branding, d-ai-automation, d-web-email]
 conecta: [monks, ai-systems]
 ---
+<div class="video"><iframe src="https://player.vimeo.com/video/1248984756?autopause=0&amp;dnt=1" title="Leroy Merlin" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
+
 One of the biggest wins of my time as Group Creative Director at Monks. I worked actively on winning the account, and then on building a system that completely changed the way the client itself worked.
 
 Leroy Merlin Brazil, one of Brazil's largest home improvement retailers, with over 50 stores, asked for more than a digital-first agency. We had to become its full Agency of Record. With new AI capabilities, we scaled ideas, streamlined production and accelerated delivery across media.

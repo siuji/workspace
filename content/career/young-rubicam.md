@@ -6,7 +6,7 @@ tipo: path
 data: 2004 – 2007 · 2010 – 2020
 ordem: 3
 apelidos: [Y&R, YR, Young and Rubicam]
-conecta: [career]
+conecta: [career, casas-bahia, pontofrio]
 ---
 ## 2010 – 2020
 
@@ -19,7 +19,7 @@ One of the leaders of the creative team serving Casas Bahia, one of Brazil's lar
 
 Casas Bahia showreel, 2010 to 2020. More in [[casas-bahia]].
 
-**Clients** · [[casas-bahia|Casas Bahia]], [[pontofrio|Pontofrio]].
+<h3 class="sector">Clients</h3><ul class="logos mini"><li><a href="#/casas-bahia" data-node="casas-bahia"><span class="logo" role="img" aria-label="Casas Bahia" style="--logo:url(media/clients/casas-bahia.png);width:184px;height:19px"></span></a></li><li><a href="#/pontofrio" data-node="pontofrio"><span class="logo" role="img" aria-label="Pontofrio" style="--logo:url(media/clients/pontofrio.png);width:130px;height:37px"></span></a></li></ul>
 
 ## 2004 – 2007
 

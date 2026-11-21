@@ -569,3 +569,17 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 @media (prefers-reduced-motion: reduce) { #orb i::after, .m-orb i::after, #orb i::before, .m-orb i::before { animation: none; } }
 /* Celular: mesmo fundo com luz no centro e laterais mais escuras */
 .is-mobile body { background: radial-gradient(90% 70% at 50% 34%, var(--bg-glow) 0%, var(--bg-1) 45%, var(--bg-edge) 100%) fixed; }
+
+/* Logos de clientes nas páginas das agências: menores e brancos (claros) */
+.prose ul.logos.mini li { flex: 0 0 25%; }
+.prose ul.logos.mini .logo { transform: scale(.68); }
+.prose ul.logos.mini .logo-text { font-size: 22px; }
+.prose ul.logos.mini .logo { background-color: var(--ink) !important; }
+.prose ul.logos.mini .logo-text { color: var(--ink); }
+:root:not([data-theme="light"]) .prose ul.logos.mini .logo { background-color: #fff !important; }
+:root:not([data-theme="light"]) .prose ul.logos.mini .logo-text { color: #fff; }
+
+/* Konkrë: foto larga no topo e selo do iF depois dos números */
+.prose .wide-photo { display: block; width: calc(100% + 48px); height: auto; margin: 0 -24px var(--s3); border-radius: 10px; }
+.prose .award { display: flex; justify-content: center; margin: calc(-1 * var(--s2)) 0 var(--s3); }
+.prose .award img { width: 92px; height: auto; border-radius: 2px; }

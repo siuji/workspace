@@ -11,4 +11,4 @@ conecta: [career]
 
 In the middle of the internet boom in Brazil, I moved to digital. Fast and intense, working for the biggest Brazilian internet players of the time.
 
-**Clients** · Audi.
+<h3 class="sector">Clients</h3><ul class="logos mini"><li><span class="logo" role="img" aria-label="Audi" style="--logo:url(media/clients/audi.svg);width:90px;height:32px"></span></li></ul>
