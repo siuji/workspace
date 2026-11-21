@@ -1,5 +1,6 @@
 ---
 titulo: Superside
+logo: superside
 tipo: path
 data: Nov 2025 – present
 status: placeholder
