@@ -54,11 +54,82 @@
     }
     chord(true);
   }
-  function chord(now) {
-    const root = pick(ROOTS) - 12, vc = pick(VOICINGS), t = ctx.currentTime, glide = now ? 0.01 : rnd(4, 7);
-    voices.forEach((v, i) => { const f = hz(root + vc[i]); v.a.frequency.setTargetAtTime(f, t, glide); v.b.frequency.setTargetAtTime(f * (i === 3 ? 2 : 1), t, glide); });
-    timers.push(setTimeout(() => on && chord(), rnd(14000, 24000)));
+  // Acordes do pad seguem a progressão da trilha (com troca suave)
+  function chord(now, ch, at) {
+    ch = ch || PROG[0];
+    const t = at || ctx.currentTime, glide = now ? 0.01 : 0.6;
+    voices.forEach((v, i) => { const f = hz(ch.r + 12 + ch.t[i]); v.a.frequency.setTargetAtTime(f, t, glide); v.b.frequency.setTargetAtTime(f * (i === 3 ? 2 : 1), t, glide); });
   }
+
+  // Trilha: 92 bpm, progressão em ré menor que muda a cada 2 compassos, camadas que entram e saem a cada 8 compassos
+  // (bumbo macio, chimbal, baixo sincopado, arpejo com eco). Padrões sorteados: nunca toca igual por muito tempo.
+  const BPM = 92, STEP = 60 / BPM / 4;
+  const PROG = [{ r: 38, t: [0, 7, 15, 19] }, { r: 34, t: [0, 7, 16, 19] }, { r: 41, t: [0, 7, 16, 21] }, { r: 36, t: [0, 7, 14, 16] }];
+  let seq = null, step = 0, nextT = 0, layers = null, arpPat = [], bassPat = [], bus = null, delay = null;
+  function buildSeq() {
+    bus = ctx.createGain(); bus.gain.value = 0.55; bus.connect(amb);
+    delay = ctx.createDelay(1); delay.delayTime.value = STEP * 3;
+    const fb = ctx.createGain(); fb.gain.value = 0.32; const dl = ctx.createBiquadFilter(); dl.type = 'lowpass'; dl.frequency.value = 2200;
+    delay.connect(dl).connect(fb).connect(delay); dl.connect(bus);
+  }
+  function newPatterns() {
+    const n = 8; arpPat = Array.from({ length: n }, () => (Math.random() < 0.82 ? Math.floor(Math.random() * 6) : -1));
+    const B = [[0, -1, -1, 0, -1, -1, 7, -1, 0, -1, -1, 0, -1, 12, -1, -1], [0, -1, -1, -1, 0, -1, -1, 7, -1, -1, 0, -1, -1, -1, 5, -1], [0, -1, 0, -1, -1, -1, 7, -1, -1, 0, -1, -1, 10, -1, -1, -1]];
+    bassPat = pick(B);
+  }
+  function section(bar) {
+    // a cada 8 compassos, sorteia quais camadas tocam (sempre com algo de pulso, às vezes um respiro só com pad e arpejo)
+    if (bar % 8) return;
+    const breath = bar > 0 && Math.random() < 0.22;
+    layers = bar === 0 ? { kick: false, hat: false, bass: false, arp: true } : breath ? { kick: false, hat: false, bass: Math.random() < 0.4, arp: true } : { kick: true, hat: Math.random() < 0.8, bass: true, arp: Math.random() < 0.85 };
+    if (bar === 8) layers = { kick: true, hat: false, bass: true, arp: true };
+    newPatterns();
+  }
+  function kick(t, v) {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(115, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.16);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.5 * v, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.42);
+    o.connect(g).connect(bus); o.start(t); o.stop(t + 0.45);
+  }
+  let noiseBuf = null;
+  function hat(t, v) {
+    if (!noiseBuf) { noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.2, ctx.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; f.type = 'highpass'; f.frequency.value = 7000;
+    g.gain.setValueAtTime(0.06 * v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    let out = g; if (ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = 0.25; g.connect(p); out = p; }
+    s.connect(f).connect(g); out.connect(bus); s.start(t); s.stop(t + 0.08);
+  }
+  function bass(t, m, len) {
+    const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = 'triangle'; o.frequency.setValueAtTime(hz(m), t);
+    f.type = 'lowpass'; f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(220, t + len);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+    o.connect(f).connect(g).connect(bus); o.start(t); o.stop(t + len + 0.05);
+  }
+  function pluck(t, m, v) {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(hz(m), t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.09 * v, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    let out = g; if (ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = rnd(-0.5, 0.5); g.connect(p); out = p; }
+    o.connect(g); out.connect(bus); out.connect(delay); o.start(t); o.stop(t + 0.55);
+  }
+  function tick() {
+    if (nextT < ctx.currentTime - 0.2) nextT = ctx.currentTime + 0.05; // aba voltou do segundo plano: não despeja notas atrasadas
+    while (nextT < ctx.currentTime + 0.15) {
+      const s16 = step % 16, bar = Math.floor(step / 16), ch = PROG[Math.floor(bar / 2) % PROG.length];
+      if (s16 === 0) { section(bar); if (bar % 2 === 0) chord(false, ch, nextT); if (bar % 4 === 0 && Math.random() < 0.5) newPatterns(); }
+      const swing = s16 % 2 ? STEP * 0.12 : 0, t = nextT + swing;
+      if (layers.kick && (s16 === 0 || s16 === 8 || (s16 === 11 && Math.random() < 0.25))) kick(t, s16 === 0 ? 1 : 0.8);
+      if (layers.hat && s16 % 4 === 2) hat(t, rnd(0.6, 1));
+      if (layers.hat && s16 % 2 === 1 && Math.random() < 0.3) hat(t, rnd(0.25, 0.45));
+      const b = bassPat[s16]; if (layers.bass && b >= 0) bass(t, ch.r + b, STEP * 2.6);
+      if (layers.arp && s16 % 2 === 0) { const k = arpPat[(s16 / 2) % arpPat.length]; if (k >= 0) { const tones = [0, ch.t[1], ch.t[2], ch.t[3], 12 + ch.t[2], 24]; pluck(t, ch.r + 24 + tones[k], rnd(0.55, 1)); } }
+      nextT += STEP; step++;
+    }
+  }
+  function playSeq() { if (seq) return; if (!bus) buildSeq(); step = 0; nextT = ctx.currentTime + 0.1; layers = null; seq = setInterval(tick, 25); tick(); }
+  function stopSeq() { clearInterval(seq); seq = null; }
   // Brilhos esparsos: notas altas e suaves, em tempos e alturas sempre diferentes
   function sparkle() {
     if (!on) return;
@@ -107,13 +178,12 @@
     on = true; save('on');
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setTargetAtTime(0.9, ctx.currentTime, 1.6);
-    timers.push(setTimeout(sparkle, 3000));
-    if (voices.length && !timers.length) chord();
+    playSeq();
     mark();
   }
   function stop() {
     on = false; save('off');
-    timers.forEach(clearTimeout); timers = [];
+    timers.forEach(clearTimeout); timers = []; stopSeq();
     if (ctx) { master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(0, ctx.currentTime, 0.4); setTimeout(() => !on && ctx.suspend(), 1500); }
     mark();
   }
