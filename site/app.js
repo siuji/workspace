@@ -651,9 +651,10 @@
   input.addEventListener('input', () => {
     const q = norm(input.value.trim());
     if (!q) return hideResults();
-    const hits = data.nodes.map((n) => {
-      const title = norm(n.titulo), body = norm(`${n.resumo} ${n.tags.join(' ')} ${plain(n.html)}`);
-      return { n, score: title.startsWith(q) ? 3 : title.includes(q) ? 2 : body.includes(q) ? 1 : 0 };
+    const hits = data.nodes.filter((n) => !n.oculto || REVIEW).map((n) => {
+      const title = norm(n.titulo), body = norm(`${n.resumo} ${n.tags.join(' ')} ${plain(n.html)}`), kw = (n.kw || []).map(norm);
+      const k = kw.some((w) => w === q) ? 2.8 : q.length > 2 && kw.some((w) => w.startsWith(q)) ? 2.4 : q.length > 3 && kw.some((w) => w.includes(q)) ? 1.5 : 0;
+      return { n, score: Math.max(title.startsWith(q) ? 3 : title.includes(q) ? 2 : body.includes(q) ? 1 : 0, k) };
     }).filter((h) => h.score).sort((a, b) => b.score - a.score).slice(0, 8);
     results.innerHTML = hits.length ? hits.map(({ n }) =>
       `<li><button type="button" data-node="${n.id}"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.titulo)}</button></li>`).join('')

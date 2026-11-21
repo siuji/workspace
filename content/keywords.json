@@ -1,0 +1,48 @@
+{
+  "_como_usar": "Palavras extras para a busca do site. Chave = id do nó (nome do arquivo .md). Acentos e maiúsculas não importam. Quem digita uma dessas palavras cai no nó.",
+
+  "paulo-asano": ["paulo", "asano", "home", "inicio", "start", "profile", "perfil", "about", "sobre", "who", "quem", "creative director", "diretor de criacao", "diretor criativo", "direcao de criacao", "creative direction", "automation", "automacao", "ai integration", "ia", "inteligencia artificial", "leadership", "lideranca", "craft", "scale", "escala", "teams", "times", "equipe", "high performance", "alta performance", "cv", "resume", "curriculo", "hire", "contratar", "recruiter", "recrutador"],
+
+  "portfolio": ["clients", "client", "clientes", "cliente", "customers", "customer", "brands", "brand", "marcas", "marca", "work", "works", "trabalhos", "trabalho", "cases", "case", "projects", "project", "projetos", "projeto", "campaigns", "campaign", "campanhas", "campanha", "jobs", "showcase", "reel", "showreel", "portifolio", "portfolio", "advertising", "publicidade", "propaganda", "ads", "anuncios", "agency work", "google", "meta", "facebook", "instagram ads", "macys", "macy's", "thomson reuters", "reuters", "wikimedia", "wikipedia", "great place to work", "gptw", "deel", "offerup", "optimum", "flight centre", "flight center", "vans", "dominos", "domino's", "pizza", "pringles", "bitly", "qdoba", "ecoatm", "koozie", "pursuit", "quest diagnostics", "quest", "dandy", "wellby", "figo", "ridgeline", "backblaze", "corelight", "litmos", "magnet forensics", "parloa", "persona", "tech9", "zenbusiness", "jobot", "best lawyers", "greenfield", "embark", "city of corona", "cfmws", "nca", "cryptocurrency", "havaianas", "brahma", "chopp brahma", "tech", "tecnologia", "media", "midia", "retail", "varejo", "food", "restaurants", "restaurantes", "alimentacao", "consumer", "consumo", "health", "saude", "pharma", "farmaceutica", "healthcare", "financial", "financeiro", "fintech", "banco", "bank", "b2b", "saas", "software", "nonprofit", "ong", "public sector", "governo", "film", "tv", "commercial", "comerciais", "filme", "filmes", "video", "videos", "social media", "redes sociais", "performance", "crm", "pos", "pdv", "ponto de venda", "branding", "identidade visual", "logo", "web", "site", "email", "e-mail", "international", "internacional", "global", "brazil", "brasil"],
+
+  "career": ["career", "carreira", "timeline", "linha do tempo", "history", "historia", "trajetoria", "experience", "experiencia", "jobs", "empregos", "agencies", "agency", "agencias", "agencia", "roles", "cargos", "cargo", "positions", "resume", "cv", "curriculo", "linkedin", "work history", "since 1999", "years", "anos", "art director", "diretor de arte", "creative art director", "group creative director", "gcd", "ecd"],
+
+  "superside": ["superside", "ai group creative director", "current job", "atual", "emprego atual", "design subscription", "remote", "remoto", "global team"],
+  "monks": ["monks", "media monks", "mediamonks", "media.monks", "s4 capital", "s4capital", "group creative director", "sao paulo"],
+  "young-rubicam": ["young & rubicam", "young and rubicam", "young rubicam", "y&r", "yr", "vmly&r", "vml", "wpp", "creative director", "diretor de criacao", "creative art director"],
+  "141-worldwide": ["141", "141 worldwide", "141 soho square", "bates 141", "creative director", "diretor de criacao"],
+  "lage-magy": ["lage", "magy", "lage&magy", "lage magy", "lagemagy", "lage'magy", "first job", "primeiro emprego", "art director assistant", "assistente de arte", "inicio de carreira"],
+  "hypernet": ["hypernet", "soluziona", "hypernet/soluziona", "internet", "digital", "web design", "dot com", "ponto com"],
+
+  "entrepreneur": ["entrepreneur", "empreendedor", "empreendedorismo", "business", "negocio", "negocios", "empresa", "company", "startup", "founder", "fundador", "co-founder", "cofundador", "socio", "partner", "owner", "dono", "venture", "management", "gestao", "strategy", "estrategia"],
+
+  "konkre": ["konkre", "konkrë", "konkre living design", "living design", "concrete", "concreto", "cimento", "cement", "sinks", "sink", "cubas", "cuba", "pias", "pia", "lavatorio", "lavatorios", "bathroom", "banheiro", "kitchen", "cozinha", "design", "product design", "design de produto", "furniture", "decor", "decoracao", "interiors", "interiores", "architecture", "arquitetura", "handmade", "artesanal", "factory", "fabrica", "vila romana", "export", "exportacao", "if design award", "if award", "premio brasil design", "brazil design award", "award", "premio", "premios", "awards"],
+
+  "about-me": ["about me", "about", "sobre mim", "sobre", "personal", "pessoal", "vida pessoal", "bio", "biography", "biografia", "who am i", "quem sou", "family", "familia", "married", "casado", "wife", "esposa", "kids", "children", "sons", "boys", "filhos", "father", "dad", "pai", "pet", "dog", "cachorro", "hobbies", "hobby", "interests", "interesses", "life", "vida", "curious", "curioso", "learning", "aprender"],
+
+  "endurance": ["endurance", "running", "runner", "run", "corrida", "correr", "corredor", "maratonista", "sport", "sports", "esporte", "esportes", "athlete", "atleta", "fitness", "training", "treino", "treinos", "road", "rua", "trail", "trilha", "ultra", "half marathon", "meia maratona", "21k", "10k", "5k", "resilience", "resiliencia", "adaptation", "adaptacao", "therapy", "terapia", "health", "saude", "sub 3", "sub-3", "personal best", "pb", "recorde pessoal"],
+
+  "marathons": ["marathons", "marathon", "maratonas", "maratona", "42k", "42 km", "races", "race", "provas", "prova", "majors", "world marathon majors", "abbott", "six star", "6 stars", "boston", "new york", "nyc", "chicago", "berlin", "berlim", "london", "londres", "tokyo", "toquio", "osaka", "los angeles", "buenos aires", "santiago", "amsterdam", "amsterda", "porto alegre", "sao paulo", "rio de janeiro", "florianopolis", "curitiba", "disney", "uphill", "a muralha", "bertioga", "times", "tempos", "results", "resultados"],
+
+  "education": ["education", "educacao", "formacao", "studies", "estudos", "school", "escola", "university", "universidade", "faculdade", "college", "degree", "diploma", "graduacao", "bachelor", "bacharelado", "mba", "finance", "financas", "controladoria", "controllership", "usp", "esalq", "fgv", "fundacao getulio vargas", "getulio vargas", "business administration", "administracao", "management", "senac", "photography degree", "fotografia", "espm", "advertising art", "courses", "cursos", "curso", "certificates", "certificados", "certification", "training", "leadership program", "young & rubicam leadership", "impact nyc", "yahoo"],
+
+  "tools": ["tools", "ferramentas", "ferramenta", "software", "softwares", "stack", "apps", "ai", "ia", "inteligencia artificial", "artificial intelligence", "genai", "generative ai", "ia generativa", "chatgpt", "gpt", "openai", "claude", "anthropic", "gemini", "midjourney", "krea", "runway", "kling", "veo", "flux", "firefly", "elevenlabs", "suno", "topaz", "perplexity", "notebooklm", "photoshop", "illustrator", "after effects", "lightroom", "figma", "blender", "adobe", "google workspace", "microsoft", "office", "excel", "granola", "wix", "notion", "slack", "monday", "asana", "workflow", "workflows", "fluxos", "automation", "automacao", "image generation", "geracao de imagem", "video generation", "geracao de video", "motion", "design"],
+
+  "social": ["social", "social media", "redes sociais", "redes", "contact", "contato", "contatos", "get in touch", "fale comigo", "reach", "connect", "conectar", "linkedin", "instagram", "insta", "ig", "siuji", "follow", "seguir", "email", "message", "mensagem", "dm"],
+
+  "whirlpool": ["whirlpool", "eletrodomesticos", "appliances", "home appliances", "linha branca"],
+  "brastemp": ["brastemp", "geladeira", "refrigerator", "fridge", "eletrodomesticos", "appliances", "whirlpool"],
+  "consul": ["consul", "eletrodomesticos", "appliances", "whirlpool", "ar condicionado"],
+  "kitchenaid": ["kitchenaid", "kitchen aid", "batedeira", "stand mixer", "mixer", "cozinha", "kitchen", "whirlpool"],
+  "compra-certa": ["compra certa", "compracerta", "ecommerce", "e-commerce", "loja online", "online store", "whirlpool"],
+  "ecohouse": ["ecohouse", "eco house", "sustainability", "sustentabilidade", "reciclagem", "recycling", "whirlpool"],
+  "casas-bahia": ["casas bahia", "casasbahia", "via varejo", "via", "grupo casas bahia", "varejo", "retail", "tvc", "comercial", "black friday"],
+  "pontofrio": ["pontofrio", "ponto frio", "via varejo", "varejo", "retail"],
+  "leroy-merlin": ["leroy merlin", "leroy", "home improvement", "construcao", "material de construcao", "diy", "design system", "sistema de design", "varejo", "retail"],
+  "nubank": ["nubank", "nu", "roxinho", "fintech", "banco digital", "digital bank", "cartao", "credit card"],
+  "pfizer": ["pfizer", "pharma", "farmaceutica", "health", "saude", "medical", "medico", "healthcare", "videos at scale", "ai video"],
+  "sanofi": ["sanofi", "pharma", "farmaceutica", "health", "saude", "medical", "medico", "healthcare"],
+  "ragazzo": ["ragazzo", "habibs", "habib's", "pizza", "pastel", "restaurante", "restaurant", "fast food", "food"],
+  "quau-burger": ["quau", "quau burger", "quau!? burger", "burger", "hamburguer", "hamburger", "branding", "restaurante"],
+  "youtube": ["youtube", "yt", "google", "video", "videos", "creators", "criadores", "hispanic heritage", "gaming", "recap", "new york"]
+}

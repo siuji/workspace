@@ -9,6 +9,9 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const { marked } = require('./tools/marked.umd.js');
+// Palavras extras da busca (content/keywords.json): sinônimos em inglês e português por nó
+let KEYWORDS = {};
+try { KEYWORDS = JSON.parse(fs.readFileSync(path.join(__dirname, 'content', 'keywords.json'), 'utf8')); } catch (e) { console.warn('keywords.json: ' + e.message); }
 
 const ROOT = __dirname;
 const CONTENT = path.join(ROOT, 'content');
@@ -122,6 +125,7 @@ function makeGraph(notes, review = false) {
       tipo,
       resumo: n.data.resumo || '',
       tags: [].concat(n.data.tags || []),
+      kw: KEYWORDS[n.id] || [],
       data: n.data.data ? String(n.data.data) : '',
       capa: n.data.capa ? `media/${path.basename(String(n.data.capa))}` : '',
       placeholder: n.data.status === 'placeholder',
