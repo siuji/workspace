@@ -394,7 +394,7 @@
     const type = TYPES[n.tipo] || { label: n.tipo };
     const me = n.id === CFG_ROOT;
     $('#panel-body').innerHTML = me ? `
-      <div class="me-head"><img class="me-photo" src="media/paulo.jpg" alt="Paulo Asano"><h1 class="me-name">Paulo<br>Asano</h1></div>
+      <div class="me-head"><img class="me-photo" src="media/paulo.png" alt="Paulo Asano"><h1 class="me-name">Paulo<br>Asano</h1></div>
       <p class="kicker me-role"><span class="dot" style="${dotStyle(n)}"></span>Creative Direction, Automation and AI Integration</p>
       ${n.resumo ? `<p class="lede me-lede">${esc(n.resumo)}</p>` : ''}
       <div class="prose">${n.html}</div>
@@ -410,6 +410,18 @@
       ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
         <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}`;
     panel.classList.toggle('wide', n.largura === 'wide');
+    // Vídeo vertical ao lado do texto: cresce até a altura da coluna de texto
+    const fitSplit = () => panel.querySelectorAll('.split').forEach((sp) => {
+      const v = sp.querySelector('.video.vertical'), t = sp.querySelector('.split-text');
+      if (!v || !t || innerWidth <= 720) { if (v) v.style.width = ''; return; }
+      // largura em que a altura do vídeo = altura do texto (bissecção; o texto cresce quando o vídeo alarga)
+      const ar = 240 / 426;
+      let lo = 200, hi = sp.clientWidth * 0.6;
+      for (let i = 0; i < 10; i++) { const w = (lo + hi) / 2; v.style.width = w + 'px'; if (w / ar < t.offsetHeight) lo = w; else hi = w; }
+      v.style.width = lo.toFixed(1) + 'px';
+    });
+    requestAnimationFrame(fitSplit); setTimeout(fitSplit, 400); setTimeout(fitSplit, 1200);
+    if (!window.__fitSplit) { window.__fitSplit = true; addEventListener('resize', () => requestAnimationFrame(fitSplit)); }
     // Vídeos com fundo transparente (WebM com alfa); Safari não mostra alfa em WebM e fica com o MP4
     const noAlpha = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     if (!noAlpha) panel.querySelectorAll('video[data-webm]').forEach((v) => { v.poster = v.dataset.posterAlpha || v.poster; v.src = v.dataset.webm; v.classList.add('keyed'); v.play && v.play().catch(() => {}); });

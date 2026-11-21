@@ -2,9 +2,8 @@
 titulo: Smilink
 tipo: work
 resumo: "From a few banners to a fully integrated campaign."
-data: Health
-conecta: [portfolio]
-publicar: false
+data: Health · Monks · 2023
+conecta: [portfolio, monks]
 ---
 <div class="video"><iframe src="https://player.vimeo.com/video/1248978432?autopause=0&amp;dnt=1" title="Smilink" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
 

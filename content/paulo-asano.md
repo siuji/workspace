@@ -10,4 +10,4 @@ conecta: [portfolio, career, about-me]
 
 I use the same logic to structure big, complex projects. And I have been automating long before it had a name: systems, workflows and ways of working that make teams faster, and turn that efficiency into even better work.
 
-Craft always matters. Scale, without losing quality.
+Good taste always matters. So does performance, without losing quality.

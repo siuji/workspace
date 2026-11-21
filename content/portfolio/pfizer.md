@@ -3,6 +3,7 @@ titulo: Pfizer
 tipo: work
 resumo: "Stories that support people in treatment."
 data: Health
+largura: wide
 ---
 <div class="split">
 <div class="video vertical"><iframe src="https://player.vimeo.com/video/1248976806?autopause=0&amp;dnt=1" title="Pfizer" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>

@@ -489,8 +489,10 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .sound-btn.on .w2 { animation: snd 2.4s ease-in-out infinite; }
 @keyframes snd { 50% { opacity: .35; } }
 /* Vídeo vertical com o texto ao lado (duas colunas) */
-.prose .split { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 40px; align-items: center; text-align: left; margin: 24px 0; }
-.prose .split .video.vertical { aspect-ratio: 9 / 16; margin: 0; }
+.prose .split { display: grid; grid-template-columns: auto minmax(0, 300px); justify-content: center; gap: 40px; align-items: center; text-align: left; margin: 24px 0; }
+.prose .split .video.vertical { aspect-ratio: 240 / 426; width: 300px; margin: 0; }
+/* corta 1px de borda do player (evita fio claro de arredondamento) */
+.prose .split .video.vertical iframe { inset: -2px; width: calc(100% + 4px); height: calc(100% + 4px); }
 .prose .split-text p { margin: 0 0 16px; }
 .prose .split-text .stats { justify-content: flex-start; margin: 22px 0 24px; }
 .prose .split-text .stats div { align-items: flex-start; }
@@ -500,9 +502,13 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 
 /* Painel central: foto em círculo com borda esfumada + nome em 2 linhas ao lado */
 .me-head { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 8px 0 var(--s4); }
-.me-photo { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; flex: none;
-  -webkit-mask-image: radial-gradient(circle closest-side, #000 52%, transparent 100%);
-  mask-image: radial-gradient(circle closest-side, #000 52%, transparent 100%); }
+.me-photo { width: 210px; height: 210px; object-fit: contain; flex: none; margin: -20px -10px -20px -30px; }
 .panel h1.me-name { margin: 0; text-align: left; line-height: 1; font-size: clamp(40px, 4.4vw, 52px); }
 .panel .kicker.me-role { margin: 0 0 var(--s3); }
 .panel .lede.me-lede { margin-bottom: var(--s1); }
+
+/* Filtros do Portfolio em 3 linhas: All / By market / By media */
+.prose .chips.all { margin-bottom: var(--s2); }
+.prose .chips.mkt, .prose .chips.deliv { margin-top: 0; margin-bottom: var(--s1); align-items: center; }
+.prose .chips.deliv { margin-bottom: var(--s3); }
+.prose .chips-label { font: 400 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }

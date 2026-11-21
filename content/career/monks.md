@@ -11,4 +11,4 @@ conecta: [career]
 
 The turning point. This is where I became a 360 professional, bringing digital into everything I deliver. Led several of the biggest projects of the house and its main clients, most recently in the global structure dedicated to YouTube. Always leading the creative team, also contributing to accounts, strategy and operations.
 
-**Clients** · [[youtube|YouTube]], [[whirlpool|Whirlpool]], [[brastemp|Brastemp]], [[consul|Consul]], [[kitchenaid|KitchenAid]], [[compra-certa|Compra Certa]], [[ecohouse|Ecohouse]], [[leroy-merlin|Leroy Merlin]], [[nubank|Nubank]], [[ragazzo|Ragazzo]], [[sanofi|Sanofi]].
+**Clients** · [[youtube|YouTube]], [[whirlpool|Whirlpool]], [[brastemp|Brastemp]], [[consul|Consul]], [[kitchenaid|KitchenAid]], [[compra-certa|Compra Certa]], [[ecohouse|Ecohouse]], [[leroy-merlin|Leroy Merlin]], [[nubank|Nubank]], [[ragazzo|Ragazzo]], [[sanofi|Sanofi]], [[smilink|Smilink]].
