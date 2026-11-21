@@ -10,7 +10,7 @@ conecta: [career]
 ## 2010 – 2020
 
 - **Period** · May 2010 – Apr 2020
-- **Role** · Creative Art Director · Creative Director
+- **Role** · Creative Director · Creative Art Director
 
 One of the leaders of the creative team serving Casas Bahia, one of Brazil's largest retailers and advertisers, and the agency's main client. TV, internet, out of home, radio and point of sale: campaigns for everything, all the time. This is where most of my portfolio was built, and the peak of a complete offline delivery.
 
