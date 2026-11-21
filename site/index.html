@@ -64,6 +64,22 @@
     </div>
   </header>
 
+  <button type="button" class="fb-btn" id="fb-open" hidden>Feedback</button>
+  <div class="fb" id="fb" hidden role="dialog" aria-modal="true" aria-labelledby="fb-title">
+    <form class="fb-card" id="fb-form" novalidate>
+      <button type="button" class="icon-btn fb-close" id="fb-close" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 1l10 10M11 1 1 11"/></svg></button>
+      <h2 id="fb-title">Feedback</h2>
+      <label>Name<input name="name" type="text" autocomplete="name" required></label>
+      <label>LinkedIn profile<input name="linkedin" type="url" inputmode="url" placeholder="linkedin.com/in/..." autocomplete="url"><small>Optional</small></label>
+      <label>Feedback<textarea name="message" rows="6" required></textarea></label>
+      <input class="fb-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="fb-note">Your name, LinkedIn and message are stored privately and used only to read and reply to your feedback.</p>
+      <p class="fb-error" id="fb-error" hidden></p>
+      <button type="submit" class="fb-send">Send</button>
+      <p class="fb-done" id="fb-done" hidden>Thank you. Your feedback was sent.</p>
+    </form>
+  </div>
+
   <div class="finder">
     <ul id="results" class="results" hidden></ul>
     <div class="search">

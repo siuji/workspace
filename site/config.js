@@ -12,6 +12,12 @@ window.WS_CONFIG = {
   // Registro de cadastros e visitas numa planilha Google (via Apps Script).
   // DESLIGADO. Para ligar: cole a URL do Apps Script em endpoint e troque enabled para true.
   // Antes de ligar, revisar o aviso de privacidade (LGPD) do formulário de entrada.
+  // Feedback: botão no canto inferior esquerdo. Fica escondido até colar a URL do Apps Script em endpoint.
+  // (Com ?review o botão aparece mesmo sem endpoint, para revisão.)
+  feedback: {
+    endpoint: ''
+  },
+
   tracking: {
     enabled: false,
     endpoint: ''

@@ -432,6 +432,41 @@
     });
   });
 
+  // Feedback: botão no canto inferior esquerdo, formulário com o nome da trava já preenchido
+  (() => {
+    const ep = (CFG.feedback && CFG.feedback.endpoint) || '';
+    const btn = $('#fb-open'), box = $('#fb'), f = $('#fb-form'), err = $('#fb-error'), ok = $('#fb-done');
+    if (!btn) return;
+    btn.hidden = !(ep || /[?&]review\b/.test(location.search));
+    const close = () => { box.hidden = true; document.body.classList.remove('fb-on'); };
+    btn.addEventListener('click', () => {
+      const v = store.get('ws-visitor');
+      if (v && v.name && !f.name.value) f.name.value = v.name;
+      err.hidden = true; ok.hidden = true; f.classList.remove('sent');
+      box.hidden = false; document.body.classList.add('fb-on');
+      setTimeout(() => (f.name.value ? f.message : f.name).focus(), 60);
+    });
+    $('#fb-close').addEventListener('click', close);
+    box.addEventListener('click', (e) => { if (e.target === box) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden) { close(); e.stopImmediatePropagation(); } }, true);
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = f.name.value.trim(), message = f.message.value.trim(), linkedin = f.linkedin.value.trim();
+      if (name.length < 2) { err.textContent = 'Please tell me your name.'; err.hidden = false; return f.name.focus(); }
+      if (message.length < 2) { err.textContent = 'Please write your feedback.'; err.hidden = false; return f.message.focus(); }
+      if (f.website.value) return; // honeypot
+      if (!ep) { err.textContent = 'Feedback is not connected yet.'; err.hidden = false; return; }
+      err.hidden = true; f.classList.add('sending');
+      try {
+        await fetch(ep, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ name, linkedin, message, page: location.hash, lang: navigator.language, tz: Intl.DateTimeFormat().resolvedOptions().timeZone }) });
+        f.classList.add('sent'); ok.hidden = false; f.message.value = '';
+        setTimeout(close, 2600);
+      } catch (x) { err.textContent = 'Something went wrong. Please try again.'; err.hidden = false; }
+      f.classList.remove('sending');
+    });
+  })();
+
   // Lightbox das galerias
   document.addEventListener('click', (e) => {
     const img = e.target.closest('.gallery img, .gallery video');
