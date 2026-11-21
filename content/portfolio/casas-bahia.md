@@ -2,7 +2,7 @@
 titulo: Casas Bahia
 logo: casas-bahia
 tipo: work
-resumo: "One of Brazil's largest retailers and advertisers."
+resumo: "15 years of my career dedicated to one of Brazil's largest retail advertisers."
 data: Retail · Young & Rubicam
 mercado: retail
 midias: [d-film-tv, d-social, d-performance-crm, d-retail-pos, d-branding, d-web-email]
