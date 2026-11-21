@@ -488,3 +488,11 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .sound-btn.on .x { opacity: 0; }
 .sound-btn.on .w2 { animation: snd 2.4s ease-in-out infinite; }
 @keyframes snd { 50% { opacity: .35; } }
+/* Vídeo vertical com o texto ao lado (duas colunas) */
+.prose .split { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 40px; align-items: center; text-align: left; margin: 24px 0; }
+.prose .split .video.vertical { aspect-ratio: 9 / 16; margin: 0; }
+.prose .split-text p { margin: 0 0 16px; }
+.prose .split-text .stats { justify-content: flex-start; margin: 22px 0 24px; }
+.prose .split-text .stats div { align-items: flex-start; }
+@media (max-width: 720px) { .prose .split { grid-template-columns: 1fr; text-align: center; } .prose .split .video.vertical { max-width: 300px; margin: 0 auto; } .prose .split-text .stats { justify-content: center; } }
+.prose .split-text .stats + p { font-size: inherit; }
