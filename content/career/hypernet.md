@@ -1,5 +1,6 @@
 ---
 titulo: Hypernet/Soluziona
+rotulo: Hypernet
 tipo: path
 data: Sep 2000 – Dec 2001
 status: placeholder

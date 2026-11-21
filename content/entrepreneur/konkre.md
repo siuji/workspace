@@ -1,5 +1,6 @@
 ---
 titulo: Konkrë Living Design
+rotulo: Konkrë
 tipo: venture
 resumo: Brazil's pioneer in colored concrete sinks.
 data: 2021 – present

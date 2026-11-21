@@ -117,6 +117,7 @@ function makeGraph(notes, review = false) {
     return {
       id: n.id,
       titulo: n.data.titulo || n.base,
+      rotulo: n.data.rotulo || String(n.data.titulo || n.base).replace(/\s*\(.*?\)\s*/g, '').trim(),
       tipo,
       resumo: n.data.resumo || '',
       tags: [].concat(n.data.tags || []),

@@ -1,5 +1,6 @@
 ---
 titulo: Career timeline
+rotulo: Career
 tipo: area
 resumo: Since January 1999. Agencies, roles, teams and what each one taught me.
 ordem: 3

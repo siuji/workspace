@@ -136,7 +136,7 @@
       orbLayer.appendChild(o); orbs.set(n.id, o);
       const el = document.createElement('div');
       el.className = 'label' + (n.tipo === 'area' ? ' big' : '');
-      el.textContent = n.titulo;
+      el.textContent = n.rotulo || n.titulo;
       el.style.opacity = 0;
       labelLayer.appendChild(el); labels.set(n.id, el);
     }
@@ -303,12 +303,7 @@
   const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const plain = (html) => html.replace(/<[^>]+>/g, ' ');
   function hideResults() { results.hidden = true; }
-  $('#search-btn').addEventListener('click', () => {
-    const open = !search.classList.contains('open');
-    search.classList.toggle('open', open);
-    if (open) input.focus(); else { input.value = ''; hideResults(); }
-  });
-  input.addEventListener('blur', () => setTimeout(() => { if (!input.value) search.classList.remove('open'); }, 150));
+  $('#search-btn').addEventListener('click', () => input.focus());
   input.addEventListener('input', () => {
     const q = norm(input.value.trim());
     if (!q) return hideResults();
@@ -322,7 +317,7 @@
     results.hidden = false;
   });
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const b = results.querySelector('[data-node]'); if (b) b.click(); } });
-  results.addEventListener('click', (e) => { const b = e.target.closest('[data-node]'); if (b) { go(b.dataset.node); input.value = ''; hideResults(); input.blur(); search.classList.remove('open'); } });
+  results.addEventListener('click', (e) => { const b = e.target.closest('[data-node]'); if (b) { go(b.dataset.node); input.value = ''; hideResults(); input.blur(); } });
 
   // Abertura: cada frase entra no centro e sobe, formando um bloco. Depois, nome e convite.
   const linesEl = $('#lines');
