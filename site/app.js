@@ -334,28 +334,49 @@
   const needGate = CFG.gate !== false && !(visitor && visitor.name);
   const deepLink = byId.get(decodeURIComponent(location.hash.replace(/^#\/?/, '')));
   let shownLines = 0, lineTimer = null, done = false;
+  const wrap = $('#intro-wrap');
+  // Mantém a frase mais nova no centro; as anteriores sobem
+  function placeLatest() {
+    const last = lineEls[shownLines - 1];
+    const y = innerHeight / 2 - (last.offsetTop + last.offsetHeight / 2);
+    wrap.style.transform = `translate(-50%, ${y.toFixed(1)}px)`;
+  }
+  // No fim, o bloco inteiro (texto + campo) fica centralizado na vertical
+  function placeCentered() {
+    const y = (innerHeight - wrap.offsetHeight) / 2;
+    wrap.style.transform = `translate(-50%, ${y.toFixed(1)}px)`;
+  }
+  addEventListener('resize', () => { if (!document.body.classList.contains('intro')) return; done ? placeCentered() : shownLines && placeLatest(); });
+  const continues = (el) => !/[.?!]\s*$/.test(el.textContent.trim());
   function nextLine() {
     clearTimeout(lineTimer);
     if (shownLines >= lineEls.length) return finishLines();
     lineEls.forEach((l) => l.classList.remove('latest'));
     const l = lineEls[shownLines++];
     l.classList.add('on', 'latest');
+    placeLatest();
+    requestAnimationFrame(() => requestAnimationFrame(() => l.classList.add('in')));
+    // Frase quebrada em 2 linhas: a segunda entra quase junto
+    if (continues(l) && shownLines < lineEls.length) { lineTimer = setTimeout(nextLine, reduceMotion ? 0 : 260); return; }
     const words = l.textContent.split(/\s+/).length;
-    lineTimer = setTimeout(nextLine, reduceMotion ? 300 : shownLines === 1 ? 3600 : 1700 + words * 110);
+    lineTimer = setTimeout(nextLine, reduceMotion ? 200 : shownLines === 1 ? 2800 : 1050 + words * 75);
   }
   function finishLines() {
     if (done) return; done = true;
     clearTimeout(lineTimer);
-    lineEls.forEach((l) => { l.classList.add('on'); l.classList.remove('latest'); });
+    lineEls.forEach((l) => { l.classList.add('on', 'in'); l.classList.remove('latest'); });
     $('#skip').hidden = true;
+    $('.intro-below').classList.add('show');
+    placeCentered();
     setTimeout(() => {
-      if (needGate) { $('#gate').classList.add('on'); setTimeout(() => $('#gate input[name=name]').focus(), 400); }
+      if (needGate) { $('#gate').classList.add('on'); setTimeout(() => $('#gate input[name=name]').focus({ preventScroll: true }), 400); }
       else showWelcome();
-    }, reduceMotion ? 0 : 700);
+    }, reduceMotion ? 0 : 500);
   }
   function showWelcome() {
     $('#gate').classList.remove('on');
     $('#welcome').classList.add('on');
+    placeCentered();
     setTimeout(() => $('#enter').focus({ preventScroll: true }), 500);
   }
   $('#skip').addEventListener('click', finishLines);
