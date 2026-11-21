@@ -15,7 +15,7 @@ window.WS_CONFIG = {
   // Feedback: botão no canto inferior esquerdo. Fica escondido até colar a URL do Apps Script em endpoint.
   // (Com ?review o botão aparece mesmo sem endpoint, para revisão.)
   feedback: {
-    endpoint: ''
+    endpoint: 'https://script.google.com/macros/s/AKfycbwZm8EnRSYDy-_zW4WnxLJ_uELezxqOjTMXRxUbrzFoMR9phLzrfzqfroe4ltT0JkCH/exec'
   },
 
   tracking: {
