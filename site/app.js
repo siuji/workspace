@@ -104,7 +104,7 @@
 
   if (params.has('debug')) window.WS_GRAPH = Graph;
   Graph.d3Force('charge').strength((n) => (back.has(n.id) ? -110 : -260));
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 120 : 170) : t.includes('area') ? 95 : 65; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
+  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 170 : 220) : t.includes('area') ? 100 : 70; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
   // Contenção: a teia ocupa a janela toda (elipsoide mais largo em telas largas) sem fugir das bordas
   const R = 300;
   const shape = () => ({ rx: R * Math.min(1.9, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
@@ -112,9 +112,9 @@
     const { rx, ry, rz } = shape();
     for (const n of data.nodes) {
       if (n.fx !== undefined || n.x === undefined) continue;
-      n.vx += n.x * 0.014 * alpha * (rx / ry - 1);
+      n.vx += n.x * 0.03 * alpha * (rx / ry - 1);
       const k = Math.hypot(n.x / rx, n.y / ry, n.z / rz);
-      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 190) { const g = (1 - 190 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
+      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 270) { const g = (1 - 270 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
       if (k > 0.85) { const f = (1 - 0.85 / k) * 0.7 * alpha; n.vx -= n.x * f; n.vy -= n.y * f; n.vz -= n.z * f; }
     }
   });
@@ -124,7 +124,7 @@
   Graph.cameraPosition(HOME);
   // Enquadramento pela teia real: a câmera chega até a teia ocupar a janela (com a rotação em volta do eixo vertical)
   function fitNodes() {
-    const t = Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), a = innerWidth / innerHeight, m = 0.86;
+    const t = Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), a = innerWidth / innerHeight, m = 0.9;
     let need = 0;
     for (const n of data.nodes) {
       if (n.x === undefined || n.tipo === 'hub') continue;
@@ -233,7 +233,9 @@
       const p = Graph.graph2ScreenCoords(n.x, n.y, n.z);
       if (n.tipo === 'hub') {
         const q = Graph.graph2ScreenCoords(n.x, n.y + 46, n.z);
-        let d = Math.max(40, Math.abs(q.y - p.y) * 2);
+        // Esfera central com tamanho ligado à janela (acompanha o zoom da câmera)
+        const cp = Graph.camera().position, zf = HOME.z / (Math.hypot(cp.x, cp.y, cp.z) || HOME.z);
+        let d = Math.max(40, Math.abs(q.y - p.y) * 2, Math.min(innerWidth, innerHeight) * 0.27 * zf);
         // Entrada: a esfera nasce gigante (toma a tela) e encolhe até o lugar, com leve rebote
         if (entryT0 !== null) {
           const t = Math.min(1, (performance.now() - entryT0) / ENTRY_MS), u = Math.max(0, (t - 0.16) / 0.84);
