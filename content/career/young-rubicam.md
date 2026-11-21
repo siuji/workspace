@@ -14,7 +14,7 @@ conecta: [career]
 
 One of the leaders of the creative team serving Casas Bahia, one of Brazil's largest retailers and advertisers, and the agency's main client. TV, internet, out of home, radio and point of sale: campaigns for everything, all the time. This is where most of my portfolio was built, and the peak of a complete offline delivery.
 
-<div class="video"><iframe src="https://player.vimeo.com/video/417402884?dnt=1" title="Casas Bahia showreel" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+<div class="video"><iframe src="https://player.vimeo.com/video/417402884?autopause=0&amp;dnt=1" title="Casas Bahia showreel" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
 
 Casas Bahia showreel, 2010 to 2020. More in [[casas-bahia]].
 
