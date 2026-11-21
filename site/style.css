@@ -343,3 +343,5 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .prose a.pill:hover { border-color: var(--accent); }
 .panel h1.brand { margin: 34px 0 30px; }
 .panel h1.brand img { max-width: min(230px, 55%); max-height: 54px; }
+.prose .rows { grid-template-columns: 96px max-content max-content; justify-content: center; column-gap: 34px; margin-left: -20px; margin-right: -20px; }
+.prose .rows .rows-title { grid-column: 1 / -1; text-align: center; margin: 26px 0 6px; }

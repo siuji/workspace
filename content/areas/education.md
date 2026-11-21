@@ -10,11 +10,7 @@ ordem: 4
 <div class="row"><span>2004 – 2008</span><span>Bachelor's degree in Photography</span><span>Centro Universitário Senac</span></div>
 <div class="row"><span>1998 – 1999</span><span>Commercial and Advertising Art</span><span>ESPM</span></div>
 <div class="row"><span>1994 – 1997</span><span>Business Administration Technician</span><span>CIM Alcina Dantas Feijão</span></div>
-</div>
-
-## Certifications
-
-<div class="rows">
+<h2 class="rows-title">Certifications</h2>
 <div class="row"><span>2024</span><span>Human Centric Innovation</span><span>Hyper Island</span></div>
 <div class="row"><span></span><span>Facebook Certified Creative Strategy Professional</span><span>Meta</span></div>
 <div class="row"><span></span><span>MESA Method</span><span></span></div>
