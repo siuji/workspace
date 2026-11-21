@@ -583,3 +583,7 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .wide-photo { display: block; width: calc(100% + 48px); height: auto; margin: 0 -24px var(--s3); border-radius: 10px; }
 .prose .award { display: flex; justify-content: center; margin: calc(-1 * var(--s2)) 0 var(--s3); }
 .prose .award img { width: 92px; height: auto; border-radius: 2px; }
+/* Selos de prêmios lado a lado, alinhados pelo centro */
+.prose .award { align-items: center; gap: 22px; flex-wrap: wrap; }
+.prose .award img { width: auto; border-radius: 2px; }
+.prose .wide-photo { width: 100%; max-width: 100%; margin: 0 auto var(--s3); }
