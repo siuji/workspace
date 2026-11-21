@@ -329,6 +329,7 @@
     linesEl.appendChild(d); return d;
   });
   fillYears(linesEl);
+  linesEl.querySelectorAll('.site-name').forEach((el) => (el.textContent = CFG.siteName || 'workspace'));
   const visitor = store.get('ws-visitor');
   const needGate = CFG.gate !== false && !(visitor && visitor.name);
   const deepLink = byId.get(decodeURIComponent(location.hash.replace(/^#\/?/, '')));
