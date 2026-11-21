@@ -306,6 +306,9 @@
       ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
         <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}`;
     panel.classList.toggle('wide', n.largura === 'wide');
+    // Vídeos com fundo transparente (WebM com alfa); Safari não mostra alfa em WebM e fica com o MP4
+    const noAlpha = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (!noAlpha) panel.querySelectorAll('video[data-webm]').forEach((v) => { v.poster = v.dataset.posterAlpha || v.poster; v.src = v.dataset.webm; v.classList.add('keyed'); v.play && v.play().catch(() => {}); });
     // Galeria em bento por linhas justificadas: cada linha fecha a largura inteira, sem buracos.
     // Padrão (destaque, mosaico 1+2, pares, trios) varia por cliente; vídeo ganha o destaque.
     panel.querySelectorAll('.gallery').forEach((g) => {
@@ -313,7 +316,8 @@
       if (items.length < 2) return;
       const ar = (m) => (+m.getAttribute('width') || 4) / (+m.getAttribute('height') || 3);
       const fv = items.findIndex((m) => m.tagName === 'VIDEO');
-      if (fv > 0) items.unshift(items.splice(fv, 1)[0]);
+      const hi = items.findIndex((m) => m.hasAttribute('data-hero'));
+      if (hi >= 0) items.unshift(items.splice(hi, 1)[0]); else if (fv > 0) items.unshift(items.splice(fv, 1)[0]);
       let k = 0, seq = 0;
       const rnd = () => hash(n.id + 'b' + seq++);
       const row = (cls) => { const d = document.createElement('div'); d.className = 'brow ' + cls; g.appendChild(d); return d; };
@@ -322,7 +326,9 @@
       // 1º: destaque sozinho se for horizontal
       if (ar(items[0]) > 1.2) { put(row('solo'), items[0], 1); k = 1; }
       while (k < items.length) {
-        const left = items.length - k, r = rnd();
+        if (items[k].hasAttribute('data-full')) { put(row('solo'), items[k], 1); k++; continue; }
+        let left = 0; while (k + left < items.length && !items[k + left].hasAttribute('data-full')) left++;
+        const r = rnd();
         if (left >= 3 && r < 0.4) { // mosaico: um grande + coluna com 2 empilhados
           const [A, B, C] = items.slice(k, k + 3); k += 3;
           const d = row('mosaic' + (r < 0.2 ? ' flip' : ''));
