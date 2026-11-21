@@ -94,8 +94,8 @@
     .nodeOpacity(0)
     .nodeResolution(8)
     .nodeLabel(() => '')
-    .linkColor((l) => (linkLit(l) ? '#e8795a' : linkCall(l) ? pairOf[calling][0] : isLight() ? 'rgba(40,34,50,0.22)' : 'rgba(232,222,210,0.18)'))
-    .linkWidth((l) => (linkLit(l) ? 0.7 : linkCall(l) ? 0.55 : 0.3))
+    .linkColor((l) => (linkLit(l) ? 'rgba(255,255,255,1)' : linkCall(l) ? 'rgba(255,255,255,0.9)' : isLight() ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.5)'))
+    .linkWidth((l) => (linkLit(l) ? 0.9 : linkCall(l) ? 0.6 : 0.34))
     .linkOpacity(0.55)
     .linkDirectionalParticles((l) => (reduceMotion ? 0 : linkLit(l) || linkCall(l) ? 4 : 1))
     .linkDirectionalParticleSpeed((l) => (linkLit(l) ? 0.012 : linkCall(l) ? 0.008 : 0.003))
@@ -265,8 +265,22 @@
       else place(n, n.dropT);
     }
   }
+  // Fios em degradê: cada fio sai da cor de uma esfera e chega na cor da outra (cores por vértice no cilindro do fio)
+  const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+  function gradLinks() {
+    for (const l of data.links) {
+      const o = l.__lineObj; if (!o || !o.geometry || !o.material || o.geometry.__grad) continue;
+      const [a, b] = linkEnds(l), ca = rgb(pairOf[a][a === hub?.id ? 0 : 1]), cb = rgb(pairOf[b][b === hub?.id ? 0 : 1]);
+      const g = o.geometry.clone(), pos = g.attributes.position, arr = new Float32Array(pos.count * 3);
+      for (let i = 0; i < pos.count; i++) { const t = Math.max(0, Math.min(1, pos.getZ(i))); for (let k = 0; k < 3; k++) arr[i * 3 + k] = ca[k] + (cb[k] - ca[k]) * t; }
+      g.setAttribute('color', new pos.constructor(arr, 3)); g.__grad = true;
+      o.geometry = g;
+      if (!o.material.vertexColors) { o.material.vertexColors = true; o.material.needsUpdate = true; }
+    }
+  }
   function draw() {
     if (document.body.classList.contains('classic')) { requestAnimationFrame(draw); return; }
+    gradLinks();
     stepLift();
     if (sway && !selected) {
       const a = 0.2 * Math.sin((performance.now() - swayT0) / 15000 * Math.PI * 2), da = a - swayA; swayA = a;
