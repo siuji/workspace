@@ -329,3 +329,17 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 :root[data-theme="light"] .panel h1.brand .logo-l { display: block; }
 :root[data-theme="light"] .panel h1.brand .logo-d { display: none; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Galeria em linhas justificadas: sem buracos */
+.prose .gallery { columns: auto; display: flex; flex-wrap: wrap; gap: 8px; margin: 30px -24px 10px; }
+.prose .gallery::after { content: ''; flex: 999 1 0; }
+.prose .gallery img, .prose .gallery video { display: block; width: 100%; height: auto; min-width: 0; margin: 0; border-radius: 10px; object-fit: cover; cursor: zoom-in; background: color-mix(in srgb, var(--ink) 5%, transparent); }
+.node-orb { transition: opacity .3s; }
+/* Índice do Portfolio */
+.prose .pane { display: none; }
+.prose .pane.on { display: block; animation: lb-in .3s ease both; }
+.prose .pane h3.sector { margin: 26px 0 12px; font: 400 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.prose .pills-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.prose a.pill { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); background: color-mix(in srgb, var(--ink) 4%, transparent); font-size: 14px; color: var(--ink); }
+.prose a.pill:hover { border-color: var(--accent); }
+.panel h1.brand { margin: 34px 0 30px; }
+.panel h1.brand img { max-width: min(230px, 55%); max-height: 54px; }

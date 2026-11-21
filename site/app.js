@@ -57,7 +57,8 @@
   for (const n of data.nodes) { if (!order.includes(n.id)) order.push(n.id); if (!pairOf[n.id]) pairOf[n.id] = PAIRS[Math.floor(hash(n.id) * PAIRS.length)]; }
   const dotStyle = (n) => n.tipo === 'hub' ? '--c1:#e86bd0;--c2:#f2a45c' : `--c1:${pairOf[n.id][0]};--c2:${pairOf[n.id][1]}`;
 
-  let selected = null, hovered = null, calling = null;
+  let selected = null, hovered = null, calling = null, spreadId = null;
+  const scaleOf = new Map();
   const focusId = () => (hovered || selected)?.id;
   const linkEnds = (l) => [typeof l.source === 'object' ? l.source.id : l.source, typeof l.target === 'object' ? l.target.id : l.target];
   const linkLit = (l) => { const f = focusId(); if (!f) return false; const [a, b] = linkEnds(l); return a === f || b === f; };
@@ -101,7 +102,7 @@
     .onBackgroundClick(() => { if (selected) go(''); });
 
   Graph.d3Force('charge').strength(-180);
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; return t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 150) : t.includes('area') ? 70 : 50; });
+  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 150) : t.includes('area') ? 70 : 50; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
   const HOME = { x: 0, y: 40, z: 520 };
   Graph.cameraPosition(HOME);
 
@@ -173,7 +174,9 @@
       if (behind || !revealed.has(n.id)) { ob.style.opacity = 0; el.style.opacity = 0; continue; }
       const R = Math.cbrt(sizeOf(n)) * 4 * 1.15 * (isBack(n) ? 0.72 : 1);
       const q = Graph.graph2ScreenCoords(n.x, n.y + R, n.z);
-      const d = Math.max(6, Math.abs(q.y - p.y) * 2);
+      const tgt = hovered && hovered.id === n.id ? 1.5 : selected && selected.id === n.id ? 1.35 : spreadId && neighbors.get(spreadId).has(n.id) ? 1.18 : 1;
+      const sc = (scaleOf.get(n.id) || 1) + (tgt - (scaleOf.get(n.id) || 1)) * 0.18; scaleOf.set(n.id, sc);
+      const d = Math.max(6, Math.abs(q.y - p.y) * 2) * sc;
       ob.style.width = ob.style.height = d.toFixed(1) + 'px';
       ob.style.transform = `translate(${(p.x - d / 2).toFixed(1)}px, ${(p.y - d / 2).toFixed(1)}px)`;
       ob.style.zIndex = String(10000 - Math.round(dist));
@@ -240,6 +243,7 @@
       ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
         <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}`;
     panel.classList.toggle('wide', n.largura === 'wide');
+    panel.querySelectorAll('.gallery img, .gallery video').forEach((m) => { const r = (+m.getAttribute('width') || 4) / (+m.getAttribute('height') || 3); m.style.flex = `${r} 1 ${(r * 120).toFixed(0)}px`; m.style.aspectRatio = r.toFixed(4); });
     fillYears(panel);
     panel.querySelectorAll('.prose a[href^="http"]').forEach((a) => { a.target = '_blank'; a.rel = 'noopener'; });
     panel.scrollTop = 0;
@@ -291,6 +295,18 @@
   });
 
   // Rotas: #/slug abre um nó (link direto para compartilhar)
+  // Ao entrar num nó com vários filhos, ele fica parado e os filhos se abrem em volta
+  function spread(n) {
+    if (n.tipo === 'hub' || spreadId === n.id) return;
+    const kids = [...neighbors.get(n.id)].filter((m) => byId.get(m).tipo !== 'hub').length;
+    const prev = spreadId && byId.get(spreadId);
+    if (prev) { prev.fx = prev.fy = prev.fz = undefined; }
+    spreadId = kids >= 3 ? n.id : null;
+    if (!spreadId) return;
+    n.fx = n.x; n.fy = n.y; n.fz = n.z;
+    Graph.d3Force('link').distance(Graph.d3Force('link').distance());
+    Graph.d3ReheatSimulation();
+  }
   function go(id) { location.hash = id ? `#/${id}` : '#/'; }
   function route() {
     if (document.body.classList.contains('intro')) return;
@@ -299,6 +315,7 @@
     if (n) {
       if (calling) { orbs.get(calling)?.classList.remove('calling'); calling = null; }
       selected = n; openPanel(n); window.WS_TRACK && WS_TRACK.node(n.id);
+      spread(n);
     } else if (selected) {
       selected = null; closePanel(); flyHome();
     }
@@ -307,6 +324,15 @@
   addEventListener('hashchange', route);
   addEventListener('keydown', (e) => {
     if (e.key === 'Escape') { if (!$('#results').hidden) return hideResults(); if (selected) go(''); }
+  });
+
+  // Abas do Portfolio (por cliente, setor, entrega)
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.views [data-view]');
+    if (!b) return;
+    const box = b.closest('.prose');
+    box.querySelectorAll('.views button').forEach((x) => x.classList.toggle('on', x === b));
+    box.querySelectorAll('.pane').forEach((p) => p.classList.toggle('on', p.dataset.pane === b.dataset.view));
   });
 
   // Filtro de setores em Clients
