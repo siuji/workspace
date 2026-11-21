@@ -4,6 +4,8 @@ logo: consul
 tipo: work
 resumo: "Smart solutions for everyday life."
 data: Consumer Brands · Whirlpool · Monks
+mercado: consumer-brands
+midias: [d-performance-crm, d-ai-automation]
 conecta: [whirlpool]
 ---
 Consul presented the challenge of increasing its own website's share of the brand's sales, reaching an increasingly diverse audience.

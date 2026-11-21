@@ -4,6 +4,8 @@ logo: kitchenaid
 tipo: work
 resumo: "Performance for the most desired brand."
 data: Consumer Brands · Whirlpool · Monks
+mercado: consumer-brands
+midias: [d-performance-crm, d-ai-automation]
 conecta: [whirlpool]
 ---
 How do you create hard-sell communication for a highly sophisticated brand?

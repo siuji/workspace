@@ -388,6 +388,19 @@
   const panel = $('#panel');
   let openTimer = null;
   const CFG_ROOT = 'paulo-asano';
+  // Rótulos dos filtros (market e media) lidos dos chips do Portfolio
+  const FACETS = {};
+  { const pf = byId.get('portfolio'); if (pf) for (const m of pf.html.matchAll(/data-filter="([^"]+)">([^<]+)</g)) FACETS[m[1]] = m[2].replace(/&amp;/g, '&'); }
+  const facetLabel = (f) => FACETS[f] || f;
+  // Clique numa faceta: abre o Portfolio já filtrado
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-facet]');
+    if (!b) return;
+    const f = b.dataset.facet;
+    go('portfolio');
+    let tries = 0;
+    const t = setInterval(() => { const c = document.querySelector(`#panel-body .chips [data-filter="${f}"]`); if (c) { clearInterval(t); c.click(); } else if (++tries > 30) clearInterval(t); }, 100);
+  });
   function renderPanel(n) {
     const conns = [...neighbors.get(n.id)].map((id) => byId.get(id))
       .sort((a, b) => (a.tipo === 'hub' ? -1 : b.tipo === 'hub' ? 1 : a.ordem - b.ordem || a.titulo.localeCompare(b.titulo)));
@@ -407,8 +420,8 @@
       ${n.capa ? `<img class="cover" src="${esc(n.capa)}" alt="">` : ''}
       <div class="prose">${n.html}</div>
       ${n.tags.length ? `<ul class="tags">${n.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
-      ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
-        <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}`;
+      ${conns.length || n.mercado ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
+        <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul>${n.mercado ? `<ul class="facets">${[n.mercado, ...n.midias].map((f, i) => `<li><button type="button" class="${i ? 'f-media' : 'f-market'}" data-facet="${esc(f)}">${esc(facetLabel(f))}</button></li>`).join('')}</ul>` : ''}</div>` : ''}`;
     panel.classList.toggle('wide', n.largura === 'wide');
     // Vídeo vertical ao lado do texto: cresce até a altura da coluna de texto
     const fitSplit = () => panel.querySelectorAll('.split').forEach((sp) => {

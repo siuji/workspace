@@ -512,3 +512,9 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .chips.mkt, .prose .chips.deliv { margin-top: 0; margin-bottom: var(--s1); align-items: center; }
 .prose .chips.deliv { margin-bottom: var(--s3); }
 .prose .chips-label { font: 400 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+
+/* Threads: mercado e tipos de material do case (abrem o Portfolio filtrado) */
+.connections .facets { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; list-style: none; padding: 0; margin: var(--s2) 0 0; }
+.connections .facets button { height: 30px; padding: 0 13px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); background: none; color: var(--muted); font: 300 13px var(--sans); cursor: pointer; }
+.connections .facets button.f-media { border-style: dashed; }
+.connections .facets button:hover { color: var(--ink); border-color: color-mix(in srgb, var(--ink) 35%, transparent); }

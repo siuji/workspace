@@ -4,6 +4,8 @@ logo: compra-certa
 tipo: work
 resumo: "A brand transformation journey."
 data: Consumer Brands · Whirlpool · Monks
+mercado: consumer-brands
+midias: [d-social, d-performance-crm, d-branding, d-ai-automation]
 conecta: [whirlpool]
 ---
 Compra Certa is Whirlpool's e-commerce platform for home items. It started as a private buying group. The strategic decision to serve the entire public required new guidelines, and we transformed the brand's communication and processes.

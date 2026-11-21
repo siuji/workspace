@@ -4,6 +4,8 @@ logo: sanofi
 tipo: work
 resumo: "Creativity to go beyond localization."
 data: Health · Monks São Paulo
+mercado: health
+midias: [d-social]
 conecta: [monks]
 ---
 When was the last time you saw an ad that was truly tailored to a specific platform?

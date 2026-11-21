@@ -3,6 +3,8 @@ titulo: Pfizer
 tipo: work
 resumo: "Stories that support people in treatment."
 data: Health
+mercado: health
+midias: [d-social]
 largura: wide
 ---
 <div class="split">

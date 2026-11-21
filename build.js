@@ -125,6 +125,8 @@ function makeGraph(notes, review = false) {
       tipo,
       resumo: n.data.resumo || '',
       tags: [].concat(n.data.tags || []),
+      mercado: n.data.mercado ? String(n.data.mercado) : '',
+      midias: [].concat(n.data.midias || []),
       kw: KEYWORDS[n.id] || [],
       data: n.data.data ? String(n.data.data) : '',
       capa: n.data.capa ? `media/${path.basename(String(n.data.capa))}` : '',
@@ -135,6 +137,13 @@ function makeGraph(notes, review = false) {
       ordem: typeof n.data.ordem === 'number' ? n.data.ordem : 100,
       html: marked.parse(md),
     };
+  });
+
+  // Grade do Portfolio: data-tags de cada logo com case vêm do frontmatter do case (mercado + midias)
+  const pf = nodes.find((x) => x.id === 'portfolio');
+  if (pf) pf.html = pf.html.replace(/<li data-tags="[^"]*"><a href="#\/([^"]+)"/g, (m, id) => {
+    const c = nodes.find((x) => x.id === id);
+    return c && c.mercado ? `<li data-tags="${[c.mercado, ...c.midias].join(' ')}"><a href="#/${id}"` : m;
   });
 
   // Grau de cada nó para o tamanho

@@ -4,6 +4,8 @@ logo: casas-bahia
 tipo: work
 resumo: "One of Brazil's largest retailers and advertisers."
 data: Retail · Young & Rubicam
+mercado: retail
+midias: [d-film-tv, d-social, d-performance-crm, d-retail-pos, d-branding, d-web-email]
 conecta: [tvc, pontofrio]
 tags: [TV, internet, out of home, radio, point of sale]
 ---

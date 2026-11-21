@@ -4,6 +4,8 @@ logo: leroy-merlin
 tipo: work
 resumo: "AI-powered transformation: from digital-first to AOR with AI."
 data: Retail · Monks São Paulo
+mercado: retail
+midias: [d-film-tv, d-social, d-performance-crm, d-retail-pos, d-branding, d-ai-automation, d-web-email]
 conecta: [monks, ai-systems]
 ---
 One of the biggest wins of my time as Group Creative Director at Monks. I worked actively on winning the account, and then on building a system that completely changed the way the client itself worked.
