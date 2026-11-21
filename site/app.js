@@ -335,18 +335,12 @@
   const deepLink = byId.get(decodeURIComponent(location.hash.replace(/^#\/?/, '')));
   let shownLines = 0, lineTimer = null, done = false;
   const wrap = $('#intro-wrap');
-  // Mantém a frase mais nova no centro; as anteriores sobem
-  function placeLatest() {
-    const last = lineEls[shownLines - 1];
-    const y = innerHeight / 2 - (last.offsetTop + last.offsetHeight / 2);
-    wrap.style.transform = `translate(-50%, ${y.toFixed(1)}px)`;
-  }
-  // No fim, o bloco inteiro (texto + campo) fica centralizado na vertical
+  // O bloco visível fica sempre centralizado na vertical; cada frase nova entra embaixo e o bloco se recentraliza
   function placeCentered() {
     const y = (innerHeight - wrap.offsetHeight) / 2;
     wrap.style.transform = `translate(-50%, ${y.toFixed(1)}px)`;
   }
-  addEventListener('resize', () => { if (!document.body.classList.contains('intro')) return; done ? placeCentered() : shownLines && placeLatest(); });
+  addEventListener('resize', () => { if (!document.body.classList.contains('intro')) return; placeCentered(); });
   const continues = (el) => !/[.?!]\s*$/.test(el.textContent.trim());
   function nextLine() {
     clearTimeout(lineTimer);
@@ -354,7 +348,7 @@
     lineEls.forEach((l) => l.classList.remove('latest'));
     const l = lineEls[shownLines++];
     l.classList.add('on', 'latest');
-    placeLatest();
+    placeCentered();
     requestAnimationFrame(() => requestAnimationFrame(() => l.classList.add('in')));
     // Frase quebrada em 2 linhas: a segunda entra quase junto
     if (continues(l) && shownLines < lineEls.length) { lineTimer = setTimeout(nextLine, reduceMotion ? 0 : 260); return; }
