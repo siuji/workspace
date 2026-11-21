@@ -518,3 +518,12 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .connections .facets button { height: 30px; padding: 0 13px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); background: none; color: var(--muted); font: 300 13px var(--sans); cursor: pointer; }
 .connections .facets button.f-media { border-style: dashed; }
 .connections .facets button:hover { color: var(--ink); border-color: color-mix(in srgb, var(--ink) 35%, transparent); }
+
+/* Vídeo com tarjas pretas embutidas: a caixa assume a proporção real (--ar) e o player 16:9 é cortado */
+.prose .video.crop { aspect-ratio: var(--ar); }
+.prose .video.crop iframe { inset: auto; left: 0; top: 50%; width: 100%; height: calc(100% * var(--ar) * 9 / 16); transform: translateY(-50%); }
+.prose .video.crop.sides iframe { top: 0; left: 50%; height: 100%; width: calc(100% * 16 / 9 / var(--ar)); transform: translateX(-50%); }
+/* Vídeo no meio da galeria: mesma largura e mesmo respiro dos blocos da galeria */
+.prose .video.wide-v { margin-left: -24px; margin-right: -24px; border-radius: 10px; }
+.prose .gallery + .video.wide-v { margin-top: calc(8px - var(--s3)); }
+.prose .video.wide-v + .gallery { margin-top: 8px; }
