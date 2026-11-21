@@ -67,10 +67,10 @@
   const linkEnds = (l) => [typeof l.source === 'object' ? l.source.id : l.source, typeof l.target === 'object' ? l.target.id : l.target];
   const linkLit = (l) => { const f = focusId(); if (!f) return false; const [a, b] = linkEnds(l); return a === f || b === f; };
   const linkCall = (l) => calling && linkEnds(l).includes(calling);
-  const baseSize = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
+  const baseSize = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + Math.min(n.grau, 6) * 0.8);
   // destaque: área fica do tamanho das maiores áreas; filho fica maior que os outros filhos
   const AREA_MAX = (() => { const v = data.nodes.filter((n) => n.tipo === 'area' && !n.destaque).map(baseSize).sort((a, b) => b - a); return v.length > 1 ? (v[0] + v[1]) / 2 : v[0] || 8; })();
-  const sizeOf = (n) => (!n.destaque ? baseSize(n) : n.tipo === 'area' ? AREA_MAX : Math.max(baseSize(n), AREA_MAX * 0.62));
+  const sizeOf = (n) => (!n.destaque ? baseSize(n) : n.tipo === 'area' ? AREA_MAX : Math.max(baseSize(n), AREA_MAX * 0.8));
   // Camadas: o profissional fica à frente; o pessoal vai para trás, menor e mais apagado
   const BACK_AREAS = new Set(CFG.backAreas || ['about-me', 'endurance', 'photography', 'social', 'tools', 'education']);
   const back = new Set();
@@ -79,7 +79,7 @@
     const q = [id]; back.add(id);
     while (q.length) { const c = q.shift(); for (const m of neighbors.get(c)) { const t = byId.get(m); if (back.has(m) || t.tipo === 'hub' || (t.tipo === 'area' && !BACK_AREAS.has(m))) continue; back.add(m); q.push(m); } }
   }
-  const isBack = (n) => back.has(n.id);
+  const isBack = (n) => back.has(n.id) && !n.destaque;
 
   // A teia nasce já assentada (sem tranco) e os nós vão acendendo aos poucos
   const revealed = new Set();
@@ -175,7 +175,7 @@
     assign(hub.id, pts);
     // Profundidade: leve variação para dar volume; o pessoal fica um pouco atrás. A posição na tela é compensada.
     for (const [id, p] of target) {
-      const z = (hash(id + 'z') - 0.5) * 0.22 * H - (back.has(id) ? 0.18 * H : 0), f = (HOME.z - z) / HOME.z;
+      const z = (hash(id + 'z') - 0.5) * 0.22 * H - (back.has(id) && !byId.get(id).destaque ? 0.18 * H : 0), f = (HOME.z - z) / HOME.z;
       p.tx = p.x * f; p.ty = p.y * f; p.tz = z;
     }
   }
@@ -232,7 +232,7 @@
       const h = hash(n.id + 'h');
       o.style.cssText = `--c1:${c1};--c2:${c2};--t:${(5 + h * 4).toFixed(1)}s;--delay:-${(h * 6).toFixed(1)}s;filter:hue-rotate(${Math.round(h * 36 - 18)}deg) saturate(.92);opacity:0`;
       o.innerHTML = '<i></i>';
-      orbLayer.appendChild(o); orbs.set(n.id, o);
+      o.dataset.id = n.id; orbLayer.appendChild(o); orbs.set(n.id, o);
       const el = document.createElement('div');
       el.className = 'label' + (n.tipo === 'area' ? ' big' : '');
       el.textContent = n.rotulo || n.titulo;
