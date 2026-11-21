@@ -1,5 +1,6 @@
 ---
 titulo: Ambev
+logo: ambev
 tipo: work
 resumo: "PerfectDraft: the draft beer machine arrives in Brazil."
 data: Consumer Brands · Monks

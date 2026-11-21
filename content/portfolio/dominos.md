@@ -1,5 +1,6 @@
 ---
 titulo: Domino's
+logo: dominos
 tipo: work
 resumo: "One of the biggest fast food operations in Brazil."
 data: Food & Restaurants · Monks

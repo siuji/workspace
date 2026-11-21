@@ -1,5 +1,6 @@
 ---
 titulo: Vans
+logo: vans
 tipo: work
 resumo: "The whole brand operation, at scale."
 data: Consumer Brands · Monks

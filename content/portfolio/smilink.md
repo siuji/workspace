@@ -1,5 +1,6 @@
 ---
 titulo: Smilink
+logo: smilink
 tipo: work
 resumo: "From a few banners to a fully integrated campaign."
 data: Health · Monks · 2023

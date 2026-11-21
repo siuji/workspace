@@ -1,5 +1,6 @@
 ---
 titulo: Pringles
+logo: pringles
 tipo: work
 data: Consumer Brands · Monks
 mercado: consumer-brands
