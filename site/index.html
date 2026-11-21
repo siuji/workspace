@@ -33,29 +33,20 @@
 
   <!-- Abertura: frases enquanto a teia se forma, trava (nome + LinkedIn) e convite -->
   <section id="intro" class="intro-overlay" aria-live="polite">
-    <div class="intro-stage">
-      <div class="step" data-step="0">
-        <h1>Do you need a trophy to know the work <em>worked?</em></h1>
-      </div>
-      <div class="step" data-step="1">
-        <p class="big">If you are looking for an award hunter, that is not me.</p>
-      </div>
-      <div class="step" data-step="2">
-        <p class="big">I chased ideas that make sense. Numbers that close. Budgets and deadlines respected. People who grow with the work and are proud of it, without giving up who they are.</p>
-      </div>
-      <div class="step" data-step="3">
-        <p class="big">It sounded ambitious at first. <span class="years">27</span> years later, I can say it was possible.</p>
-      </div>
-      <form class="step gate" data-step="4" id="gate" autocomplete="on" novalidate>
+    <!-- Cada frase entra no centro e sobe, formando um bloco. Separe as frases com | -->
+    <div class="intro-lines" id="lines" data-text="Do you need a trophy to know the work <em>worked?</em>|If you are looking for an award hunter, that is not me.|I chased ideas that make sense.|Numbers that close.|Budgets and deadlines respected.|People who grow with the work and are proud of it, without giving up who they are.|It sounded ambitious at first.|<span class='years'>27</span> years later, I can say it was possible."></div>
+    <div class="intro-below">
+      <form class="gate" id="gate" autocomplete="on" novalidate>
         <p class="lead">To enter, tell me who you are.</p>
-        <label><span>Name</span><input name="name" type="text" required autocomplete="name" placeholder="Your name"></label>
+        <div class="field">
+          <input name="name" type="text" required autocomplete="name" placeholder="Your name" aria-label="Your name">
+          <button type="submit" class="go" aria-label="Continue"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+        </div>
         <p class="error" id="gate-error" hidden></p>
-        <button type="submit" class="enter">Continue</button>
         <p class="fine" id="privacy-note">Used only to know who visited. Never shared.</p>
       </form>
-      <div class="step" data-step="5">
-        <p class="big">Welcome to my <span class="site-name">workspace</span>.</p>
-        <p class="sub">Not a gallery where you only look. A space to explore, experiment and interact. Come discover what else a creative director can be.</p>
+      <div class="welcome" id="welcome">
+        <p class="lead">Welcome to my <span class="site-name">workspace</span>. Not a gallery where you only look. A space to explore, experiment and interact.</p>
         <button type="button" class="enter" id="enter">Enter the <span class="site-name">workspace</span></button>
       </div>
     </div>

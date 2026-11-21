@@ -319,24 +319,46 @@
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const b = results.querySelector('[data-node]'); if (b) b.click(); } });
   results.addEventListener('click', (e) => { const b = e.target.closest('[data-node]'); if (b) { go(b.dataset.node); input.value = ''; hideResults(); input.blur(); search.classList.remove('open'); } });
 
-  // Abertura: frases, trava (nome + LinkedIn), convite, workspace
-  const steps = [...document.querySelectorAll('.step')];
+  // Abertura: cada frase entra no centro e sobe, formando um bloco. Depois, nome e convite.
+  const linesEl = $('#lines');
+  const sentences = linesEl.dataset.text.split('|');
+  const lineEls = sentences.map((t, i) => {
+    const d = document.createElement('div');
+    d.className = 'line' + (i === 0 ? ' first' : '');
+    d.innerHTML = `<div><p>${t}</p></div>`;
+    linesEl.appendChild(d); return d;
+  });
+  fillYears(linesEl);
   const visitor = store.get('ws-visitor');
   const needGate = CFG.gate !== false && !(visitor && visitor.name);
   const deepLink = byId.get(decodeURIComponent(location.hash.replace(/^#\/?/, '')));
-  let step = -1, stepTimer = null;
-  function show(i) {
-    clearTimeout(stepTimer);
-    if (i === 4 && !needGate) i = 5;
-    step = i;
-    steps.forEach((s) => s.classList.toggle('on', +s.dataset.step === i));
-    $('#skip').hidden = i >= 4;
-    if (i < 4) stepTimer = setTimeout(() => show(i + 1), i === 0 ? 4400 : i === 2 ? 5600 : 3800);
-    if (i === 4) setTimeout(() => $('#gate input[name=name]').focus(), 500);
-    if (i === 5) setTimeout(() => $('#enter').focus(), 500);
+  let shownLines = 0, lineTimer = null, done = false;
+  function nextLine() {
+    clearTimeout(lineTimer);
+    if (shownLines >= lineEls.length) return finishLines();
+    lineEls.forEach((l) => l.classList.remove('latest'));
+    const l = lineEls[shownLines++];
+    l.classList.add('on', 'latest');
+    const words = l.textContent.split(/\s+/).length;
+    lineTimer = setTimeout(nextLine, reduceMotion ? 300 : shownLines === 1 ? 3600 : 1700 + words * 110);
   }
-  $('#skip').addEventListener('click', () => show(4));
-  $('.intro-stage').addEventListener('click', (e) => { if (step < 4 && !e.target.closest('form,button')) show(step + 1); });
+  function finishLines() {
+    if (done) return; done = true;
+    clearTimeout(lineTimer);
+    lineEls.forEach((l) => { l.classList.add('on'); l.classList.remove('latest'); });
+    $('#skip').hidden = true;
+    setTimeout(() => {
+      if (needGate) { $('#gate').classList.add('on'); setTimeout(() => $('#gate input[name=name]').focus(), 400); }
+      else showWelcome();
+    }, reduceMotion ? 0 : 700);
+  }
+  function showWelcome() {
+    $('#gate').classList.remove('on');
+    $('#welcome').classList.add('on');
+    setTimeout(() => $('#enter').focus({ preventScroll: true }), 500);
+  }
+  $('#skip').addEventListener('click', finishLines);
+  $('#intro').addEventListener('click', (e) => { if (!done && !e.target.closest('form,button')) nextLine(); });
 
   $('#gate').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -347,11 +369,11 @@
     const v = { name, at: new Date().toISOString() };
     store.set('ws-visitor', v);
     window.WS_TRACK && WS_TRACK.identify(v);
-    show(5);
+    showWelcome();
   });
 
   function enter() {
-    clearTimeout(stepTimer);
+    clearTimeout(lineTimer);
     document.body.classList.remove('intro');
     while (grown < order.length) grow();
     setTimeout(() => {
@@ -363,5 +385,5 @@
   $('#enter').addEventListener('click', enter);
 
   if (deepLink && !needGate) enter();
-  else show(0);
+  else setTimeout(nextLine, reduceMotion ? 0 : 900);
 })();
