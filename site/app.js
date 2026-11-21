@@ -106,55 +106,95 @@
     .onBackgroundClick(() => { if (selected) go(''); });
 
   if (params.has('debug')) window.WS_GRAPH = Graph;
-  Graph.d3Force('charge').strength((n) => (back.has(n.id) ? -110 : -260));
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 320) : t.includes('area') ? 110 : 75; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
-  // Contenção: a teia ocupa a janela toda (elipsoide mais largo em telas largas) sem fugir das bordas
-  const R = 380;
-  const shape = () => ({ rx: R * Math.min(1.9, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
-  Graph.d3Force('contain', (alpha) => {
-    const { rx, ry, rz } = shape();
-    for (const n of data.nodes) {
-      if (n.fx !== undefined || n.x === undefined) continue;
-      n.vx += n.x * 0.06 * alpha * (rx / ry - 1);
-      const k = Math.hypot(n.x / rx, n.y / ry, n.z / rz);
-      { const r = Math.hypot(n.x, n.y, n.z) || 1, min = n.tipo === 'area' ? 300 : 210; if (r < min) { const g = (min / r - 1) * 0.5 * alpha; n.vx += n.x * g; n.vy += n.y * g; n.vz += n.z * g; } }
-      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 380) { const g = (1 - 380 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
-      if (k > 0.85) { const f = (1 - 0.85 / k) * 0.7 * alpha; n.vx -= n.x * f; n.vy -= n.y * f; n.vz -= n.z * f; }
-    }
-  });
-  // Distância da câmera calculada para a altura da teia caber na janela
-  const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return (R * 0.88) / Math.tan(fov / 2); };
+  if (params.has('debug')) setTimeout(() => (window.WS_DBG = { around, target }), 0);
+  // Posições: cada esfera tem um lugar calculado na área visível da tela (sem física decidindo onde ela vai parar).
+  // 1) pontos espalhados por igual no retângulo da janela, fora do disco da esfera central;
+  // 2) os pontos são divididos em fatias por ângulo, do tamanho de cada ramo (área + filhos), e cada ramo fica junto.
+  // A física continua só para o movimento: uma força suave puxa cada esfera para o seu lugar.
+  Graph.d3Force('charge').strength(0);
+  Graph.d3Force('link').strength(0);
+  const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return 330 / Math.tan(fov / 2); };
   const HOME = { x: 0, y: 0, z: fitDist() };
   Graph.cameraPosition(HOME);
-  // Enquadramento pela teia real: a câmera chega até a teia ocupar a janela (com a rotação em volta do eixo vertical)
-  function fitNodes() {
-    const t = Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), a = innerWidth / innerHeight, m = 0.84;
-    let need = 0;
-    for (const n of data.nodes) {
-      if (n.x === undefined || n.tipo === 'hub') continue;
-      const rxz = Math.hypot(n.x, n.z);
-      need = Math.max(need, rxz / (t * a * m), Math.abs(n.y) / (t * m) + rxz * 0.6);
+  // Árvore a partir do centro: cada nó pertence a um único ramo
+  const kids = new Map(data.nodes.map((n) => [n.id, []]));
+  if (hub) {
+    const seen = new Set([hub.id]); let level = [hub.id];
+    while (level.length) {
+      const next = [];
+      for (const id of level) for (const m of [...neighbors.get(id)].sort((a, b) => byId.get(a).ordem - byId.get(b).ordem || a.localeCompare(b))) {
+        if (seen.has(m)) continue; seen.add(m); kids.get(id).push(m); next.push(m);
+      }
+      level = next;
     }
-    return need ? Math.max(260, need) : 0;
   }
-  function refit(ms) {
-    const z = fitNodes(); if (!z) return;
-    HOME.z = z;
-    if (selected || document.body.classList.contains('intro')) return;
-    const c = Graph.camera().position, len = Math.hypot(c.x, c.y, c.z) || 1, f = z / len;
-    Graph.cameraPosition({ x: c.x * f, y: c.y * f, z: c.z * f }, undefined, reduceMotion ? 0 : ms);
+  const sizeTree = (id) => 1 + kids.get(id).reduce((s, k) => s + sizeTree(k), 0);
+  const target = new Map(), around = new Map();
+  function layout() {
+    if (!hub) return;
+    const H = HOME.z * Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), W = H * innerWidth / innerHeight;
+    const pxw = (2 * H) / innerHeight; // 1px da tela em unidades do mundo, no plano do centro
+    const Wm = W - 150 * pxw, Ht = H - 96 * pxw, Hb = H - 110 * pxw; // folga para rótulos, botões e dica
+    const c = Math.min(innerWidth, innerHeight) * 0.27 * pxw * 0.5 + 70 * pxw; // raio da esfera central + respiro
+    const N = sizeTree(hub.id) - 1;
+    // Pontos iniciais (Halton 2,3) e relaxamento até ficarem equidistantes
+    const halton = (i, b) => { let f = 1, r = 0; while (i > 0) { f /= b; r += f * (i % b); i = Math.floor(i / b); } return r; };
+    const pts = [];
+    for (let i = 1; pts.length < N && i < 5000; i++) {
+      const x = (halton(i, 2) * 2 - 1) * Wm, y = -Hb + halton(i, 3) * (Ht + Hb);
+      if (Math.hypot(x, y) > c) pts.push({ x, y });
+    }
+    const s = Math.sqrt((4 * Wm * (Ht + Hb) / 2 - Math.PI * c * c) / Math.max(1, N)) * 1.05;
+    for (let it = 0; it < 120; it++) {
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const a = pts[i], b = pts[j], dx = b.x - a.x, dy = (b.y - a.y) * 1.15, d = Math.hypot(dx, dy) || 0.01;
+        if (d < s) { const g = (s - d) / d * 0.25; a.x -= dx * g; a.y -= dy * g / 1.15; b.x += dx * g; b.y += dy * g / 1.15; }
+      }
+      for (const p of pts) {
+        p.x = Math.max(-Wm, Math.min(Wm, p.x)); p.y = Math.max(-Hb, Math.min(Ht, p.y));
+        const r = Math.hypot(p.x, p.y); if (r < c) { const k = c / (r || 0.01); p.x *= k; p.y *= k; }
+      }
+    }
+    // Divide por ângulo (começando no alto, sentido horário) e distribui ramo a ramo
+    const ang = (p) => { let a = Math.atan2(p.x, p.y); if (a < -0.35) a += Math.PI * 2; return a; };
+    function assign(id, ps) {
+      if (id !== hub.id) {
+        const cx = ps.reduce((t, p) => t + p.x, 0) / ps.length, cy = ps.reduce((t, p) => t + p.y, 0) / ps.length;
+        let bi = 0, bd = Infinity;
+        ps.forEach((p, i) => { const d = Math.hypot(p.x - cx, p.y - cy) - (byId.get(id).tipo === 'area' ? Math.hypot(p.x, p.y) * 0.15 : 0); if (d < bd) { bd = d; bi = i; } });
+        target.set(id, ps[bi]); ps = ps.filter((_, i) => i !== bi);
+      }
+      ps.sort((a, b) => ang(a) - ang(b));
+      let k = 0;
+      for (const ch of kids.get(id)) { const n = sizeTree(ch); assign(ch, ps.slice(k, k + n)); k += n; }
+    }
+    assign(hub.id, pts);
+    // Profundidade: leve variação para dar volume; o pessoal fica um pouco atrás. A posição na tela é compensada.
+    for (const [id, p] of target) {
+      const z = (hash(id + 'z') - 0.5) * 0.22 * H - (back.has(id) ? 0.18 * H : 0), f = (HOME.z - z) / HOME.z;
+      p.tx = p.x * f; p.ty = p.y * f; p.tz = z;
+    }
   }
-  Graph.onEngineStop(() => refit(1400));
+  layout();
+  for (const n of data.nodes) { const p = target.get(n.id); if (p) { n.x = p.tx; n.y = p.ty; n.z = p.tz; } }
+  Graph.d3Force('place', (alpha) => {
+    for (const n of data.nodes) {
+      const p = around.get(n.id) || target.get(n.id); if (!p || n.fx !== undefined) continue;
+      const k = 0.14 * Math.max(alpha, 0.5);
+      n.vx += (p.tx - n.x) * k; n.vy += (p.ty - n.y) * k; n.vz += (p.tz - n.z) * k;
+    }
+  });
 
   // Na abertura a teia sobe um pouco para dar espaço ao texto
   const controls = Graph.controls();
-  controls.autoRotate = !reduceMotion;
-  controls.autoRotateSpeed = 0.35;
+  // Balanço suave da câmera (vai e volta), em vez de girar a volta inteira: nada passa por trás da esfera central
+  controls.autoRotate = false;
+  let sway = !reduceMotion, swayA = 0, swayT0 = performance.now();
   controls.enableDamping = true;
-  controls.addEventListener('start', () => { controls.autoRotate = false; $('#hint').style.opacity = 0; });
+  controls.addEventListener('start', () => { sway = false; $('#hint').style.opacity = 0; });
   addEventListener('resize', () => {
     Graph.width(innerWidth).height(innerHeight);
-    refit(0);
+    layout();
     Graph.d3ReheatSimulation();
   });
 
@@ -227,6 +267,11 @@
   function draw() {
     if (document.body.classList.contains('classic')) { requestAnimationFrame(draw); return; }
     stepLift();
+    if (sway && !selected) {
+      const a = 0.2 * Math.sin((performance.now() - swayT0) / 15000 * Math.PI * 2), da = a - swayA; swayA = a;
+      const cp = Graph.camera().position, tg = controls.target, x = cp.x - tg.x, z = cp.z - tg.z, cs = Math.cos(da), sn = Math.sin(da);
+      cp.x = tg.x + x * cs + z * sn; cp.z = tg.z - x * sn + z * cs; Graph.camera().lookAt(tg);
+    }
     const cam = Graph.camera(), t = controls.target;
     const dir = { x: t.x - cam.position.x, y: t.y - cam.position.y, z: t.z - cam.position.z };
     const f = focusId();
@@ -307,12 +352,12 @@
     const d = 210;
     const len = Math.hypot(n.x, n.y, n.z);
     const pos = len < 1 ? { x: -200, y: 90, z: d * 2.5 } : { x: n.x * (1 + d / len), y: n.y * (1 + d / len), z: n.z * (1 + d / len) };
-    controls.autoRotate = false;
+    sway = false;
     Graph.cameraPosition(pos, { x: n.x, y: n.y, z: n.z }, reduceMotion ? 0 : ms);
   }
   function flyHome() {
     Graph.cameraPosition(HOME, { x: 0, y: 0, z: 0 }, reduceMotion ? 0 : 1600);
-    setTimeout(() => (controls.autoRotate = !reduceMotion), 1700);
+    setTimeout(() => { swayA = 0; swayT0 = performance.now(); sway = !reduceMotion; }, 1700);
   }
 
   // Painel: a esfera clicada vem para frente e se expande numa tela de vidro
@@ -396,7 +441,7 @@
     clearTimeout(openTimer);
     const wasOpen = !panel.hidden;
     if (wasOpen) { panel.classList.remove('pop'); panel.classList.add('unpop'); }
-    flyTo(n, 1400);
+    sway = false; Graph.cameraPosition(HOME, { x: 0, y: 0, z: 0 }, reduceMotion ? 0 : 1400);
     openTimer = setTimeout(() => {
       morph(n);
       openTimer = setTimeout(() => {
@@ -422,16 +467,47 @@
   });
 
   // Rotas: #/slug abre um nó (link direto para compartilhar)
-  // Ao entrar num nó com vários filhos, ele fica parado e os filhos se abrem em volta
+  // Ao abrir um painel, as esferas ligadas ao nó se arrumam em volta dele, fora da área do conteúdo, para clicar direto
   function spread(n) {
-    if (n.tipo === 'hub' || spreadId === n.id) return;
-    const kids = [...neighbors.get(n.id)].filter((m) => byId.get(m).tipo !== 'hub').length;
-    const prev = spreadId && byId.get(spreadId);
-    if (prev) { prev.fx = prev.fy = prev.fz = undefined; }
-    spreadId = kids >= 3 ? n.id : null;
-    if (!spreadId) return;
-    n.fx = n.x; n.fy = n.y; n.fz = n.z;
-    Graph.d3Force('link').distance(Graph.d3Force('link').distance());
+    around.clear(); spreadId = null;
+    if (!n) { Graph.d3ReheatSimulation(); return; }
+    const ids = [...neighbors.get(n.id)].filter((m) => byId.get(m).tipo !== 'hub' && byId.get(m).x !== undefined);
+    if (!ids.length) { Graph.d3ReheatSimulation(); return; }
+    spreadId = n.id;
+    const w = innerWidth, h = innerHeight, g = 24;
+    const pw = Math.min(n.largura === 'wide' ? Math.min(1180, w - 340) : 780, w - 2 * g), ph = h * (n.largura === 'wide' ? 0.86 : 0.8);
+    const L = (w - pw) / 2, T = (h - ph) / 2, pad = 34, top = 92, bottom = 70, side = 40;
+    // Faixas livres em volta do painel: colunas à esquerda e à direita, e linhas em cima e embaixo quando houver espaço
+    const bands = [];
+    const colW = L - pad - side;
+    if (colW > 24) {
+      bands.push({ x0: side + colW / 2, y0: top, x1: side + colW / 2, y1: h - bottom, side: 'l' });
+      bands.push({ x0: w - side - colW / 2, y0: top, x1: w - side - colW / 2, y1: h - bottom, side: 'r' });
+    }
+    if (T - pad > top - 40) bands.push({ x0: L, y0: (T - pad + top - 40) / 2, x1: L + pw, y1: (T - pad + top - 40) / 2, side: 't' });
+    if (h - T - pad - bottom > 30) bands.push({ x0: L, y0: h - (T - pad + bottom) / 2 - 10, x1: L + pw, y1: h - (T - pad + bottom) / 2 - 10, side: 'b' });
+    if (!bands.length) bands.push({ x0: side, y0: h - bottom / 2, x1: w - side, y1: h - bottom / 2 });
+    const len = (b) => Math.hypot(b.x1 - b.x0, b.y1 - b.y0);
+    const total = bands.reduce((t, b) => t + len(b), 0);
+    // Reparte as esferas entre as faixas pelo comprimento, e dentro de cada faixa em espaçamento igual
+    let left = ids.length, rest = total;
+    const H = HOME.z * Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), pxw = 2 * H / h;
+    const sorted = ids.map((id) => { const m = byId.get(id); return { id, a: Math.atan2(m.y, m.x) }; }).sort((p, q) => p.a - q.a);
+    // Primeiro decide quantas vão em cada faixa, depois pega as esferas mais próximas daquele lado
+    const counts = bands.map((b, i) => { const c = i === bands.length - 1 ? left : Math.round(left * len(b) / rest); left -= c; rest -= len(b); return c; });
+    const pool = sorted.map((p) => p.id);
+    bands.forEach((b, i) => {
+      const k = counts[i]; if (!k) return;
+      const cx = (b.x0 + b.x1) / 2 - w / 2, cy = (b.y0 + b.y1) / 2 - h / 2;
+      pool.sort((p, q) => { const P = byId.get(p), Q = byId.get(q); return (Q.x * cx - Q.y * cy) - (P.x * cx - P.y * cy); });
+      const mine = pool.splice(0, k);
+      const vert = b.x0 === b.x1;
+      mine.sort((p, q) => vert ? byId.get(q).y - byId.get(p).y : byId.get(p).x - byId.get(q).x);
+      mine.forEach((id, j) => {
+        const t = (j + 0.5) / k, x = b.x0 + (b.x1 - b.x0) * t, y = b.y0 + (b.y1 - b.y0) * t;
+        around.set(id, { tx: (x - w / 2) * pxw, ty: -(y - h / 2) * pxw, tz: 0 });
+      });
+    });
     Graph.d3ReheatSimulation();
   }
   function go(id) { location.hash = id ? `#/${id}` : '#/'; }
@@ -484,7 +560,7 @@
       selected = n; openPanel(n); window.WS_TRACK && WS_TRACK.node(n.id);
       spread(n);
     } else if (selected) {
-      selected = null; closePanel(); flyHome();
+      selected = null; closePanel(); flyHome(); spread(null);
     }
     refresh();
   }

@@ -470,3 +470,10 @@ body.classic .top { z-index: 41; }
 .on-role { font-weight: 300; color: var(--orb-ink); }
 .prose .badge-line { text-align: center; margin: 0 0 var(--s3, 32px); }
 .prose .badge-line .major { font-size: 12px; padding: 7px 14px; }
+/* No mapa, o painel largo deixa colunas livres dos lados para as esferas ligadas */
+body:not(.classic) .panel.wide { width: min(1180px, calc(100vw - 340px), calc(100vw - 2 * var(--gutter))); }
+/* Grade de logos: sempre 4 por linha, centralizada (linhas incompletas também, inclusive com filtro) */
+.panel.wide .prose ul.logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 56px 0; }
+.panel.wide .prose ul.logos li { flex: 0 0 25%; height: 70px; }
+.prose ul.logos .logo-text { font: 500 32px/1 var(--sans); letter-spacing: -.02em; color: rgba(235,230,220,.88); }
+:root[data-theme="light"] .prose ul.logos .logo-text { color: #8a8690; }
