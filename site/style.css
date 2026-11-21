@@ -419,3 +419,16 @@ body.intro .fb-btn { display: none; }
 .fb-card.sent label, .fb-card.sent .fb-send, .fb-card.sent .fb-note, .fb-card.sent .fb-lede { display: none; }
 .fb-done { margin: 8px 0 0; font-size: 16px; }
 .fb-close { position: absolute; top: 18px; right: 18px; }
+/* Entrada: esfera gigante encolhendo; depois respira como um sol */
+#orb.entering { transition: none; opacity: 1 !important; }
+#orb.entering .orb-text { opacity: var(--txt, 0); }
+#orb::before { content: ''; position: absolute; inset: -38%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(241,154,196,.30) 0%, rgba(242,164,92,.14) 32%, rgba(195,166,240,.06) 52%, transparent 70%);
+  animation: corona 7s ease-in-out infinite; }
+@keyframes corona { 0%, 100% { transform: scale(1) rotate(0deg); opacity: .75; } 50% { transform: scale(1.12) rotate(8deg); opacity: 1; } }
+#orb i { animation: breathe 5s ease-in-out infinite, shimmer 14s ease-in-out infinite, drift 23s linear infinite; }
+@keyframes drift { from { background-position: 0 0; } to { background-position: 0 0; } }
+:root[data-theme="light"] #orb::before { opacity: .6; }
+@media (prefers-reduced-motion: reduce) { #orb::before { animation: none; } }
+body.entering #labels, body.entering #orbs, body.entering #graph { opacity: 0; }
+#labels, #orbs, #graph { transition: opacity 1.2s ease, filter 1.2s ease; }

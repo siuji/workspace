@@ -57,6 +57,7 @@
   for (const n of data.nodes) { if (!order.includes(n.id)) order.push(n.id); if (!pairOf[n.id]) pairOf[n.id] = PAIRS[Math.floor(hash(n.id) * PAIRS.length)]; }
   const dotStyle = (n) => n.tipo === 'hub' ? '--c1:#e86bd0;--c2:#f2a45c' : `--c1:${pairOf[n.id][0]};--c2:${pairOf[n.id][1]}`;
 
+  let entryT0 = null; const ENTRY_MS = 2600;
   let selected = null, hovered = null, calling = null, spreadId = null;
   const scaleOf = new Map();
   const focusId = () => (hovered || selected)?.id;
@@ -65,7 +66,7 @@
   const linkCall = (l) => calling && linkEnds(l).includes(calling);
   const sizeOf = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
   // Camadas: o profissional fica à frente; o pessoal vai para trás, menor e mais apagado
-  const BACK_AREAS = new Set(CFG.backAreas || ['endurance', 'photography', 'social', 'tools', 'education']);
+  const BACK_AREAS = new Set(CFG.backAreas || ['personal', 'endurance', 'photography', 'social', 'tools', 'education']);
   const back = new Set();
   for (const id of BACK_AREAS) {
     if (!byId.has(id)) continue;
@@ -101,23 +102,25 @@
     .onNodeClick((n) => { if (!document.body.classList.contains('intro')) go(n.id); })
     .onBackgroundClick(() => { if (selected) go(''); });
 
-  Graph.d3Force('charge').strength(-180);
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 150) : t.includes('area') ? 70 : 50; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
+  if (params.has('debug')) window.WS_GRAPH = Graph;
+  Graph.d3Force('charge').strength((n) => (back.has(n.id) ? -70 : -180));
+  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 90 : 130) : t.includes('area') ? 70 : 50; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
   // Contenção: a teia ocupa a janela toda (elipsoide mais largo em telas largas) sem fugir das bordas
-  const R = 280;
-  const shape = () => ({ rx: R * Math.min(1.9, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
+  const R = 230;
+  const shape = () => ({ rx: R * Math.min(1.6, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
   Graph.d3Force('contain', (alpha) => {
     const { rx, ry, rz } = shape();
     for (const n of data.nodes) {
       if (n.fx !== undefined || n.x === undefined) continue;
       n.vx += n.x * 0.006 * alpha * (rx / ry - 1);
       const k = Math.hypot(n.x / rx, n.y / ry, n.z / rz);
-      if (k > 1) { const f = (1 - 1 / k) * 0.25 * alpha * 10; n.vx -= n.x * f * 0.1; n.vy -= n.y * f * 0.1; n.vz -= n.z * f * 0.1; }
+      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 120) { const g = (1 - 120 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
+      if (k > 0.85) { const f = (1 - 0.85 / k) * 0.7 * alpha; n.vx -= n.x * f; n.vy -= n.y * f; n.vz -= n.z * f; }
     }
   });
   // Distância da câmera calculada para a altura da teia caber na janela
-  const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return (R * 0.8) / Math.tan(fov / 2); };
-  const HOME = { x: 0, y: 30, z: fitDist() };
+  const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return (R * 0.88) / Math.tan(fov / 2); };
+  const HOME = { x: 0, y: 0, z: fitDist() };
   Graph.cameraPosition(HOME);
 
   // Na abertura a teia sobe um pouco para dar espaço ao texto
@@ -211,7 +214,19 @@
       const p = Graph.graph2ScreenCoords(n.x, n.y, n.z);
       if (n.tipo === 'hub') {
         const q = Graph.graph2ScreenCoords(n.x, n.y + 46, n.z);
-        const d = Math.max(40, Math.abs(q.y - p.y) * 2);
+        let d = Math.max(40, Math.abs(q.y - p.y) * 2);
+        // Entrada: a esfera nasce gigante (toma a tela) e encolhe até o lugar, com leve rebote
+        if (entryT0 !== null) {
+          const t = Math.min(1, (performance.now() - entryT0) / ENTRY_MS), u = Math.max(0, (t - 0.16) / 0.84);
+          const c = 0.7, e = 1 + (c + 1) * Math.pow(u - 1, 3) + c * Math.pow(u - 1, 2); // segura grande, encolhe rápido e assenta com rebote
+          const big = Math.hypot(innerWidth, innerHeight) * 1.25 / d;
+          const k = big + (1 - big) * e, cx = innerWidth / 2, cy = innerHeight / 2;
+          p.x = cx + (p.x - cx) * e; p.y = cy + (p.y - cy) * e;
+          d *= Math.max(0.6, k);
+          orb.style.setProperty('--txt', Math.max(0, (t - 0.55) / 0.45).toFixed(2));
+          if (t > 0.45) document.body.classList.remove('entering');
+          if (t >= 1) { entryT0 = null; orb.classList.remove('entering'); orb.style.removeProperty('--txt'); }
+        }
         orb.style.width = orb.style.height = d.toFixed(1) + 'px';
         orb.style.setProperty('--d', d.toFixed(1) + 'px');
         orb.style.transform = `translate(${(p.x - d / 2).toFixed(1)}px, ${(p.y - d / 2).toFixed(1)}px)`;
@@ -570,13 +585,14 @@
 
   function enter() {
     clearTimeout(lineTimer);
+    if (!reduceMotion) { entryT0 = performance.now(); orb.classList.add('entering'); document.body.classList.add('entering'); }
     document.body.classList.remove('intro');
     while (grown < order.length) grow();
     setTimeout(() => {
       const target = (deepLink || hub || {}).id;
       if (!target) return;
       if (location.hash === '#/' + target) route(); else go(target);
-    }, reduceMotion ? 0 : 2000);
+    }, reduceMotion ? 0 : ENTRY_MS + 500);
   }
   $('#enter').addEventListener('click', enter);
 
