@@ -220,7 +220,7 @@
       .sort((a, b) => (a.tipo === 'hub' ? -1 : b.tipo === 'hub' ? 1 : a.ordem - b.ordem || a.titulo.localeCompare(b.titulo)));
     const type = TYPES[n.tipo] || { label: n.tipo };
     $('#panel-body').innerHTML = `
-      <p class="kicker"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.tipo === 'hub' ? 'Creative Direction, Automation and AI Integration' : type.label)}${n.data ? ` · ${esc(n.data)}` : ''}</p>
+      <p class="kicker"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.tipo === 'hub' ? 'Creative Direction, Automation and AI Integration' : (n.data || ''))}</p>
       <h1>${esc(n.titulo)}</h1>
       ${n.oculto ? '<span class="prov">Hidden from the public site</span>' : ''}
       ${n.resumo ? `<p class="lede">${esc(n.resumo)}</p>` : ''}

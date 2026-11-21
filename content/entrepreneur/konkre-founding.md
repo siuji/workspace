@@ -4,5 +4,6 @@ tipo: venture
 resumo: The partner side: decisions, numbers, lessons.
 status: placeholder
 publicar: false
+conecta: [konkre]
 ---
-Placeholder. Part of [[konkre]].
+Placeholder.

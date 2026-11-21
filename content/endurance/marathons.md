@@ -2,6 +2,7 @@
 titulo: Marathons
 tipo: life
 resumo: Every race, from Curitiba 2009 to Santiago 2026.
+conecta: [endurance]
 ---
 <span class="major">Major</span> marks the 6 Abbott World Marathon Majors.
 
@@ -32,5 +33,3 @@ resumo: Every race, from Curitiba 2009 to Santiago 2026.
 - **2010** · Buenos Aires · 3:54:06
 - **2010** · São Paulo · 4:05:00
 - **2009** · Curitiba · 3:53:00
-
-Part of [[endurance]].

@@ -4,5 +4,6 @@ tipo: work
 resumo: Film and TV commercials.
 status: placeholder
 publicar: false
+conecta: [portfolio]
 ---
-Placeholder. Part of [[portfolio]].
+Placeholder.

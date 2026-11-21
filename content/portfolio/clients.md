@@ -2,9 +2,8 @@
 titulo: Clients
 tipo: work
 resumo: My main clients over the past 5 years.
+conecta: [portfolio]
 ---
 <ul class="logos"><li><span class="logo" role="img" aria-label="YouTube" style="--logo:url(media/clients/youtube.png);width:123px;height:28px"></span></li><li><span class="logo" role="img" aria-label="Leroy Merlin" style="--logo:url(media/clients/leroy-merlin.png);width:76px;height:45px"></span></li><li><span class="logo" role="img" aria-label="Meta" style="--logo:url(media/clients/meta.png);width:121px;height:28px"></span></li><li><span class="logo" role="img" aria-label="Vans" style="--logo:url(media/clients/vans.png);width:92px;height:37px"></span></li><li><span class="logo" role="img" aria-label="Havaianas" style="--logo:url(media/clients/havaianas.png);width:130px;height:26px"></span></li><li><span class="logo" role="img" aria-label="Domino's Pizza" style="--logo:url(media/clients/dominos-pizza.png);width:153px;height:22px"></span></li><li><span class="logo" role="img" aria-label="Chopp Brahma Express" style="--logo:url(media/clients/brahma-express.png);width:73px;height:47px"></span></li><li><span class="logo" role="img" aria-label="Ragazzo" style="--logo:url(media/clients/ragazzo.png);width:120px;height:29px"></span></li><li><span class="logo" role="img" aria-label="Pringles" style="--logo:url(media/clients/pringles.png);width:52px;height:65px"></span></li><li><span class="logo" role="img" aria-label="Sanofi" style="--logo:url(media/clients/sanofi.png);width:115px;height:30px"></span></li><li><span class="logo" role="img" aria-label="Whirlpool" style="--logo:url(media/clients/whirlpool.png);width:101px;height:33px"></span></li><li><span class="logo" role="img" aria-label="Brastemp" style="--logo:url(media/clients/brastemp.png);width:153px;height:17px"></span></li><li><span class="logo" role="img" aria-label="Consul" style="--logo:url(media/clients/consul.png);width:115px;height:30px"></span></li><li><span class="logo" role="img" aria-label="Compra Certa" style="--logo:url(media/clients/compra-certa.png);width:153px;height:19px"></span></li></ul>
 
 Also Google, Casas Bahia, Pontofrio and many others.
-
-Part of [[portfolio]].

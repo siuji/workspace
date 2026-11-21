@@ -4,5 +4,6 @@ tipo: venture
 resumo: From mold to finish.
 status: placeholder
 publicar: false
+conecta: [konkre]
 ---
-Placeholder. Part of [[konkre]].
+Placeholder.

@@ -4,5 +4,6 @@ tipo: life
 resumo: Placeholder series.
 status: placeholder
 publicar: false
+conecta: [photography]
 ---
-Placeholder. Part of [[photography]].
+Placeholder.

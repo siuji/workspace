@@ -1,7 +1,7 @@
 ---
 titulo: Paulo Asano
 tipo: hub
-resumo: Creative Direction, Automation and AI Integration. Craft at scale.
+resumo: Craft at scale.
 status: placeholder
 ordem: 0
 conecta: [portfolio, entrepreneur, career, education, tools, endurance, social]
