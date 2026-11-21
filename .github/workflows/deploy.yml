@@ -6,6 +6,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      cancel_sha:
+        description: 'Commit de uma publicação travada para cancelar antes de publicar (opcional)'
+        required: false
 permissions:
   contents: read
   pages: write
@@ -33,5 +37,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Cancelar publicação travada
+        if: ${{ inputs.cancel_sha != '' && inputs.cancel_sha != null }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/deployments/${{ inputs.cancel_sha }}/cancel"
       - id: deployment
         uses: actions/deploy-pages@v4
