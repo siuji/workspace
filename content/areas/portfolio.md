@@ -1,22 +1,18 @@
 ---
 titulo: Portfolio
 tipo: area
-resumo: Brands I have worked for. The ones with a case open in a click.
+resumo: Brands I've worked with, across markets and media.
 ordem: 1
 largura: wide
 conecta: [pfizer, youtube, leroy-merlin, whirlpool, ragazzo, nubank, quau-burger, sanofi, casas-bahia, pontofrio]
 ---
 <div class="intro">
 
-Most of what you'll see here wasn't made by my hands alone.
+As a creative director, my role is about setting direction, building structure, giving guidance and clearing the way so the team can do its best work.
 
-I've always been hands-on, and I still am. Early in my career, I made almost everything myself.
+I don't keep a team to execute my ideas. I believe in each person's talent, and I'd rather help it grow.
 
-Since becoming a creative director, my role has changed. More and more, I work in the background: setting direction, building structure, giving guidance, and clearing the way for the team to do its best work.
-
-I'm not the kind of creative director who keeps a team just to execute my ideas. I believe in the talent of each person, and I'd rather help it grow.
-
-So before you explore: none of this is mine alone. Every piece was made by highly talented teams, under my direction.
+Every piece here was made by highly talented teams, under my direction.
 
 </div>
 <div class="chips all"><button type="button" class="on" data-filter="all">All</button></div><div class="chips mkt"><span class="chips-label">By market</span><button type="button" data-filter="tech-media">Tech & Media</button><button type="button" data-filter="retail">Retail</button><button type="button" data-filter="food-restaurants">Food & Restaurants</button><button type="button" data-filter="consumer-brands">Consumer Brands</button><button type="button" data-filter="health">Health</button><button type="button" data-filter="financial-services">Financial Services</button><button type="button" data-filter="b-b-saas">B2B & SaaS</button></div><div class="chips deliv"><span class="chips-label">By media</span><button type="button" data-filter="d-film-tv">Film & TV</button><button type="button" data-filter="d-social">Social</button><button type="button" data-filter="d-performance-crm">Performance & CRM</button><button type="button" data-filter="d-retail-pos">Retail & POS</button><button type="button" data-filter="d-branding">Branding</button><button type="button" data-filter="d-ai-automation">AI & automation</button><button type="button" data-filter="d-web-email">Web & email</button></div>
