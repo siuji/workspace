@@ -10,3 +10,5 @@ conecta: [career]
 - **Role** · Creative Art Director
 
 In the middle of the internet boom in Brazil, I moved to digital. Fast and intense, working for the biggest Brazilian internet players of the time.
+
+**Clients** · Audi.

@@ -143,7 +143,7 @@ button, input { font: inherit; color: inherit; }
   box-shadow: 0 40px 140px rgba(0,0,0,.35);
   scrollbar-width: thin; scrollbar-color: var(--line) transparent;
 }
-body.panel-open #labels { opacity: .3; }
+
 .close {
   position: sticky; top: 0; float: right; margin: -24px -28px 0 0; width: 38px; height: 38px; border-radius: 50%;
   border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 20px; font-weight: 200; line-height: 1; color: var(--ink-2);
@@ -265,8 +265,8 @@ body.intro .review-tag { display: none; }
 :root { --glass: rgba(14, 13, 19, .72); }
 :root[data-theme="light"] { --glass: rgba(255, 255, 255, .8); }
 .panel { backdrop-filter: blur(24px) saturate(1.05); -webkit-backdrop-filter: blur(24px) saturate(1.05); }
-body.panel-open #orb, body.panel-open #orbs { filter: brightness(.72) saturate(.9); }
-:root[data-theme="light"] body.panel-open #orb, :root[data-theme="light"] body.panel-open #orbs { filter: opacity(.72) saturate(.9); }
+body.panel-open #orb, body.panel-open #orbs .node-orb:not(.beside) { filter: brightness(.72) saturate(.9); }
+:root[data-theme="light"] body.panel-open #orb, :root[data-theme="light"] body.panel-open #orbs .node-orb:not(.beside) { filter: opacity(.72) saturate(.9); }
 body.panel-open #graph { filter: brightness(.8); }
 .prose .major { display: inline-block; vertical-align: middle; margin: 0 2px; font: 400 9px var(--mono); letter-spacing: .14em; text-transform: uppercase; padding: 2px 6px; border-radius: 999px; color: #1c1a22; background: var(--grad); }
 /* Logos de clientes: monocromáticos, branco no escuro e cinza no claro */
@@ -471,7 +471,10 @@ body.classic .top { z-index: 41; }
 .prose .badge-line { text-align: center; margin: 0 0 var(--s3, 32px); }
 .prose .badge-line .major { font-size: 12px; padding: 7px 14px; }
 /* No mapa, o painel largo deixa colunas livres dos lados para as esferas ligadas */
-body:not(.classic) .panel.wide { width: min(1180px, calc(100vw - 340px), calc(100vw - 2 * var(--gutter))); }
+body:not(.classic) .panel.wide { width: min(920px, calc(100vw - 340px), calc(100vw - 2 * var(--gutter))); padding: 48px 56px 56px; }
+body:not(.classic) .panel.wide .prose ul.logos .logo { transform: scale(.82); }
+body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-right: -24px; }
+.node-orb.beside i { animation: call 2.6s ease-in-out var(--delay, 0s) infinite; }
 /* Grade de logos: sempre 4 por linha, centralizada (linhas incompletas também, inclusive com filtro) */
 .panel.wide .prose ul.logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 56px 0; }
 .panel.wide .prose ul.logos li { flex: 0 0 25%; height: 70px; }

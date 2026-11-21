@@ -113,6 +113,7 @@
   // A física continua só para o movimento: uma força suave puxa cada esfera para o seu lugar.
   Graph.d3Force('charge').strength(0);
   Graph.d3Force('link').strength(0);
+  Graph.d3Force('center', null); // sem recentralizar: cada esfera fica exatamente no lugar calculado
   const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return 330 / Math.tan(fov / 2); };
   const HOME = { x: 0, y: 0, z: fitDist() };
   Graph.cameraPosition(HOME);
@@ -317,6 +318,10 @@
       ob.style.zIndex = String(10000 - Math.round(dist));
       const lit = !f || n.id === f || neighbors.get(f).has(n.id);
       ob.style.opacity = ((lit ? Math.max(0.4, Math.min(1, (950 - dist) / 500)) : 0.2) * (isBack(n) && !(f && lit) ? 0.55 : 1)).toFixed(2);
+      // Ao lado do painel aberto: brilho normal e pulsando, chamando o clique
+      const beside = !!selected && n !== selected && around.has(n.id);
+      if (ob.classList.contains('beside') !== beside) ob.classList.toggle('beside', beside);
+      if (beside) ob.style.opacity = '1';
       const near = Math.max(0, Math.min(1, (560 - dist) / 260));
       let o = n.tipo === 'area' ? Math.max(0.6, near) : near;
       if (isBack(n)) o *= 0.6;
@@ -475,8 +480,9 @@
     const ids = [...neighbors.get(n.id)].filter((m) => byId.get(m).tipo !== 'hub' && byId.get(m).x !== undefined);
     if (!ids.length) { Graph.d3ReheatSimulation(); return; }
     spreadId = n.id;
+    if (n.tipo !== 'hub') around.set(n.id, { tx: 0, ty: 0, tz: -60 }); // a esfera aberta vai para trás do painel
     const w = innerWidth, h = innerHeight, g = 24;
-    const pw = Math.min(n.largura === 'wide' ? Math.min(1180, w - 340) : 780, w - 2 * g), ph = h * (n.largura === 'wide' ? 0.86 : 0.8);
+    const pw = Math.min(n.largura === 'wide' ? Math.min(920, w - 340) : 780, w - 2 * g), ph = h * (n.largura === 'wide' ? 0.86 : 0.8);
     const L = (w - pw) / 2, T = (h - ph) / 2, pad = 34, top = 92, bottom = 70, side = 40;
     // Faixas livres em volta do painel: colunas à esquerda e à direita, e linhas em cima e embaixo quando houver espaço
     const bands = [];
@@ -485,8 +491,9 @@
       bands.push({ x0: side + colW / 2, y0: top, x1: side + colW / 2, y1: h - bottom, side: 'l' });
       bands.push({ x0: w - side - colW / 2, y0: top, x1: w - side - colW / 2, y1: h - bottom, side: 'r' });
     }
-    if (T - pad > top - 40) bands.push({ x0: L, y0: (T - pad + top - 40) / 2, x1: L + pw, y1: (T - pad + top - 40) / 2, side: 't' });
-    if (h - T - pad - bottom > 30) bands.push({ x0: L, y0: h - (T - pad + bottom) / 2 - 10, x1: L + pw, y1: h - (T - pad + bottom) / 2 - 10, side: 'b' });
+    const tGap = T - pad - 22, bGap = h - (T + ph) - pad - 40;
+    if (tGap > 34) bands.push({ x0: L + 40, y0: 22 + tGap / 2, x1: L + pw - 40, y1: 22 + tGap / 2, side: 't' });
+    if (bGap > 34) bands.push({ x0: L + 40, y0: T + ph + pad + bGap / 2, x1: L + pw - 40, y1: T + ph + pad + bGap / 2, side: 'b' });
     if (!bands.length) bands.push({ x0: side, y0: h - bottom / 2, x1: w - side, y1: h - bottom / 2 });
     const len = (b) => Math.hypot(b.x1 - b.x0, b.y1 - b.y0);
     const total = bands.reduce((t, b) => t + len(b), 0);

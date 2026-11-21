@@ -31,7 +31,7 @@
     master.connect(comp).connect(ctx.destination);
     verb = ctx.createConvolver(); verb.buffer = impulse(5.5, 2.6);
     const wet = ctx.createGain(); wet.gain.value = 0.55; verb.connect(wet).connect(master);
-    amb = ctx.createGain(); amb.gain.value = 0.5; amb.connect(master); amb.connect(verb);
+    amb = ctx.createGain(); amb.gain.value = 0.2; amb.connect(master); amb.connect(verb);
     fx = ctx.createGain(); fx.gain.value = 0.9; fx.connect(master); fx.connect(verb);
     pad();
   }
