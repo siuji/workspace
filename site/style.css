@@ -508,7 +508,7 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .panel .lede.me-lede { margin-bottom: var(--s1); }
 
 /* Filtros do Portfolio em 3 linhas: All / By market / By media */
-.prose .chips.all { margin-bottom: var(--s2); }
+.prose .chips.all { margin-top: var(--s4); margin-bottom: var(--s2); }
 .prose .chips.mkt, .prose .chips.deliv { margin-top: 0; margin-bottom: var(--s1); align-items: center; }
 .prose .chips.deliv { margin-bottom: var(--s3); }
 .prose .chips-label { font: 400 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
