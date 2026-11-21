@@ -220,6 +220,7 @@
     }
   }
   function draw() {
+    if (document.body.classList.contains('classic')) { requestAnimationFrame(draw); return; }
     stepLift();
     const cam = Graph.camera(), t = controls.target;
     const dir = { x: t.x - cam.position.x, y: t.y - cam.position.y, z: t.z - cam.position.z };
@@ -426,9 +427,49 @@
     Graph.d3ReheatSimulation();
   }
   function go(id) { location.hash = id ? `#/${id}` : '#/'; }
+  // Classic view: o mesmo conteúdo como site convencional, com menu no topo e sem o mapa
+  let classic = false;
+  const modeBtn = $('#mode-btn'), cnav = $('#cnav');
+  const kidsOf = (id) => [...neighbors.get(id)].map((k) => byId.get(k)).filter((k) => k.tipo !== 'hub' && k.id !== id && !(byId.get(id).tipo === 'area' && k.tipo === 'area' && !BACK_AREAS.has(k.id)))
+    .sort((a, b) => a.ordem - b.ordem || a.titulo.localeCompare(b.titulo));
+  function buildNav() {
+    const tops = [...neighbors.get(hub.id)].map((k) => byId.get(k)).filter((k) => k.tipo === 'area').sort((a, b) => a.ordem - b.ordem);
+    cnav.innerHTML = `<a class="cn-home" href="#/" data-node="">Paulo Asano</a><ul>${tops.map((t) => {
+      const kids = kidsOf(t.id);
+      return `<li class="cn-item"><a href="#/${t.id}" data-node="${t.id}">${esc(t.rotulo || t.titulo)}</a>${kids.length ? `<div class="cn-drop"><ul>${kids.map((k) => `<li><a href="#/${k.id}" data-node="${k.id}">${esc(k.rotulo || k.titulo)}</a></li>`).join('')}</ul></div>` : ''}</li>`;
+    }).join('')}</ul>`;
+  }
+  function markNav(n) {
+    const top = n.tipo === 'hub' ? '' : n.tipo === 'area' ? n.id : [...neighbors.get(n.id)].find((k) => byId.get(k).tipo === 'area' && [...neighbors.get(hub.id)].includes(k)) || '';
+    cnav.querySelectorAll('.cn-item > a').forEach((a) => a.classList.toggle('on', a.dataset.node === top || (n.tipo !== 'hub' && byId.get(a.dataset.node) && kidsOf(a.dataset.node).some((k) => k.id === n.id))));
+    cnav.querySelector('.cn-home').classList.toggle('on', n.tipo === 'hub');
+  }
+  function setMode(on, save = true) {
+    classic = on;
+    document.body.classList.toggle('classic', on);
+    modeBtn.textContent = on ? 'Map view' : 'Classic view';
+    modeBtn.setAttribute('aria-pressed', String(on));
+    cnav.hidden = !on;
+    if (save) store.set('ws-mode', on ? 'classic' : 'map');
+    if (on) { if (!cnav.innerHTML) buildNav(); Graph.pauseAnimation(); route(); window.scrollTo(0, 0); }
+    else {
+      Graph.resumeAnimation();
+      const id = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
+      selected = null; panel.hidden = true; document.body.classList.remove('panel-open'); flyHome();
+      if (byId.get(id) && id !== hub.id) setTimeout(route, 200); else if (location.hash !== '#/') history.replaceState(null, '', '#/');
+    }
+  }
+  modeBtn.addEventListener('click', () => setMode(!classic));
+  cnav.addEventListener('click', (e) => { const a = e.target.closest('a[data-node]'); if (!a) return; e.preventDefault(); go(a.dataset.node); panel.scrollTop = 0; });
   function route() {
     if (document.body.classList.contains('intro')) return;
     const id = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
+    if (classic) {
+      const c = byId.get(id) || hub;
+      selected = c; clearTimeout(openTimer); renderPanel(c); panel.hidden = false; panel.classList.remove('unpop', 'pop');
+      markNav(c); window.WS_TRACK && WS_TRACK.node(c.id);
+      return;
+    }
     const n = byId.get(id);
     if (n) {
       if (calling) { orbs.get(calling)?.classList.remove('calling'); calling = null; }
@@ -609,6 +650,7 @@
 
   function enter() {
     clearTimeout(lineTimer);
+    if (params.has('classic') || store.get('ws-mode') === 'classic') { document.body.classList.remove('intro'); while (grown < order.length) grow(); setMode(true, params.has('classic') ? false : true); return; }
     if (!reduceMotion) { entryT0 = performance.now(); orb.classList.add('entering'); document.body.classList.add('entering'); }
     document.body.classList.remove('intro');
     while (grown < order.length) grow();
