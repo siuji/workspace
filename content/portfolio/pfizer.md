@@ -1,5 +1,6 @@
 ---
 titulo: Pfizer
+logo: pfizer
 tipo: work
 resumo: "Stories that support people in treatment."
 data: Health
