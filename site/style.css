@@ -269,3 +269,20 @@ body.panel-open #orb, body.panel-open #orbs { filter: brightness(.72) saturate(.
 :root[data-theme="light"] body.panel-open #orb, :root[data-theme="light"] body.panel-open #orbs { filter: opacity(.72) saturate(.9); }
 body.panel-open #graph { filter: brightness(.8); }
 .prose .major { display: inline-block; vertical-align: middle; margin: 0 2px; font: 400 9px var(--mono); letter-spacing: .14em; text-transform: uppercase; padding: 2px 6px; border-radius: 999px; color: #1c1a22; background: var(--grad); }
+/* Logos de clientes: monocromáticos, branco no escuro e cinza no claro */
+.prose ul.logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 30px 30px; margin: 14px -60px 34px; }
+.prose ul.logos li { display: flex; align-items: center; justify-content: center; }
+.logo { display: block; background: rgba(235,230,220,.88); -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; transition: background .3s; }
+:root[data-theme="light"] .logo { background: #8a8690; }
+.prose ul.logos li:hover .logo { background: var(--ink); }
+/* Linhas em colunas, sem linhas de tabela */
+.prose .rows { display: grid; grid-template-columns: 84px 1.2fr 1fr; column-gap: 26px; row-gap: 12px; text-align: left; margin: 6px -40px 26px; }
+.prose .row { display: contents; }
+.prose .row > span:first-child { font: 400 12px/1.9 var(--mono); letter-spacing: .04em; color: var(--muted); white-space: nowrap; }
+.prose .row > span:nth-child(2) { color: var(--ink); }
+.prose .row > span:nth-child(3) { color: var(--ink-2); }
+.prose .row em { font: 400 10px var(--mono); font-style: normal; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-left: 6px; }
+.prose .socials { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 10px 0 20px; }
+.prose .socials a { display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 24px 0 20px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); background: color-mix(in srgb, var(--ink) 4%, transparent); font-size: 15px; color: var(--ink); }
+.prose .socials a:hover { border-color: var(--accent); }
+.prose .row em.soft { color: var(--muted); text-transform: none; letter-spacing: 0; font: 300 12px var(--sans, inherit); }

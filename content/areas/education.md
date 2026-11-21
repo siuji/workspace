@@ -2,13 +2,22 @@
 titulo: Education
 tipo: area
 resumo: Business, photography and advertising. Still learning.
-status: placeholder
 ordem: 4
 ---
-- **2026 – 2027** · MBA in Finance, USP/Esalq · in progress
-- **2014 – 2016** · MBA in Business Administration and Management, Fundação Getulio Vargas
-- **2004 – 2008** · Bachelor's degree in Photography, Centro Universitário Senac
-- **1998 – 1999** · Commercial and Advertising Art, ESPM
-- **1994 – 1997** · Business Administration Technician, CIM Alcina Dantas Feijão
+<div class="rows">
+<div class="row"><span>2026 – 2027</span><span>MBA in Finance <em>in progress</em></span><span>USP/Esalq</span></div>
+<div class="row"><span>2014 – 2016</span><span>MBA in Business Administration and Management</span><span>Fundação Getulio Vargas</span></div>
+<div class="row"><span>2004 – 2008</span><span>Bachelor's degree in Photography</span><span>Centro Universitário Senac</span></div>
+<div class="row"><span>1998 – 1999</span><span>Commercial and Advertising Art</span><span>ESPM</span></div>
+<div class="row"><span>1994 – 1997</span><span>Business Administration Technician</span><span>CIM Alcina Dantas Feijão</span></div>
+</div>
 
-Certifications: Human Centric Innovation · Facebook Certified Creative Strategy Professional · MESA Method · Leadership Development Program · Impact NYC
+## Certifications
+
+<div class="rows">
+<div class="row"><span></span><span>Human Centric Innovation</span><span></span></div>
+<div class="row"><span></span><span>Facebook Certified Creative Strategy Professional</span><span>Meta</span></div>
+<div class="row"><span></span><span>MESA Method</span><span></span></div>
+<div class="row"><span></span><span>Leadership Development Program</span><span>Young &amp; Rubicam</span></div>
+<div class="row"><span></span><span>Impact NYC</span><span>Yahoo</span></div>
+</div>

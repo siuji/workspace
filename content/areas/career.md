@@ -2,17 +2,18 @@
 titulo: Career timeline
 tipo: area
 resumo: Since January 1999. Agencies, roles, teams and what each one taught me.
-status: placeholder
 ordem: 3
 ---
 {{years}} years, from production assistant to leading creative groups across continents.
 
-- **2025 – now** · [[superside]] · Group Creative Director
-- **2021 – now** · [[konkre|Konkrë]] · Co-founder
-- **2021 – 2025** · [[monks]] · Creative Director, Group Creative Director
-- **2010 – 2020** · [[yr-2010|Young & Rubicam]] · Creative Art Director, Creative Director
-- **2008 – 2010** · [[141-worldwide]] · Creative Director
-- **2004 – 2007** · [[yr-2004|Young & Rubicam]] · Creative Art Director
-- **2002 – 2004** · [[lage-magy-2002|Lage&Magy]] · Creative Art Director
-- **2000 – 2001** · [[hypernet]] · Creative Art Director
-- **1999 – 2000** · [[lage-magy-1999|Lage&Magy]] · Art Director Assistant
+<div class="rows">
+<div class="row"><span>2025 – now</span><span>[[superside]]</span><span>Group Creative Director</span></div>
+<div class="row"><span>2021 – now</span><span>[[konkre|Konkrë]]</span><span>Co-founder</span></div>
+<div class="row"><span>2021 – 2025</span><span>[[monks]]</span><span>Creative Director, Group Creative Director</span></div>
+<div class="row"><span>2010 – 2020</span><span>[[yr-2010|Young & Rubicam]]</span><span>Creative Art Director, Creative Director</span></div>
+<div class="row"><span>2008 – 2010</span><span>[[141-worldwide]]</span><span>Creative Director</span></div>
+<div class="row"><span>2004 – 2007</span><span>[[yr-2004|Young & Rubicam]]</span><span>Creative Art Director</span></div>
+<div class="row"><span>2002 – 2004</span><span>[[lage-magy-2002|Lage&Magy]]</span><span>Creative Art Director</span></div>
+<div class="row"><span>2000 – 2001</span><span>[[hypernet]]</span><span>Creative Art Director</span></div>
+<div class="row"><span>1999 – 2000</span><span>[[lage-magy-1999|Lage&Magy]]</span><span>Art Director Assistant</span></div>
+</div>
