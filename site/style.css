@@ -396,3 +396,5 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .panel.wide .prose ul.logos.feat li { height: 96px; }
 .panel.wide .prose ul.logos.feat + ul.logos { margin-top: 72px; }
 .prose .intro { max-width: 720px; margin: 0 auto var(--s4, 48px); text-align: center; }
+.prose .stats:has(> :nth-child(5)) { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; }
+.prose .stats:has(> :nth-child(5)) > div { max-width: none; }
