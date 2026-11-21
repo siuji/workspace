@@ -182,7 +182,7 @@ function build() {
   // Versão nos arquivos para o navegador nunca usar uma cópia antiga depois de publicar
   const v = Date.now().toString(36);
   const html = fs.readFileSync(indexHtml, 'utf8').replace('<!--FALLBACK-->', fallback)
-    .replace(/(href|src)="((?:style|config|track|bg)\.(?:css|js))"/g, `$1="$2?v=${v}"`)
+    .replace(/(href|src)="((?:style|config|track|bg|sound)\.(?:css|js))"/g, `$1="$2?v=${v}"`)
     .replace(/'(vendor\/3d-force-graph\.min\.js|graph-review\.js|graph\.js|app\.js)'/g, `'$1?v=${v}'`);
   fs.writeFileSync(indexHtml, html);
 

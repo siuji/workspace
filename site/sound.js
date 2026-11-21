@@ -8,7 +8,7 @@
   const btn = document.getElementById('sound-btn');
   if (!AC) { if (btn) btn.hidden = true; return; }
 
-  let ctx = null, master = null, amb = null, fx = null, verb = null, on = false, timers = [];
+  let ducked = false, ctx = null, master = null, amb = null, fx = null, verb = null, on = false, timers = [];
   const rnd = (a, b) => a + Math.random() * (b - a);
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const hz = (m) => 440 * Math.pow(2, (m - 69) / 12);
@@ -33,7 +33,6 @@
     const wet = ctx.createGain(); wet.gain.value = 0.55; verb.connect(wet).connect(master);
     amb = ctx.createGain(); amb.gain.value = 0.11; amb.connect(master); amb.connect(verb);
     fx = ctx.createGain(); fx.gain.value = 0.9; fx.connect(master); fx.connect(verb);
-    pad();
   }
 
   // Pad: 4 vozes com osciladores levemente desafinados, filtro que respira devagar, acordes que mudam sozinhos
@@ -187,6 +186,8 @@
     call() { if (!on) return; tone(hz(81 + pick(SCALE)), { gain: 0.012, attack: 0.3, release: 2.4, out: amb, pan: rnd(-0.6, 0.6) }); },
     click() { if (!on) return; tone(hz(79), { gain: 0.02, attack: 0.003, release: 0.18 }); },
     enter() { if (!on) return; air({ from: 120, to: 1600, dur: 2.6, gain: 0.06 }); tone(hz(38), { type: 'sine', gain: 0.08, attack: 1.2, release: 3.5 }); },
+    // Vídeo tocando: a trilha some; volta quando o painel fecha
+    duck(v) { if (!ctx || !on || ducked === v) return; ducked = v; master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(v ? 0 : 0.9, ctx.currentTime, v ? 0.25 : 1.2); },
     start, stop, get on() { return on; },
   };
 
@@ -213,7 +214,7 @@
   const first = (e) => { removeEventListener('pointerdown', first, true); if (e.target.closest && e.target.closest('#sound-btn')) return; if (pref() !== 'off') start(); };
   addEventListener('pointerdown', first, true);
   // Aba escondida: silencia; volta suave
-  document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; master.gain.setTargetAtTime(document.hidden ? 0 : 0.9, ctx.currentTime, 0.5); });
+  document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; master.gain.setTargetAtTime(document.hidden || ducked ? 0 : 0.9, ctx.currentTime, 0.5); });
   mark();
   window.WS_SOUND = api;
 })();

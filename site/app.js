@@ -582,11 +582,22 @@
       selected = n; openPanel(n); window.WS_TRACK && WS_TRACK.node(n.id);
       spread(n);
     } else if (selected) {
-      selected = null; closePanel(); flyHome(); spread(null); window.WS_SOUND && WS_SOUND.close();
+      selected = null; closePanel(); flyHome(); spread(null); window.WS_SOUND && (WS_SOUND.close(), WS_SOUND.duck(false));
     }
     refresh();
   }
   addEventListener('hashchange', route);
+  // Vídeo tocando no painel (Vimeo/YouTube): a trilha pausa e só volta quando o painel fecha
+  addEventListener('message', (e) => {
+    let host = ''; try { host = new URL(e.origin).hostname; } catch (x) { return; }
+    if (!/(^|\.)vimeo\.com$/.test(host)) return;
+    let d = e.data; if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
+    if (!d || !d.event) return;
+    if (d.event === 'ready') e.source && e.source.postMessage(JSON.stringify({ method: 'addEventListener', value: 'play' }), e.origin);
+    if (d.event === 'play' || d.event === 'playing') window.WS_SOUND && WS_SOUND.duck(true);
+  });
+  // Plano B: clicar dentro de um vídeo embutido tira o foco da página
+  addEventListener('blur', () => setTimeout(() => { const a = document.activeElement; if (a && a.tagName === 'IFRAME' && a.closest('#panel')) window.WS_SOUND && WS_SOUND.duck(true); }, 0));
   addEventListener('keydown', (e) => {
     if (e.key === 'Escape') { if (!$('#results').hidden) return hideResults(); if (selected) go(''); }
   });
