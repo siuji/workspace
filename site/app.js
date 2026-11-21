@@ -97,13 +97,27 @@
     .linkDirectionalParticleSpeed((l) => (linkLit(l) ? 0.012 : linkCall(l) ? 0.008 : 0.003))
     .linkDirectionalParticleWidth((l) => (linkLit(l) ? 1.6 : 1))
     .linkDirectionalParticleColor(() => (isLight() ? '#c46a8e' : '#f3c2ae'))
-    .onNodeHover((n) => { hovered = n || null; $('#graph').style.cursor = n ? 'pointer' : ''; refresh(); })
+    .onNodeHover((n) => { hovered = n || null; $('#graph').style.cursor = n ? 'pointer' : ''; refresh(); wantLift(n); })
     .onNodeClick((n) => { if (!document.body.classList.contains('intro')) go(n.id); })
     .onBackgroundClick(() => { if (selected) go(''); });
 
   Graph.d3Force('charge').strength(-180);
   Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 150) : t.includes('area') ? 70 : 50; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
-  const HOME = { x: 0, y: 40, z: 520 };
+  // Contenção: a teia ocupa a janela toda (elipsoide mais largo em telas largas) sem fugir das bordas
+  const R = 280;
+  const shape = () => ({ rx: R * Math.min(1.9, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
+  Graph.d3Force('contain', (alpha) => {
+    const { rx, ry, rz } = shape();
+    for (const n of data.nodes) {
+      if (n.fx !== undefined || n.x === undefined) continue;
+      n.vx += n.x * 0.006 * alpha * (rx / ry - 1);
+      const k = Math.hypot(n.x / rx, n.y / ry, n.z / rz);
+      if (k > 1) { const f = (1 - 1 / k) * 0.25 * alpha * 10; n.vx -= n.x * f * 0.1; n.vy -= n.y * f * 0.1; n.vz -= n.z * f * 0.1; }
+    }
+  });
+  // Distância da câmera calculada para a altura da teia caber na janela
+  const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return (R * 0.8) / Math.tan(fov / 2); };
+  const HOME = { x: 0, y: 30, z: fitDist() };
   Graph.cameraPosition(HOME);
 
   // Na abertura a teia sobe um pouco para dar espaço ao texto
@@ -112,7 +126,12 @@
   controls.autoRotateSpeed = 0.35;
   controls.enableDamping = true;
   controls.addEventListener('start', () => { controls.autoRotate = false; $('#hint').style.opacity = 0; });
-  addEventListener('resize', () => Graph.width(innerWidth).height(innerHeight));
+  addEventListener('resize', () => {
+    Graph.width(innerWidth).height(innerHeight);
+    HOME.z = fitDist();
+    if (!selected) { const c = Graph.camera().position, len = Math.hypot(c.x, c.y, c.z) || 1, f = Math.hypot(HOME.y, HOME.z) / len; Graph.cameraPosition({ x: c.x * f, y: c.y * f, z: c.z * f }); }
+    Graph.d3ReheatSimulation();
+  });
 
   function refresh() {
     Graph.linkColor(Graph.linkColor()).linkWidth(Graph.linkWidth())
@@ -151,7 +170,36 @@
       labelLayer.appendChild(el); labels.set(n.id, el);
     }
   }
+  // Hover: a esfera vem para a frente pelo raio da câmera (fica sob o mouse) e puxa as ligadas
+  let lifted = null, liftT = 0, liftTimer = null;
+  function wantLift(n) {
+    clearTimeout(liftTimer);
+    if (reduceMotion || document.body.classList.contains('intro')) return;
+    if (n && (n.tipo === 'hub' || n.id === spreadId)) n = null;
+    if (n === lifted) return;
+    liftTimer = setTimeout(() => {
+      if (lifted) drop(lifted);
+      lifted = n; liftT = 0;
+      if (n) { n.home = { x: n.x, y: n.y, z: n.z }; Graph.d3AlphaTarget && Graph.d3ReheatSimulation(); }
+    }, n ? 140 : 450);
+  }
+  const dropping = new Set();
+  function drop(n) { n.dropT = 1; dropping.add(n); Graph.d3ReheatSimulation(); }
+  function stepLift() {
+    const cam = Graph.camera().position;
+    const place = (n, t) => {
+      const h = n.home, v = { x: cam.x - h.x, y: cam.y - h.y, z: cam.z - h.z }, l = Math.hypot(v.x, v.y, v.z) || 1, d = Math.min(110, l * 0.3) * t;
+      n.fx = h.x + v.x / l * d; n.fy = h.y + v.y / l * d; n.fz = h.z + v.z / l * d;
+    };
+    if (lifted) { liftT += (1 - liftT) * 0.08; place(lifted, liftT); }
+    for (const n of dropping) {
+      n.dropT += (0 - n.dropT) * 0.08;
+      if (n.dropT < 0.02 || n === lifted) { dropping.delete(n); if (n !== lifted && n.id !== spreadId) { n.fx = n.fy = n.fz = undefined; } }
+      else place(n, n.dropT);
+    }
+  }
   function draw() {
+    stepLift();
     const cam = Graph.camera(), t = controls.target;
     const dir = { x: t.x - cam.position.x, y: t.y - cam.position.y, z: t.z - cam.position.z };
     const f = focusId();
@@ -351,10 +399,10 @@
 
   // Lightbox das galerias
   document.addEventListener('click', (e) => {
-    const img = e.target.closest('.gallery img');
+    const img = e.target.closest('.gallery img, .gallery video');
     if (!img) return;
     const lb = document.createElement('div'); lb.className = 'lightbox';
-    lb.innerHTML = `<img src="${img.getAttribute('src')}" alt="">`;
+    lb.innerHTML = img.tagName === 'VIDEO' ? `<video src="${img.getAttribute('src')}" autoplay muted loop playsinline></video>` : `<img src="${img.getAttribute('src')}" alt="">`;
     lb.addEventListener('click', () => lb.remove());
     document.body.appendChild(lb);
   });

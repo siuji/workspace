@@ -12,6 +12,6 @@ This is the operation that brought me to Monks. Whirlpool operates in Brazil und
 
 <div class="stats"><div><b>27</b><span>FTEs, 100% dedicated</span></div><div><b>592</b><span>performance campaigns</span></div></div>
 
-Data from Oct 2020 to Jun 2023.
+<p class="caption">Data from Oct 2020 to Jun 2023.</p>
 
-<div class="gallery"><img src="media/work/whirlpool/05.jpg" width="360" height="360" loading="lazy" alt=""><img src="media/work/whirlpool/06.jpg" width="1080" height="1080" loading="lazy" alt=""><img src="media/work/whirlpool/08.jpg" width="1600" height="900" loading="lazy" alt=""><img src="media/work/whirlpool/09.jpg" width="900" height="1600" loading="lazy" alt=""><img src="media/work/whirlpool/12.jpg" width="1200" height="1200" loading="lazy" alt=""><img src="media/work/whirlpool/11.jpg" width="1600" height="367" loading="lazy" alt=""><img src="media/work/whirlpool/13.jpg" width="1600" height="337" loading="lazy" alt=""></div>
+<div class="gallery"><img src="media/work/whirlpool/05.jpg" width="360" height="360" loading="lazy" alt=""><img src="media/work/whirlpool/06.jpg" width="1080" height="1080" loading="lazy" alt=""><img src="media/work/whirlpool/08.jpg" width="1600" height="900" loading="lazy" alt=""><img src="media/work/whirlpool/09.jpg" width="900" height="1600" loading="lazy" alt=""><video src="media/work/whirlpool/12.mp4" poster="media/work/whirlpool/12.jpg" width="1200" height="1200" autoplay muted loop playsinline preload="auto"></video><img src="media/work/whirlpool/11.jpg" width="1600" height="367" loading="lazy" alt=""><img src="media/work/whirlpool/13.jpg" width="1600" height="337" loading="lazy" alt=""></div>

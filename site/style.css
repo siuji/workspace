@@ -345,3 +345,35 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .panel h1.brand img { max-width: min(230px, 55%); max-height: 54px; }
 .prose .rows { grid-template-columns: 96px max-content max-content; justify-content: center; column-gap: 34px; margin-left: -20px; margin-right: -20px; }
 .prose .rows .rows-title { grid-column: 1 / -1; text-align: center; margin: 26px 0 6px; }
+
+/* ===== Régua tipográfica e de espaçamento dos painéis =====
+   Tamanhos: título 46 · seção 20 · corpo 16 · tabela 15 · legenda 12 (mono)
+   Espaços: 8 · 16 · 32 · 48 */
+.panel { --s1: 8px; --s2: 16px; --s3: 32px; --s4: 48px; }
+.panel .kicker { margin: 0 0 var(--s2); }
+.panel h1 { font-size: clamp(36px, 4vw, 46px); margin: 0 0 var(--s2); }
+.panel .lede, .prose h2, .prose .rows .rows-title { font: 300 20px/1.45 var(--sans); color: var(--ink); opacity: 1; letter-spacing: 0; }
+.panel .lede { margin: 0 auto var(--s4); max-width: 34em; }
+.prose { font-size: 16px; line-height: 1.7; }
+.prose p { margin: 0 0 var(--s2); }
+.prose h2 { margin: var(--s4) 0 var(--s2); }
+.prose h3:not(.sector) { font: 400 16px/1.4 var(--sans); margin: var(--s3) 0 var(--s1); }
+.prose .rows { margin: var(--s3) -20px var(--s3); row-gap: 14px; }
+.prose .rows > .row > span { font-size: 15px; line-height: 1.6; }
+.prose .row > span:first-child { font: 400 12px/2 var(--mono); }
+.prose .rows .rows-title { margin: var(--s4) 0 var(--s2); }
+.prose .rows .rows-title:first-child { margin-top: 0; }
+.prose ul:not(.logos):not(.pills) li { font-size: 15px; }
+.prose .stats { margin: var(--s4) 0; }
+.prose .stats b { font-size: 46px; }
+.prose .stats span, .prose .stats + p, .prose .caption { font-size: 12px; }
+.prose .gallery, .prose .video { margin-top: var(--s3); margin-bottom: var(--s3); }
+.prose .socials, .prose .cta, .prose .chips { margin-top: var(--s3); margin-bottom: var(--s3); }
+.prose h3.sector, .panel.wide .prose h3.sector, .prose .pane h3.sector { font: 400 12px var(--mono); letter-spacing: .16em; margin: var(--s4) 0 var(--s2); }
+.connections { margin-top: var(--s4); padding-top: var(--s3); }
+.connections h2 { font: 400 12px var(--mono); letter-spacing: .16em; margin: 0 0 var(--s2); }
+.prose .lede-note { font-size: 12px; color: var(--muted); }
+.lightbox video { max-width: 92vw; max-height: 90vh; border-radius: 10px; }
+.prose .caption { color: var(--muted); font-family: var(--mono); letter-spacing: .04em; margin-top: calc(-1 * var(--s3)); }
+.panel .lede { margin-bottom: var(--s3); }
+.prose > :first-child { margin-top: 0; }
