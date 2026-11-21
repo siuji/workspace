@@ -300,3 +300,15 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .panel.wide .prose { max-width: none; }
 .panel.wide .prose ul.logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 64px 40px; margin: 40px 0 48px; padding: 0; }
 .panel.wide .prose ul.logos li { height: 70px; }
+/* Cases: números e galeria */
+.prose .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 44px; margin: 30px 0 34px; }
+.prose .stats div { display: flex; flex-direction: column; align-items: center; max-width: 180px; }
+.prose .stats b { font: 200 44px/1 var(--sans); letter-spacing: -.02em; background-image: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.prose .stats span { margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.prose .gallery { columns: 3 150px; column-gap: 12px; margin: 30px -20px 10px; }
+.prose .gallery img { display: block; width: 100%; height: auto; margin: 0 0 12px; border-radius: 12px; break-inside: avoid; cursor: zoom-in; background: color-mix(in srgb, var(--ink) 5%, transparent); transition: opacity .2s; }
+.prose .gallery img:hover { opacity: .85; }
+.prose ul.logos a { display: flex; align-items: center; justify-content: center; }
+.lightbox { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; background: rgba(5,5,8,.88); backdrop-filter: blur(8px); cursor: zoom-out; animation: lb-in .25s ease both; }
+.lightbox img { max-width: 92vw; max-height: 90vh; border-radius: 10px; box-shadow: 0 30px 120px rgba(0,0,0,.5); }
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }

@@ -299,6 +299,17 @@
     if (e.key === 'Escape') { if (!$('#results').hidden) return hideResults(); if (selected) go(''); }
   });
 
+  // Lightbox das galerias
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('.gallery img');
+    if (!img) return;
+    const lb = document.createElement('div'); lb.className = 'lightbox';
+    lb.innerHTML = `<img src="${img.getAttribute('src')}" alt="">`;
+    lb.addEventListener('click', () => lb.remove());
+    document.body.appendChild(lb);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const lb = $('.lightbox'); if (lb) { lb.remove(); e.stopImmediatePropagation(); } } }, true);
+
   // Busca
   const search = $('.search'), input = $('#search'), results = $('#results');
   const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();

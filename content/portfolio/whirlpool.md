@@ -1,0 +1,16 @@
+---
+titulo: Whirlpool
+tipo: work
+resumo: "Brastemp, Consul, Compra Certa, Ecohouse and KitchenAid in a single journey."
+data: Monks
+conecta: [clients, monks]
+---
+A big task with a main challenge: bring more visibility and results in D2C channels. With well-established operational processes, a single team generated thousands of relevant assets, making sure the performance-focused creative work had real impact.
+
+This is the operation that brought me to Monks. Whirlpool operates in Brazil under several brands, and we delivered for all of them. I joined to make the whole operation run: creative, but also client relationship, account management and operations.
+
+<div class="stats"><div><b>27</b><span>FTEs, 100% dedicated</span></div><div><b>592</b><span>performance campaigns</span></div></div>
+
+Data from Oct 2020 to Jun 2023.
+
+<div class="gallery"><img src="media/work/whirlpool/05.jpg" width="360" height="360" loading="lazy" alt=""><img src="media/work/whirlpool/06.jpg" width="1080" height="1080" loading="lazy" alt=""><img src="media/work/whirlpool/08.jpg" width="1600" height="900" loading="lazy" alt=""><img src="media/work/whirlpool/09.jpg" width="900" height="1600" loading="lazy" alt=""><img src="media/work/whirlpool/12.jpg" width="1200" height="1200" loading="lazy" alt=""><img src="media/work/whirlpool/11.jpg" width="1600" height="367" loading="lazy" alt=""><img src="media/work/whirlpool/13.jpg" width="1600" height="337" loading="lazy" alt=""></div>
