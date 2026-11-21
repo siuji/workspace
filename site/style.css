@@ -468,3 +468,5 @@ body.classic .top { z-index: 41; }
 .orb-text { --orb-ink: rgba(28, 26, 34, .74); }
 .on-name { font-weight: 200; color: var(--orb-ink); }
 .on-role { font-weight: 300; color: var(--orb-ink); }
+.prose .badge-line { text-align: center; margin: 0 0 var(--s3, 32px); }
+.prose .badge-line .major { font-size: 12px; padding: 7px 14px; }

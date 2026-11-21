@@ -4,7 +4,7 @@ tipo: life
 resumo: Every race, from Curitiba 2009 to Santiago 2026.
 conecta: [endurance]
 ---
-<span class="major">Major</span> marks the 6 Abbott World Marathon Majors.
+<p class="badge-line"><span class="major">Abbott World Marathon Majors Finisher</span></p>
 
 - **2026** · Santiago · 3:41:53
 - **2025** · Osaka · 4:12:12
