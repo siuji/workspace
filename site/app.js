@@ -767,7 +767,7 @@
       if (location.hash === '#/' + target) route(); else go(target);
     }, reduceMotion ? 0 : ENTRY_MS + 500);
   }
-  $('#enter').addEventListener('click', () => { if (window.WS_SOUND) { WS_SOUND.start(true); setTimeout(() => WS_SOUND.enter(), 60); } enter(); });
+  $('#enter').addEventListener('click', () => { if (window.WS_SOUND) { WS_SOUND.start(); setTimeout(() => WS_SOUND.enter(), 60); } enter(); });
 
   if (SKIP || (deepLink && !needGate)) enter();
   else setTimeout(nextLine, reduceMotion ? 0 : 900);

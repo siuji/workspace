@@ -61,10 +61,10 @@
     voices.forEach((v, i) => { const f = hz(ch.r + 12 + ch.t[i]); v.a.frequency.setTargetAtTime(f, t, glide); v.b.frequency.setTargetAtTime(f * (i === 3 ? 2 : 1), t, glide); });
   }
 
-  // Trilha: 92 bpm, progressão em ré menor que muda a cada 2 compassos, camadas que entram e saem a cada 8 compassos
-  // (bumbo macio, chimbal, baixo sincopado, arpejo com eco). Padrões sorteados: nunca toca igual por muito tempo.
-  const BPM = 92, STEP = 60 / BPM / 4;
-  const PROG = [{ r: 38, t: [0, 7, 15, 19] }, { r: 34, t: [0, 7, 16, 19] }, { r: 41, t: [0, 7, 16, 21] }, { r: 36, t: [0, 7, 14, 16] }];
+  // Trilha original, clima de estrada (groove motorik, reto e hipnótico): 116 bpm, mi menor, baixo em colcheias constantes,
+  // "guitarra" abafada nos contratempos, bumbo e caixa macios, arpejo com eco. Camadas entram e saem a cada 8 compassos.
+  const BPM = 116, STEP = 60 / BPM / 4;
+  const PROG = [{ r: 40, t: [0, 7, 15, 19] }, { r: 40, t: [0, 7, 15, 22] }, { r: 38, t: [0, 7, 16, 19] }, { r: 36, t: [0, 7, 16, 23] }];
   let seq = null, step = 0, nextT = 0, layers = null, arpPat = [], bassPat = [], bus = null, delay = null;
   function buildSeq() {
     bus = ctx.createGain(); bus.gain.value = 0.55; bus.connect(amb);
@@ -73,17 +73,35 @@
     delay.connect(dl).connect(fb).connect(delay); dl.connect(bus);
   }
   function newPatterns() {
-    const n = 8; arpPat = Array.from({ length: n }, () => (Math.random() < 0.82 ? Math.floor(Math.random() * 6) : -1));
-    const B = [[0, -1, -1, 0, -1, -1, 7, -1, 0, -1, -1, 0, -1, 12, -1, -1], [0, -1, -1, -1, 0, -1, -1, 7, -1, -1, 0, -1, -1, -1, 5, -1], [0, -1, 0, -1, -1, -1, 7, -1, -1, 0, -1, -1, 10, -1, -1, -1]];
+    const n = 8; arpPat = Array.from({ length: n }, () => (Math.random() < 0.6 ? Math.floor(Math.random() * 6) : -1));
+    // baixo em colcheias, quase sempre na tônica, com uma ou outra subida de quinta/oitava no fim do compasso
+    const B = [[0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 7, -1], [0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 12, -1, 7, -1], [0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1], [0, -1, 0, -1, 0, -1, 12, -1, 0, -1, 0, -1, 0, -1, 10, -1]];
     bassPat = pick(B);
   }
   function section(bar) {
-    // a cada 8 compassos, sorteia quais camadas tocam (sempre com algo de pulso, às vezes um respiro só com pad e arpejo)
+    // começa com baixo e guitarra, a bateria entra no compasso 4; depois, a cada 8 compassos, sorteia camadas (às vezes um respiro)
+    if (bar === 0) { layers = { kick: false, snare: false, hat: false, bass: true, gtr: true, arp: false }; newPatterns(); return; }
+    if (bar === 4) { layers = { kick: true, snare: true, hat: true, bass: true, gtr: true, arp: false }; return; }
     if (bar % 8) return;
-    const breath = bar > 0 && Math.random() < 0.22;
-    layers = bar === 0 ? { kick: false, hat: false, bass: false, arp: true } : breath ? { kick: false, hat: false, bass: Math.random() < 0.4, arp: true } : { kick: true, hat: Math.random() < 0.8, bass: true, arp: Math.random() < 0.85 };
-    if (bar === 8) layers = { kick: true, hat: false, bass: true, arp: true };
+    const breath = Math.random() < 0.18;
+    layers = breath ? { kick: false, snare: false, hat: true, bass: true, gtr: false, arp: true } : { kick: true, snare: true, hat: true, bass: true, gtr: Math.random() < 0.85, arp: Math.random() < 0.5 };
     newPatterns();
+  }
+  function snare(t, v) {
+    if (!noiseBuf) hat(t, 0);
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 0.8;
+    g.gain.setValueAtTime(0.16 * v, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+    s.connect(f).connect(g).connect(bus); g.connect(verb); s.start(t); s.stop(t + 0.2);
+  }
+  // "Guitarra" abafada: acorde curto em dente de serra passando por um filtro fechado
+  function gtr(t, ch, v) {
+    const f = ctx.createBiquadFilter(), g = ctx.createGain();
+    f.type = 'lowpass'; f.frequency.setValueAtTime(1400, t); f.frequency.exponentialRampToValueAtTime(380, t + 0.12); f.Q.value = 2;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.05 * v, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+    let out = g; if (ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = -0.35; g.connect(p); out = p; }
+    f.connect(g); out.connect(bus);
+    [0, 7, 12].forEach((k, i) => { const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(hz(ch.r + 12 + k), t); o.detune.value = (i - 1) * 6; o.connect(f); o.start(t); o.stop(t + 0.2); });
   }
   function kick(t, v) {
     const o = ctx.createOscillator(), g = ctx.createGain();
@@ -119,12 +137,14 @@
     while (nextT < ctx.currentTime + 0.15) {
       const s16 = step % 16, bar = Math.floor(step / 16), ch = PROG[Math.floor(bar / 2) % PROG.length];
       if (s16 === 0) { section(bar); if (bar % 2 === 0) chord(false, ch, nextT); if (bar % 4 === 0 && Math.random() < 0.5) newPatterns(); }
-      const swing = s16 % 2 ? STEP * 0.12 : 0, t = nextT + swing;
-      if (layers.kick && (s16 === 0 || s16 === 8 || (s16 === 11 && Math.random() < 0.25))) kick(t, s16 === 0 ? 1 : 0.8);
-      if (layers.hat && s16 % 4 === 2) hat(t, rnd(0.6, 1));
-      if (layers.hat && s16 % 2 === 1 && Math.random() < 0.3) hat(t, rnd(0.25, 0.45));
-      const b = bassPat[s16]; if (layers.bass && b >= 0) bass(t, ch.r + b, STEP * 2.6);
-      if (layers.arp && s16 % 2 === 0) { const k = arpPat[(s16 / 2) % arpPat.length]; if (k >= 0) { const tones = [0, ch.t[1], ch.t[2], ch.t[3], 12 + ch.t[2], 24]; pluck(t, ch.r + 24 + tones[k], rnd(0.55, 1)); } }
+      const t = nextT;
+      if (layers.kick && s16 % 4 === 0) kick(t, s16 === 0 ? 1 : 0.75);
+      if (layers.snare && (s16 === 4 || s16 === 12)) snare(t, s16 === 12 ? 1 : 0.85);
+      if (layers.hat && s16 % 2 === 0) hat(t, s16 % 4 === 2 ? rnd(0.7, 1) : rnd(0.3, 0.5));
+      const b = bassPat[s16]; if (layers.bass && b >= 0) bass(t, ch.r - 12 + b, STEP * 1.7);
+      if (layers.gtr && s16 % 4 === 2) gtr(t, ch, rnd(0.7, 1));
+      if (layers.gtr && s16 === 14 && Math.random() < 0.4) gtr(t + STEP, ch, 0.6);
+      if (layers.arp && s16 % 2 === 0) { const k = arpPat[(s16 / 2) % arpPat.length]; if (k >= 0) { const tones = [0, ch.t[1], ch.t[2], ch.t[3], 12 + ch.t[2], 24]; pluck(t, ch.r + 24 + tones[k], rnd(0.45, 0.8)); } }
       nextT += STEP; step++;
     }
   }
@@ -190,7 +210,7 @@
   function mark() { if (!btn) return; btn.setAttribute('aria-pressed', String(on)); btn.classList.toggle('on', on); btn.setAttribute('aria-label', on ? 'Sound off' : 'Sound on'); btn.title = on ? 'Sound off' : 'Sound on'; }
   if (btn) btn.addEventListener('click', (e) => { e.stopPropagation(); if (on) stop(); else start(true); });
   // Quem já entrou antes (e não desligou) ganha o som no primeiro clique em qualquer lugar
-  const first = () => { if (pref() === 'on') start(); removeEventListener('pointerdown', first, true); };
+  const first = () => { if (pref() !== 'off') start(); removeEventListener('pointerdown', first, true); };
   addEventListener('pointerdown', first, true);
   // Aba escondida: silencia; volta suave
   document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; master.gain.setTargetAtTime(document.hidden ? 0 : 0.9, ctx.currentTime, 0.5); });
