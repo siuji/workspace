@@ -10,3 +10,5 @@ conecta: [career]
 - **Role** · Creative Director
 
 My first time as Creative Director. Set up a multidisciplinary team for large retail, home and construction, and real estate clients. Managing the team and the workflow became as important as keeping the creative level high.
+
+**Clients** · C&C Casa e Construção, Marabraz.

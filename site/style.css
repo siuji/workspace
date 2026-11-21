@@ -315,3 +315,10 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .panel.wide .prose h3.sector { margin: 44px 0 0; font: 400 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .panel.wide .prose h3.sector + ul.logos { margin-top: 26px; }
 .prose ul.logos a, .prose ul.logos a:hover { border: 0; text-decoration: none; background: none; box-shadow: none; padding: 0; }
+.prose .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 18px 0 6px; }
+.prose .chips button { height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); background: none; color: var(--muted); font: 300 13px var(--sans); cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+.prose .chips button:hover { color: var(--ink); }
+.prose .chips button.on { color: var(--ink); border-color: color-mix(in srgb, var(--ink) 35%, transparent); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.prose ul.logos li.off { display: none; }
+.prose h3.sector.off { display: none; }
+.prose ul.logos.off { display: none; }

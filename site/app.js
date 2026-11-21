@@ -309,6 +309,20 @@
     if (e.key === 'Escape') { if (!$('#results').hidden) return hideResults(); if (selected) go(''); }
   });
 
+  // Filtro de setores em Clients
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.chips [data-filter]');
+    if (!b) return;
+    const box = b.closest('.prose'), f = b.dataset.filter;
+    box.querySelectorAll('.chips button').forEach((x) => x.classList.toggle('on', x === b));
+    box.querySelectorAll('ul.logos').forEach((ul) => {
+      let any = false;
+      ul.querySelectorAll('li').forEach((li) => { const on = f === 'all' || li.dataset.sector === f; li.classList.toggle('off', !on); any = any || on; });
+      ul.classList.toggle('off', !any);
+      const h = ul.previousElementSibling; if (h && h.matches('h3.sector')) h.classList.toggle('off', !any);
+    });
+  });
+
   // Lightbox das galerias
   document.addEventListener('click', (e) => {
     const img = e.target.closest('.gallery img');
