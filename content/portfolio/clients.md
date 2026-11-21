@@ -1,6 +1,6 @@
 ---
 titulo: Clients
-tipo: work
+tipo: area
 resumo: My main clients over the past 5 years.
 conecta: [portfolio]
 largura: wide

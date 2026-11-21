@@ -74,6 +74,7 @@ function walk(dir) {
   });
 }
 
+const HIDDEN = new Set();
 function makeGraph(notes, review = false) {
   // Resolve [[links]] pelo nome do arquivo (como o Obsidian) ou pelo título.
   const index = new Map();
@@ -109,7 +110,7 @@ function makeGraph(notes, review = false) {
     md = md.replace(/\]\((?:\.\.\/)*(?:content\/)?media\//g, '](media/');
     for (const extra of [].concat(n.data.conecta || [])) {
       const id = index.get(slugify(extra));
-      if (id) out.add(id); else warnings.push(`${n.file}: "conecta: ${extra}" não encontrado`);
+      if (id) out.add(id); else if (!HIDDEN.has(slugify(extra))) warnings.push(`${n.file}: "conecta: ${extra}" não encontrado`);
     }
     for (const id of out) addLink(n.id, id);
 
@@ -151,6 +152,7 @@ function build() {
     const base = path.basename(file, '.md');
     return { id: slugify(base), base, file: path.relative(ROOT, file), data, body };
   });
+  for (const n of all) if (n.data.publicar === false) HIDDEN.add(n.id);
   const pub = makeGraph(all.filter((n) => n.data.publicar !== false));
   const review = makeGraph(all, true);
   const { graph, warnings, types, nodes } = pub;

@@ -3,6 +3,7 @@ titulo: Casas Bahia
 tipo: work
 resumo: One of Brazil's largest retailers and advertisers. A defining chapter.
 data: 2010 – 2020
+conecta: [tvc]
 tags: [TV, internet, out of home, radio, point of sale]
 ---
 Casas Bahia was the main client of Young & Rubicam during my years there, and where I built a large part of my portfolio.
@@ -13,4 +14,4 @@ This was the phase when I produced the most films. We were shooting almost every
 
 2020 closes an era. From there I moved into digital, joining Monks in 2021.
 
-Client in [[clients]]. Agency: [[yr-2010|Young & Rubicam]].
+Client in [[clients]]. Agency: [[young-rubicam|Young & Rubicam]].
