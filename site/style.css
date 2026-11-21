@@ -434,3 +434,6 @@ body.entering #labels, body.entering #orbs, body.entering #graph { opacity: 0; }
 #labels, #orbs, #graph { transition: opacity 1.2s ease, filter 1.2s ease; }
 .prose .stats:has(> :nth-child(5):last-child) { grid-template-columns: repeat(5, 1fr); gap: 32px 16px; }
 .prose .gallery video.alpha.keyed { border-radius: 0 !important; background: transparent; object-fit: contain; }
+.prose ul.logos .logo-text { font: 500 26px/1 var(--sans); letter-spacing: -.01em; color: var(--muted); }
+.prose ul.logos li:hover .logo-text { color: var(--ink); }
+.prose .intro p { margin: 0 0 14px; }

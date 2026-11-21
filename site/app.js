@@ -66,7 +66,7 @@
   const linkCall = (l) => calling && linkEnds(l).includes(calling);
   const sizeOf = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
   // Camadas: o profissional fica à frente; o pessoal vai para trás, menor e mais apagado
-  const BACK_AREAS = new Set(CFG.backAreas || ['personal', 'endurance', 'photography', 'social', 'tools', 'education']);
+  const BACK_AREAS = new Set(CFG.backAreas || ['about-me', 'endurance', 'photography', 'social', 'tools', 'education']);
   const back = new Set();
   for (const id of BACK_AREAS) {
     if (!byId.has(id)) continue;
@@ -103,18 +103,18 @@
     .onBackgroundClick(() => { if (selected) go(''); });
 
   if (params.has('debug')) window.WS_GRAPH = Graph;
-  Graph.d3Force('charge').strength((n) => (back.has(n.id) ? -70 : -180));
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 90 : 130) : t.includes('area') ? 70 : 50; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
+  Graph.d3Force('charge').strength((n) => (back.has(n.id) ? -110 : -260));
+  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 120 : 170) : t.includes('area') ? 95 : 65; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
   // Contenção: a teia ocupa a janela toda (elipsoide mais largo em telas largas) sem fugir das bordas
-  const R = 230;
-  const shape = () => ({ rx: R * Math.min(1.6, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
+  const R = 300;
+  const shape = () => ({ rx: R * Math.min(1.9, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
   Graph.d3Force('contain', (alpha) => {
     const { rx, ry, rz } = shape();
     for (const n of data.nodes) {
       if (n.fx !== undefined || n.x === undefined) continue;
-      n.vx += n.x * 0.006 * alpha * (rx / ry - 1);
+      n.vx += n.x * 0.014 * alpha * (rx / ry - 1);
       const k = Math.hypot(n.x / rx, n.y / ry, n.z / rz);
-      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 120) { const g = (1 - 120 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
+      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 190) { const g = (1 - 190 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
       if (k > 0.85) { const f = (1 - 0.85 / k) * 0.7 * alpha; n.vx -= n.x * f; n.vy -= n.y * f; n.vz -= n.z * f; }
     }
   });
@@ -122,6 +122,25 @@
   const fitDist = () => { const fov = (Graph.camera().fov || 40) * Math.PI / 180; return (R * 0.88) / Math.tan(fov / 2); };
   const HOME = { x: 0, y: 0, z: fitDist() };
   Graph.cameraPosition(HOME);
+  // Enquadramento pela teia real: a câmera chega até a teia ocupar a janela (com a rotação em volta do eixo vertical)
+  function fitNodes() {
+    const t = Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), a = innerWidth / innerHeight, m = 0.86;
+    let need = 0;
+    for (const n of data.nodes) {
+      if (n.x === undefined || n.tipo === 'hub') continue;
+      const rxz = Math.hypot(n.x, n.z);
+      need = Math.max(need, rxz / (t * a * m), Math.abs(n.y) / (t * m) + rxz * 0.6);
+    }
+    return need ? Math.max(260, need) : 0;
+  }
+  function refit(ms) {
+    const z = fitNodes(); if (!z) return;
+    HOME.z = z;
+    if (selected || document.body.classList.contains('intro')) return;
+    const c = Graph.camera().position, len = Math.hypot(c.x, c.y, c.z) || 1, f = z / len;
+    Graph.cameraPosition({ x: c.x * f, y: c.y * f, z: c.z * f }, undefined, reduceMotion ? 0 : ms);
+  }
+  Graph.onEngineStop(() => refit(1400));
 
   // Na abertura a teia sobe um pouco para dar espaço ao texto
   const controls = Graph.controls();
@@ -131,8 +150,7 @@
   controls.addEventListener('start', () => { controls.autoRotate = false; $('#hint').style.opacity = 0; });
   addEventListener('resize', () => {
     Graph.width(innerWidth).height(innerHeight);
-    HOME.z = fitDist();
-    if (!selected) { const c = Graph.camera().position, len = Math.hypot(c.x, c.y, c.z) || 1, f = Math.hypot(HOME.y, HOME.z) / len; Graph.cameraPosition({ x: c.x * f, y: c.y * f, z: c.z * f }); }
+    refit(0);
     Graph.d3ReheatSimulation();
   });
 
