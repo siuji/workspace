@@ -1,5 +1,6 @@
 ---
 titulo: Casas Bahia
+destaque: true
 logo: casas-bahia
 tipo: work
 resumo: "15 years of my career dedicated to one of Brazil's largest retail advertisers."

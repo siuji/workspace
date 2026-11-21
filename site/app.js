@@ -67,7 +67,10 @@
   const linkEnds = (l) => [typeof l.source === 'object' ? l.source.id : l.source, typeof l.target === 'object' ? l.target.id : l.target];
   const linkLit = (l) => { const f = focusId(); if (!f) return false; const [a, b] = linkEnds(l); return a === f || b === f; };
   const linkCall = (l) => calling && linkEnds(l).includes(calling);
-  const sizeOf = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
+  const baseSize = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
+  // destaque: área fica do tamanho das maiores áreas; filho fica maior que os outros filhos
+  const AREA_MAX = (() => { const v = data.nodes.filter((n) => n.tipo === 'area' && !n.destaque).map(baseSize).sort((a, b) => b - a); return v.length > 1 ? (v[0] + v[1]) / 2 : v[0] || 8; })();
+  const sizeOf = (n) => (!n.destaque ? baseSize(n) : n.tipo === 'area' ? AREA_MAX : Math.max(baseSize(n), AREA_MAX * 0.62));
   // Camadas: o profissional fica à frente; o pessoal vai para trás, menor e mais apagado
   const BACK_AREAS = new Set(CFG.backAreas || ['about-me', 'endurance', 'photography', 'social', 'tools', 'education']);
   const back = new Set();

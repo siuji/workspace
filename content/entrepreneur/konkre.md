@@ -1,5 +1,6 @@
 ---
 titulo: Konkrë Living Design
+destaque: true
 rotulo: Konkrë
 logo: konkre
 tipo: venture
