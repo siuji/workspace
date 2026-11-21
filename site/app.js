@@ -387,11 +387,19 @@
   // Painel: a esfera clicada vem para frente e se expande numa tela de vidro
   const panel = $('#panel');
   let openTimer = null;
+  const CFG_ROOT = 'paulo-asano';
   function renderPanel(n) {
     const conns = [...neighbors.get(n.id)].map((id) => byId.get(id))
       .sort((a, b) => (a.tipo === 'hub' ? -1 : b.tipo === 'hub' ? 1 : a.ordem - b.ordem || a.titulo.localeCompare(b.titulo)));
     const type = TYPES[n.tipo] || { label: n.tipo };
-    $('#panel-body').innerHTML = `
+    const me = n.id === CFG_ROOT;
+    $('#panel-body').innerHTML = me ? `
+      <div class="me-head"><img class="me-photo" src="media/paulo.jpg" alt="Paulo Asano"><h1 class="me-name">Paulo<br>Asano</h1></div>
+      <p class="kicker me-role"><span class="dot" style="${dotStyle(n)}"></span>Creative Direction, Automation and AI Integration</p>
+      ${n.resumo ? `<p class="lede me-lede">${esc(n.resumo)}</p>` : ''}
+      <div class="prose">${n.html}</div>
+      ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
+        <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}` : `
       <p class="kicker"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.tipo === 'hub' ? 'Creative Direction, Automation and AI Integration' : (n.data || ''))}</p>
       ${n.logo ? `<h1 class="brand"><span class="sr">${esc(n.titulo)}</span><img class="logo-l" src="media/logos/${esc(n.logo)}.png" alt=""><img class="logo-d" src="media/logos/${esc(n.logo)}-dark.png" alt=""></h1>` : `<h1>${esc(n.titulo)}</h1>`}
       ${n.oculto ? '<span class="prov">Hidden from the public site</span>' : ''}

@@ -497,3 +497,12 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 @media (max-width: 720px) { .prose .split { grid-template-columns: 1fr; text-align: center; } .prose .split .video.vertical { max-width: 300px; margin: 0 auto; } .prose .split-text .stats { justify-content: center; } }
 .prose .split-text .stats + p { font-size: inherit; }
 .label { cursor: pointer; padding: 5px 8px; margin: 0 -8px; }
+
+/* Painel central: foto em círculo com borda esfumada + nome em 2 linhas ao lado */
+.me-head { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 8px 0 var(--s4); }
+.me-photo { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; flex: none;
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 52%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 52%, transparent 100%); }
+.panel h1.me-name { margin: 0; text-align: left; line-height: 1; font-size: clamp(40px, 4.4vw, 52px); }
+.panel .kicker.me-role { margin: 0 0 var(--s3); }
+.panel .lede.me-lede { margin-bottom: var(--s1); }
