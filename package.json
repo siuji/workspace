@@ -1,0 +1,10 @@
+{
+  "name": "workspace",
+  "private": true,
+  "description": "Workspace de Paulo Asano: grafo 3D de trabalhos, processos e ideias gerado a partir de markdown.",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --serve"
+  },
+  "engines": { "node": ">=18" }
+}
