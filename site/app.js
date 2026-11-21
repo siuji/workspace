@@ -218,7 +218,6 @@
       <p class="kicker"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.tipo === 'hub' ? 'Creative Direction, Automation and AI Integration' : type.label)}${n.data ? ` · ${esc(n.data)}` : ''}</p>
       <h1>${esc(n.titulo)}</h1>
       ${n.resumo ? `<p class="lede">${esc(n.resumo)}</p>` : ''}
-      ${n.placeholder ? '<span class="prov">Provisional copy</span>' : ''}
       ${n.capa ? `<img class="cover" src="${esc(n.capa)}" alt="">` : ''}
       <div class="prose">${n.html}</div>
       ${n.tags.length ? `<ul class="tags">${n.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
