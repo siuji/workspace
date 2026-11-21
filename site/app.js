@@ -88,8 +88,6 @@
   Graph.cameraPosition(HOME);
 
   // Na abertura a teia sobe um pouco para dar espaço ao texto
-  const LIFT = 115;
-  Graph.cameraPosition({ x: HOME.x, y: HOME.y - LIFT, z: HOME.z }, { x: 0, y: -LIFT, z: 0 });
   const controls = Graph.controls();
   controls.autoRotate = !reduceMotion;
   controls.autoRotateSpeed = 0.35;
@@ -364,7 +362,7 @@
       const target = (deepLink || hub || {}).id;
       if (!target) return;
       if (location.hash === '#/' + target) route(); else go(target);
-    }, reduceMotion ? 0 : 900);
+    }, reduceMotion ? 0 : 2000);
   }
   $('#enter').addEventListener('click', enter);
 
