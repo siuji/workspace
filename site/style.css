@@ -464,3 +464,7 @@ body.classic .panel .connections h2 { font-size: 0; }
 body.classic .panel .connections h2::after { content: 'Related'; font-size: 12px; }
 body.classic { background: var(--bg); }
 body.classic .top { z-index: 41; }
+/* Texto da esfera central: nome e cargo no mesmo cinza, mais finos */
+.orb-text { --orb-ink: rgba(28, 26, 34, .74); }
+.on-name { font-weight: 200; color: var(--orb-ink); }
+.on-role { font-weight: 300; color: var(--orb-ink); }
