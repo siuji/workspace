@@ -2,8 +2,8 @@
 titulo: Ambev
 tipo: work
 resumo: "PerfectDraft: the draft beer machine arrives in Brazil."
-data: Beverages · Monks
-mercado: beverages
+data: Consumer Brands · Monks
+mercado: consumer-brands
 midias: [d-social, d-retail-pos, d-ai-automation]
 conecta: [portfolio, monks]
 publicar: false

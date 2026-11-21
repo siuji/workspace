@@ -2,7 +2,7 @@
 titulo: Ragazzo
 logo: ragazzo
 tipo: work
-resumo: "No one saw this coming."
+resumo: "From restaurant menus to TV films: a full delivery for Brazil's largest Italian fast food chain."
 data: Food & Restaurants · Monks São Paulo
 mercado: food-restaurants
 midias: [d-film-tv, d-retail-pos, d-branding, d-ai-automation]
