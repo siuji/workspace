@@ -18,4 +18,8 @@ Clients from very different segments: luxury jewelers, department stores, school
 - **Period** · Jan 1999 – Aug 2000
 - **Role** · Art Director Assistant
 
-My first professional job. Hired as a graphic production assistant and soon promoted to the creative department.
+My first professional job, and my big school in what an advertising agency really is.
+
+Taste came first. My biggest design mentor was Magy Imoberdorf, a world-renowned visual artist, who practically adopted me as a pupil. She taught me a lot and gave me opportunities I wouldn't have had anywhere else.
+
+I started in graphic production, which was fantastic for learning processes. The agency's high volume is where I learned to run every job as strategically as possible. Soon I was promoted to the creative department.
