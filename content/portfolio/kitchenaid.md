@@ -2,7 +2,7 @@
 titulo: KitchenAid
 tipo: work
 resumo: "Performance for the most desired brand."
-data: Whirlpool · Monks
+data: Consumer Brands · Whirlpool · Monks
 conecta: [whirlpool]
 ---
 How do you create hard-sell communication for a highly sophisticated brand?

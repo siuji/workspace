@@ -63,6 +63,15 @@
   const linkLit = (l) => { const f = focusId(); if (!f) return false; const [a, b] = linkEnds(l); return a === f || b === f; };
   const linkCall = (l) => calling && linkEnds(l).includes(calling);
   const sizeOf = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
+  // Camadas: o profissional fica à frente; o pessoal vai para trás, menor e mais apagado
+  const BACK_AREAS = new Set(CFG.backAreas || ['endurance', 'photography', 'social', 'tools', 'education']);
+  const back = new Set();
+  for (const id of BACK_AREAS) {
+    if (!byId.has(id)) continue;
+    const q = [id]; back.add(id);
+    while (q.length) { const c = q.shift(); for (const m of neighbors.get(c)) { const t = byId.get(m); if (back.has(m) || t.tipo === 'hub' || (t.tipo === 'area' && !BACK_AREAS.has(m))) continue; back.add(m); q.push(m); } }
+  }
+  const isBack = (n) => back.has(n.id);
 
   // A teia nasce já assentada (sem tranco) e os nós vão acendendo aos poucos
   const revealed = new Set();
@@ -92,7 +101,7 @@
     .onBackgroundClick(() => { if (selected) go(''); });
 
   Graph.d3Force('charge').strength(-180);
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; return t.includes('hub') ? 175 : t.includes('area') ? 70 : 50; });
+  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; return t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 150) : t.includes('area') ? 70 : 50; });
   const HOME = { x: 0, y: 40, z: 520 };
   Graph.cameraPosition(HOME);
 
@@ -162,16 +171,17 @@
       }
       const ob = orbs.get(n.id), el = labels.get(n.id);
       if (behind || !revealed.has(n.id)) { ob.style.opacity = 0; el.style.opacity = 0; continue; }
-      const R = Math.cbrt(sizeOf(n)) * 4 * 1.15;
+      const R = Math.cbrt(sizeOf(n)) * 4 * 1.15 * (isBack(n) ? 0.72 : 1);
       const q = Graph.graph2ScreenCoords(n.x, n.y + R, n.z);
       const d = Math.max(6, Math.abs(q.y - p.y) * 2);
       ob.style.width = ob.style.height = d.toFixed(1) + 'px';
       ob.style.transform = `translate(${(p.x - d / 2).toFixed(1)}px, ${(p.y - d / 2).toFixed(1)}px)`;
       ob.style.zIndex = String(10000 - Math.round(dist));
       const lit = !f || n.id === f || neighbors.get(f).has(n.id);
-      ob.style.opacity = (lit ? Math.max(0.4, Math.min(1, (950 - dist) / 500)) : 0.2).toFixed(2);
+      ob.style.opacity = ((lit ? Math.max(0.4, Math.min(1, (950 - dist) / 500)) : 0.2) * (isBack(n) && !(f && lit) ? 0.55 : 1)).toFixed(2);
       const near = Math.max(0, Math.min(1, (560 - dist) / 260));
       let o = n.tipo === 'area' ? Math.max(0.6, near) : near;
+      if (isBack(n)) o *= 0.6;
       if (f) o = n.id === f || neighbors.get(f).has(n.id) ? 1 : 0.08;
       if (n.id === calling && !f) o = Math.max(o, 0.85);
       el.style.opacity = o.toFixed(2);
@@ -187,7 +197,7 @@
     if (calling) orbs.get(calling)?.classList.remove('calling');
     calling = null;
     if (!selected && !document.hidden && !reduceMotion) {
-      const pool = data.nodes.filter((n) => n.tipo !== 'hub' && n.x !== undefined);
+      const pool = data.nodes.filter((n) => n.tipo !== 'hub' && n.x !== undefined && !isBack(n));
       const areaFirst = pool.filter((n) => n.tipo === 'area');
       const list = Math.random() < 0.6 && areaFirst.length ? areaFirst : pool;
       const n = list[Math.floor(Math.random() * list.length)];

@@ -2,7 +2,7 @@
 titulo: Casas Bahia
 tipo: work
 resumo: "One of Brazil's largest retailers and advertisers. A defining chapter."
-data: Young & Rubicam
+data: Retail · Young & Rubicam
 conecta: [clients, tvc, pontofrio]
 tags: [TV, internet, out of home, radio, point of sale]
 ---

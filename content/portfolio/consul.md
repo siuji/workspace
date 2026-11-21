@@ -2,7 +2,7 @@
 titulo: Consul
 tipo: work
 resumo: "Smart solutions for everyday life."
-data: Whirlpool · Monks
+data: Consumer Brands · Whirlpool · Monks
 conecta: [whirlpool]
 ---
 Consul presented the challenge of increasing its own website's share of the brand's sales, reaching an increasingly diverse audience.

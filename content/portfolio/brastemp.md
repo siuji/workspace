@@ -2,7 +2,7 @@
 titulo: Brastemp
 tipo: work
 resumo: "Branding and performance: inseparable challenges."
-data: Whirlpool · Monks
+data: Consumer Brands · Whirlpool · Monks
 conecta: [whirlpool]
 ---
 Whirlpool's most important brand in Brazil. Elevating the sales results of Brastemp's official site becomes even more interesting with such a well-established brand.

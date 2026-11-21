@@ -2,7 +2,7 @@
 titulo: Whirlpool
 tipo: work
 resumo: "Brastemp, Consul, Compra Certa, Ecohouse and KitchenAid in a single journey."
-data: Monks
+data: Consumer Brands · Monks
 conecta: [clients, monks]
 ---
 A big task with a main challenge: bring more visibility and results in D2C channels. With well-established operational processes, a single team generated thousands of relevant assets, making sure the performance-focused creative work had real impact.

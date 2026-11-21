@@ -2,7 +2,7 @@
 titulo: Sanofi
 tipo: work
 resumo: "Creativity to go beyond localization."
-data: Monks São Paulo
+data: Health · Monks São Paulo
 conecta: [clients, monks]
 ---
 When was the last time you saw an ad that was truly tailored to a specific platform?

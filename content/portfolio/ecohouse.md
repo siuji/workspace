@@ -2,7 +2,7 @@
 titulo: Ecohouse
 tipo: work
 resumo: "Creativity to delight and solve."
-data: Whirlpool · Monks
+data: Consumer Brands · Whirlpool · Monks
 conecta: [whirlpool]
 ---
 Ecohouse Brastemp and Ecohouse Consul are Whirlpool's water purifier divisions. The work could be understood as a creative translation of the brands' benefits into an accessible language.
