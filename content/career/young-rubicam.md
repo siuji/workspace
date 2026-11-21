@@ -19,6 +19,8 @@ One of the leaders of the creative team serving Casas Bahia, one of Brazil's lar
 
 Casas Bahia showreel, 2010 to 2020. More in [[casas-bahia]].
 
+**Clients** · [[casas-bahia|Casas Bahia]], [[pontofrio|Pontofrio]].
+
 ## 2004 – 2007
 
 - **Period** · Nov 2004 – Dec 2007
