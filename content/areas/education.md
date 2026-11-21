@@ -20,5 +20,5 @@ ordem: 4
 <div class="row"><span></span><span>MESA Method</span><span></span></div>
 <div class="row"><span></span><span>Leadership Development Program</span><span>Young &amp; Rubicam</span></div>
 <div class="row"><span></span><span>Impact NYC</span><span>Yahoo</span></div>
-<div class="row"><span></span><span>Leadership program for leaders</span><span>Monks</span></div>
+<div class="row"><span></span><span>Leadership Coaching Program</span><span>WayFinder</span></div>
 </div>
