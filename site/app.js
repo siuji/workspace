@@ -101,7 +101,7 @@
     .linkDirectionalParticleSpeed((l) => (linkLit(l) ? 0.012 : linkCall(l) ? 0.008 : 0.003))
     .linkDirectionalParticleWidth((l) => (linkLit(l) ? 1.6 : 1))
     .linkDirectionalParticleColor(() => (isLight() ? '#c46a8e' : '#f3c2ae'))
-    .onNodeHover((n) => { hovered = n || null; $('#graph').style.cursor = n ? 'pointer' : ''; refresh(); wantLift(n); })
+    .onNodeHover((n) => { if (n && n !== hovered) window.WS_SOUND && WS_SOUND.hover(); hovered = n || null; $('#graph').style.cursor = n ? 'pointer' : ''; refresh(); wantLift(n); })
     .onNodeClick((n) => { if (!document.body.classList.contains('intro')) go(n.id); })
     .onBackgroundClick(() => { if (selected) go(''); });
 
@@ -339,7 +339,7 @@
       const areaFirst = pool.filter((n) => n.tipo === 'area');
       const list = Math.random() < 0.6 && areaFirst.length ? areaFirst : pool;
       const n = list[Math.floor(Math.random() * list.length)];
-      if (n) { calling = n.id; orbs.get(n.id).classList.add('calling'); }
+      if (n) { calling = n.id; orbs.get(n.id).classList.add('calling'); window.WS_SOUND && WS_SOUND.call(); }
     }
     refresh();
     setTimeout(call, calling ? 5200 : 2400);
@@ -439,6 +439,7 @@
   }
   function openPanel(n, fly) {
     clearTimeout(openTimer);
+    window.WS_SOUND && WS_SOUND.open();
     const wasOpen = !panel.hidden;
     if (wasOpen) { panel.classList.remove('pop'); panel.classList.add('unpop'); }
     sway = false; Graph.cameraPosition(HOME, { x: 0, y: 0, z: 0 }, reduceMotion ? 0 : 1400);
@@ -517,7 +518,7 @@
   const kidsOf = (id) => [...neighbors.get(id)].map((k) => byId.get(k)).filter((k) => k.tipo !== 'hub' && k.id !== id && !(byId.get(id).tipo === 'area' && k.tipo === 'area' && !BACK_AREAS.has(k.id)))
     .sort((a, b) => a.ordem - b.ordem || a.titulo.localeCompare(b.titulo));
   function buildNav() {
-    const tops = [...neighbors.get(hub.id)].map((k) => byId.get(k)).filter((k) => k.tipo === 'area').sort((a, b) => a.ordem - b.ordem);
+    const tops = [...neighbors.get(hub.id)].map((k) => byId.get(k)).filter((k) => k.tipo === 'area' && !(CFG.classicHide || ['entrepreneur']).includes(k.id)).sort((a, b) => a.ordem - b.ordem);
     cnav.innerHTML = `<a class="cn-home" href="#/" data-node="">Paulo Asano</a><ul>${tops.map((t) => {
       const kids = kidsOf(t.id);
       return `<li class="cn-item"><a href="#/${t.id}" data-node="${t.id}">${esc(t.rotulo || t.titulo)}</a>${kids.length ? `<div class="cn-drop"><ul>${kids.map((k) => `<li><a href="#/${k.id}" data-node="${k.id}">${esc(k.rotulo || k.titulo)}</a></li>`).join('')}</ul></div>` : ''}</li>`;
@@ -560,7 +561,7 @@
       selected = n; openPanel(n); window.WS_TRACK && WS_TRACK.node(n.id);
       spread(n);
     } else if (selected) {
-      selected = null; closePanel(); flyHome(); spread(null);
+      selected = null; closePanel(); flyHome(); spread(null); window.WS_SOUND && WS_SOUND.close();
     }
     refresh();
   }
@@ -745,7 +746,7 @@
       if (location.hash === '#/' + target) route(); else go(target);
     }, reduceMotion ? 0 : ENTRY_MS + 500);
   }
-  $('#enter').addEventListener('click', enter);
+  $('#enter').addEventListener('click', () => { if (window.WS_SOUND) { WS_SOUND.start(true); setTimeout(() => WS_SOUND.enter(), 60); } enter(); });
 
   if (SKIP || (deepLink && !needGate)) enter();
   else setTimeout(nextLine, reduceMotion ? 0 : 900);

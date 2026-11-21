@@ -477,3 +477,11 @@ body:not(.classic) .panel.wide { width: min(1180px, calc(100vw - 340px), calc(10
 .panel.wide .prose ul.logos li { flex: 0 0 25%; height: 70px; }
 .prose ul.logos .logo-text { font: 500 32px/1 var(--sans); letter-spacing: -.02em; color: rgba(235,230,220,.88); }
 :root[data-theme="light"] .prose ul.logos .logo-text { color: #8a8690; }
+/* Som: botão redondo ao lado do tema */
+.sound-btn { width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--muted); display: inline-grid; place-items: center; cursor: pointer; transition: color .3s, border-color .3s; }
+.sound-btn:hover { color: var(--ink); border-color: var(--muted); }
+.sound-btn .w1, .sound-btn .w2 { opacity: 0; transition: opacity .3s; }
+.sound-btn.on .w1, .sound-btn.on .w2 { opacity: 1; }
+.sound-btn.on .x { opacity: 0; }
+.sound-btn.on .w2 { animation: snd 2.4s ease-in-out infinite; }
+@keyframes snd { 50% { opacity: .35; } }
