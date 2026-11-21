@@ -380,3 +380,14 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .prose .chips.deliv { margin-top: calc(-1 * var(--s3) + var(--s1)); }
 .prose .chips.deliv button { border-style: dashed; }
 .prose .caption-c { text-align: center; font-size: 13px; color: var(--muted); margin-top: var(--s3); }
+/* Bento */
+.prose .gallery { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 64px; grid-auto-flow: dense; gap: 8px; }
+.prose .gallery::after { content: none; }
+.prose .gallery img, .prose .gallery video { width: 100%; height: 100%; object-fit: cover; }
+/* Bento por linhas justificadas */
+.prose .gallery { display: flex; flex-direction: column; gap: 8px; }
+.prose .gallery .brow { display: flex; gap: 8px; align-items: stretch; }
+.prose .gallery .brow.flip { flex-direction: row-reverse; }
+.prose .gallery .bcol { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.prose .gallery .brow > img, .prose .gallery .brow > video, .prose .gallery .bcol > * { min-width: 0; width: 100%; height: auto; object-fit: cover; grid-column: auto; grid-row: auto; }
+.prose .gallery .brow > .fill { height: auto; align-self: stretch; }

@@ -2,7 +2,7 @@
 titulo: Casas Bahia
 logo: casas-bahia
 tipo: work
-resumo: "One of Brazil's largest retailers and advertisers. A defining chapter."
+resumo: "One of Brazil's largest retailers and advertisers."
 data: Retail · Young & Rubicam
 conecta: [tvc, pontofrio]
 tags: [TV, internet, out of home, radio, point of sale]

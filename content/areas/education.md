@@ -1,7 +1,7 @@
 ---
 titulo: Education
 tipo: area
-resumo: Business, photography and advertising. Still learning.
+resumo: Business, photography and advertising.
 ordem: 4
 ---
 <div class="rows">

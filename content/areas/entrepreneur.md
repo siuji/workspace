@@ -1,7 +1,7 @@
 ---
 titulo: Entrepreneur
 tipo: area
-resumo: Building things of my own.
+resumo: Konkrë Living Design.
 status: placeholder
 ordem: 2
 ---

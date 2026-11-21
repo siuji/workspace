@@ -5,7 +5,6 @@ tipo: area
 resumo: Since January 1999. Agencies, roles, teams and what each one taught me.
 ordem: 3
 ---
-{{years}} years, from production assistant to leading creative groups across continents.
 
 <div class="rows">
 <div class="row"><span>2025 – now</span><span>[[superside]]</span><span>AI Group Creative Director</span></div>

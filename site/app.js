@@ -291,7 +291,38 @@
       ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
         <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}`;
     panel.classList.toggle('wide', n.largura === 'wide');
-    panel.querySelectorAll('.gallery img, .gallery video').forEach((m) => { const r = (+m.getAttribute('width') || 4) / (+m.getAttribute('height') || 3); m.style.flex = `${r} 1 ${(r * 120).toFixed(0)}px`; m.style.aspectRatio = r.toFixed(4); });
+    // Galeria em bento por linhas justificadas: cada linha fecha a largura inteira, sem buracos.
+    // Padrão (destaque, mosaico 1+2, pares, trios) varia por cliente; vídeo ganha o destaque.
+    panel.querySelectorAll('.gallery').forEach((g) => {
+      const items = [...g.children];
+      if (items.length < 2) return;
+      const ar = (m) => (+m.getAttribute('width') || 4) / (+m.getAttribute('height') || 3);
+      const fv = items.findIndex((m) => m.tagName === 'VIDEO');
+      if (fv > 0) items.unshift(items.splice(fv, 1)[0]);
+      let k = 0, seq = 0;
+      const rnd = () => hash(n.id + 'b' + seq++);
+      const row = (cls) => { const d = document.createElement('div'); d.className = 'brow ' + cls; g.appendChild(d); return d; };
+      const put = (d, m, grow) => { m.style.flex = `${grow} 1 0`; m.style.aspectRatio = ar(m).toFixed(4); d.appendChild(m); };
+      g.textContent = '';
+      // 1º: destaque sozinho se for horizontal
+      if (ar(items[0]) > 1.2) { put(row('solo'), items[0], 1); k = 1; }
+      while (k < items.length) {
+        const left = items.length - k, r = rnd();
+        if (left >= 3 && r < 0.4) { // mosaico: um grande + coluna com 2 empilhados
+          const [A, B, C] = items.slice(k, k + 3); k += 3;
+          const d = row('mosaic' + (r < 0.2 ? ' flip' : ''));
+          const col = document.createElement('div'); col.className = 'bcol';
+          [B, C].forEach((m) => { m.style.aspectRatio = ar(m).toFixed(4); col.appendChild(m); });
+          A.style.flex = `${ar(A) * (1 / ar(B) + 1 / ar(C))} 1 0`; A.style.aspectRatio = ''; A.classList.add('fill');
+          col.style.flex = '1 1 0';
+          d.append(A, col);
+        } else {
+          const size = left <= 3 ? left : (r < 0.7 ? 2 : 3);
+          const d = row('n' + size);
+          items.slice(k, k + size).forEach((m) => put(d, m, ar(m))); k += size;
+        }
+      }
+    });
     fillYears(panel);
     panel.querySelectorAll('.prose a[href^="http"]').forEach((a) => { a.target = '_blank'; a.rel = 'noopener'; });
     panel.scrollTop = 0;

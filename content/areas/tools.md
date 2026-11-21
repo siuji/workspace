@@ -7,7 +7,6 @@ ordem: 8
 ---
 Today Claude is my main tool. It multiplies the fundamentals I built over {{years}} years in the classic creative software. Through connectors, I work with almost everything else from inside it: documents, spreadsheets, email, calendars, meetings, sites. One place to think, direct and produce.
 
-The tools change. The craft underneath is what makes them useful.
 
 ## AI
 

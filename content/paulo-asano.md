@@ -10,7 +10,7 @@ conecta: [portfolio, entrepreneur, career, education, tools, endurance, social]
 
 I use the same logic to structure big, complex projects. And I have been automating long before it had a name: systems, workflows and ways of working that make teams faster without making the work worse.
 
-Craft always matters. Scale without quality is just more noise.
+Craft always matters. Scale, without losing quality.
 
 Today I lead creative teams at Superside. I am also co-founder of Konkrë Living Design and a long-distance runner, on road and trail.
 
