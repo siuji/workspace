@@ -391,3 +391,8 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .prose .gallery .bcol { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .prose .gallery .brow > img, .prose .gallery .brow > video, .prose .gallery .bcol > * { min-width: 0; width: 100%; height: auto; object-fit: cover; grid-column: auto; grid-row: auto; }
 .prose .gallery .brow > .fill { height: auto; align-self: stretch; }
+/* Logos em destaque no topo da grade */
+.panel.wide .prose ul.logos.feat { grid-template-columns: repeat(3, 1fr); gap: 56px 40px; margin-bottom: 24px; }
+.panel.wide .prose ul.logos.feat li { height: 96px; }
+.panel.wide .prose ul.logos.feat + ul.logos { margin-top: 72px; }
+.prose .intro { max-width: 720px; margin: 0 auto var(--s4, 48px); text-align: center; }

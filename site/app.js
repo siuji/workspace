@@ -424,7 +424,11 @@
       let any = false;
       ul.querySelectorAll('li').forEach((li) => { const on = f === 'all' || (li.dataset.tags || li.dataset.sector || '').split(' ').includes(f); li.classList.toggle('off', !on); any = any || on; });
       ul.classList.toggle('off', !any);
-      const h = ul.previousElementSibling; if (h && h.matches('h3.sector')) h.classList.toggle('off', !any);
+    });
+    box.querySelectorAll('h3.sector').forEach((h) => {
+      let el = h.nextElementSibling, any = false;
+      while (el && !el.matches('h3.sector')) { if (el.matches('ul.logos') && !el.classList.contains('off')) any = true; el = el.nextElementSibling; }
+      h.classList.toggle('off', !any);
     });
   });
 
