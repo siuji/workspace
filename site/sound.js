@@ -210,7 +210,7 @@
   function mark() { if (!btn) return; btn.setAttribute('aria-pressed', String(on)); btn.classList.toggle('on', on); btn.setAttribute('aria-label', on ? 'Sound off' : 'Sound on'); btn.title = on ? 'Sound off' : 'Sound on'; }
   if (btn) btn.addEventListener('click', (e) => { e.stopPropagation(); if (on) stop(); else start(true); });
   // Quem já entrou antes (e não desligou) ganha o som no primeiro clique em qualquer lugar
-  const first = () => { if (pref() !== 'off') start(); removeEventListener('pointerdown', first, true); };
+  const first = (e) => { removeEventListener('pointerdown', first, true); if (e.target.closest && e.target.closest('#sound-btn')) return; if (pref() !== 'off') start(); };
   addEventListener('pointerdown', first, true);
   // Aba escondida: silencia; volta suave
   document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; master.gain.setTargetAtTime(document.hidden ? 0 : 0.9, ctx.currentTime, 0.5); });
