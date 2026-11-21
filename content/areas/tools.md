@@ -9,8 +9,6 @@ Today Claude is my main tool. It multiplies the fundamentals I built over {{year
 
 The tools change. The craft underneath is what makes them useful.
 
-<p><span class="todo">Draft list for review</span></p>
-
 ## AI
 
 <ul class="pills"><li>Claude</li><li>Claude Code</li><li>ChatGPT</li><li>Gemini</li><li>Midjourney</li><li>Krea</li><li>Runway</li><li>Kling</li><li>Google Veo</li><li>Flux</li><li>Magnific</li><li>Adobe Firefly</li><li>ElevenLabs</li><li>Suno</li><li>Topaz</li><li>Perplexity</li><li>NotebookLM</li></ul>

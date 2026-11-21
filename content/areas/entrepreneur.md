@@ -5,4 +5,4 @@ resumo: Building things of my own.
 status: placeholder
 ordem: 2
 ---
-Placeholder. What running my own company taught me about creative direction, and the other way around.
+I co-founded Konkrë Living Design in 2021, and today I lead its management and strategy.

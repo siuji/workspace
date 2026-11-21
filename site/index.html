@@ -103,7 +103,9 @@
   <script>
     // No celular nada de 3D é carregado
     if (!document.documentElement.classList.contains('is-mobile')) {
-      ['vendor/3d-force-graph.min.js', 'graph.js', 'app.js'].forEach(function (src) {
+      // ?review carrega também os nós escondidos
+      var review = /[?&]review\b/.test(location.search);
+      ['vendor/3d-force-graph.min.js', review ? 'graph-review.js' : 'graph.js', 'app.js'].forEach(function (src) {
         var s = document.createElement('script'); s.src = src; s.async = false; document.body.appendChild(s);
       });
     }

@@ -12,8 +12,4 @@ I co-founded Konkrë in 2021 with 2 partners, to position concrete as a high-end
 
 Today my role is management, not day-to-day operations. Product creation and development, business management (finance, HR, accounting) and the strategic vision of the company are with me.
 
-## Selected posts
-
-<p><span class="todo">Instagram posts to be selected</span></p>
-
 Part of [[entrepreneur]].

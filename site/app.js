@@ -12,6 +12,11 @@
   const data = window.WORKSPACE;
   if (!data || !window.ForceGraph3D) { document.body.classList.remove('intro'); document.body.insertAdjacentHTML('beforeend', '<p style="position:fixed;inset:auto 0 50%;text-align:center">Could not load the workspace.</p>'); return; }
   const TYPES = data.tipos;
+  // ?skip pula a abertura; ?review pula a abertura e mostra os nós escondidos, marcados
+  const params = new URLSearchParams(location.search);
+  const REVIEW = params.has('review');
+  const SKIP = REVIEW || params.has('skip');
+  if (REVIEW) document.body.insertAdjacentHTML('beforeend', '<span class="review-tag">Review mode · dashed spheres are hidden from the public site</span>');
 
   // Anos de carreira, sempre calculados a partir do início (janeiro de 1999)
   const start = new Date((CFG.careerStart || '1999-01-01') + 'T00:00:00');
@@ -123,7 +128,7 @@
   for (const n of data.nodes) {
     if (n.tipo !== 'hub') {
       const o = document.createElement('div');
-      o.className = 'node-orb';
+      o.className = 'node-orb' + (n.oculto ? ' hidden-node' : '');
       const [c1, c2] = pairOf[n.id];
       const h = hash(n.id + 'h');
       o.style.cssText = `--c1:${c1};--c2:${c2};--t:${(5 + h * 4).toFixed(1)}s;--delay:-${(h * 6).toFixed(1)}s;filter:hue-rotate(${Math.round(h * 36 - 18)}deg) saturate(.92);opacity:0`;
@@ -217,6 +222,7 @@
     $('#panel-body').innerHTML = `
       <p class="kicker"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.tipo === 'hub' ? 'Creative Direction, Automation and AI Integration' : type.label)}${n.data ? ` · ${esc(n.data)}` : ''}</p>
       <h1>${esc(n.titulo)}</h1>
+      ${n.oculto ? '<span class="prov">Hidden from the public site</span>' : ''}
       ${n.resumo ? `<p class="lede">${esc(n.resumo)}</p>` : ''}
       ${n.capa ? `<img class="cover" src="${esc(n.capa)}" alt="">` : ''}
       <div class="prose">${n.html}</div>
@@ -399,6 +405,6 @@
   }
   $('#enter').addEventListener('click', enter);
 
-  if (deepLink && !needGate) enter();
+  if (SKIP || (deepLink && !needGate)) enter();
   else setTimeout(nextLine, reduceMotion ? 0 : 900);
 })();

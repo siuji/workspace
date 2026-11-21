@@ -74,15 +74,7 @@ function walk(dir) {
   });
 }
 
-function build() {
-  const t0 = Date.now();
-  const files = walk(CONTENT).filter((f) => f.endsWith('.md'));
-  const notes = files.map((file) => {
-    const { data, body } = parseFrontmatter(fs.readFileSync(file, 'utf8'));
-    const base = path.basename(file, '.md');
-    return { id: slugify(base), base, file: path.relative(ROOT, file), data, body };
-  }).filter((n) => !n.data.rascunho_oculto && n.data.publicar !== false);
-
+function makeGraph(notes, review = false) {
   // Resolve [[links]] pelo nome do arquivo (como o Obsidian) ou pelo título.
   const index = new Map();
   for (const n of notes) {
@@ -131,6 +123,7 @@ function build() {
       data: n.data.data ? String(n.data.data) : '',
       capa: n.data.capa ? `media/${path.basename(String(n.data.capa))}` : '',
       placeholder: n.data.status === 'placeholder',
+      oculto: n.data.publicar === false,
       ordem: typeof n.data.ordem === 'number' ? n.data.ordem : 100,
       html: marked.parse(md),
     };
@@ -145,6 +138,21 @@ function build() {
   for (const n of nodes) if (!types[n.tipo]) types[n.tipo] = { label: n.tipo, color: '#8a8f98' };
 
   const graph = { geradoEm: new Date().toISOString(), tipos: types, nodes, links: [...links.values()] };
+  return { graph, warnings, types, nodes };
+}
+
+function build() {
+  const t0 = Date.now();
+  const files = walk(CONTENT).filter((f) => f.endsWith('.md'));
+  const all = files.map((file) => {
+    const { data, body } = parseFrontmatter(fs.readFileSync(file, 'utf8'));
+    const base = path.basename(file, '.md');
+    return { id: slugify(base), base, file: path.relative(ROOT, file), data, body };
+  });
+  const pub = makeGraph(all.filter((n) => n.data.publicar !== false));
+  const review = makeGraph(all, true);
+  const { graph, warnings, types, nodes } = pub;
+
 
   // Monta dist/
   fs.rmSync(DIST, { recursive: true, force: true });
@@ -153,6 +161,8 @@ function build() {
   if (fs.existsSync(media)) fs.cpSync(media, path.join(DIST, 'media'), { recursive: true });
   // graph.js (e não .json) para o site abrir até com duplo clique no index.html, sem servidor
   fs.writeFileSync(path.join(DIST, 'graph.js'), `window.WORKSPACE = ${JSON.stringify(graph).replace(/</g, '\\u003c')};\n`);
+  // Modo revisão (?review): inclui os nós escondidos, marcados
+  fs.writeFileSync(path.join(DIST, 'graph-review.js'), `window.WORKSPACE = ${JSON.stringify(review.graph).replace(/</g, '\\u003c')};\n`);
 
   // Versão em texto para buscadores e para quem está sem JavaScript
   const byType = {};
@@ -164,7 +174,7 @@ function build() {
   const v = Date.now().toString(36);
   const html = fs.readFileSync(indexHtml, 'utf8').replace('<!--FALLBACK-->', fallback)
     .replace(/(href|src)="((?:style|config|track|bg)\.(?:css|js))"/g, `$1="$2?v=${v}"`)
-    .replace(/'(vendor\/3d-force-graph\.min\.js|graph\.js|app\.js)'/g, `'$1?v=${v}'`);
+    .replace(/'(vendor\/3d-force-graph\.min\.js|graph-review\.js|graph\.js|app\.js)'/g, `'$1?v=${v}'`);
   fs.writeFileSync(indexHtml, html);
 
   for (const w of warnings) console.warn('  aviso:', w);

@@ -8,8 +8,6 @@ ordem: 6
 ---
 - **Period** · Jan 2002 – Oct 2004
 - **Role** · Creative Art Director
-- **People led** · <span class="todo">to be filled</span>
-- **Key lessons** · <span class="todo">to be filled</span>
 
 Clients from very different segments: luxury jewelers, department stores, schools, large popular clothing stores. Direct contact with big clients and the agency's leadership pushed my career forward.
 
