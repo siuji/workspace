@@ -5,7 +5,7 @@ logo: quau-burger
 tipo: work
 resumo: "Smashing a new burger branding."
 data: Food & Restaurants · Branding
-conecta: [clients]
+conecta: [portfolio]
 ---
 A bold new smash burger brand designed to be youthful, inspiring and ready to grow.
 

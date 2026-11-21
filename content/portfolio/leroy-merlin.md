@@ -4,7 +4,7 @@ logo: leroy-merlin
 tipo: work
 resumo: "AI-powered transformation: from digital-first to AOR with AI."
 data: Retail · Monks São Paulo
-conecta: [clients, monks, ai-systems]
+conecta: [monks, ai-systems]
 ---
 Leading the digital transformation for Leroy Merlin Brazil, a prominent home improvement retailer with over 50 stores, presented a unique challenge: evolving our digital-first agency into a full-fledged Agency of Record (AOR). Leveraging new AI capabilities, we scaled ideas, streamlined production, and balanced digital agility with traditional craft.
 

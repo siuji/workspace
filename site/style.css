@@ -377,3 +377,6 @@ body.intro .finder { opacity: 0; pointer-events: none; }
 .prose .caption { color: var(--muted); font-family: var(--mono); letter-spacing: .04em; margin-top: calc(-1 * var(--s3)); }
 .panel .lede { margin-bottom: var(--s3); }
 .prose > :first-child { margin-top: 0; }
+.prose .chips.deliv { margin-top: calc(-1 * var(--s3) + var(--s1)); }
+.prose .chips.deliv button { border-style: dashed; }
+.prose .caption-c { text-align: center; font-size: 13px; color: var(--muted); margin-top: var(--s3); }

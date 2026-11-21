@@ -4,7 +4,7 @@ logo: youtube
 tipo: work
 resumo: "An integrated agency team, with a focus on opportunities to increase team impact and effectiveness."
 data: Tech & Media · Monks
-conecta: [clients, monks]
+conecta: [monks]
 ---
 As Group Creative Director at Monks, 100% dedicated to YouTube's global structure, my main role has been to lead a diverse and plural team, leveraging talents from all corners of the world.
 

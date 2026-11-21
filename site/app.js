@@ -391,7 +391,7 @@
     box.querySelectorAll('.chips button').forEach((x) => x.classList.toggle('on', x === b));
     box.querySelectorAll('ul.logos').forEach((ul) => {
       let any = false;
-      ul.querySelectorAll('li').forEach((li) => { const on = f === 'all' || li.dataset.sector === f; li.classList.toggle('off', !on); any = any || on; });
+      ul.querySelectorAll('li').forEach((li) => { const on = f === 'all' || (li.dataset.tags || li.dataset.sector || '').split(' ').includes(f); li.classList.toggle('off', !on); any = any || on; });
       ul.classList.toggle('off', !any);
       const h = ul.previousElementSibling; if (h && h.matches('h3.sector')) h.classList.toggle('off', !any);
     });

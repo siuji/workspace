@@ -4,7 +4,7 @@ logo: pontofrio
 tipo: work
 resumo: "One of Brazil's largest retail brands."
 data: Retail · Young & Rubicam
-conecta: [clients, young-rubicam, casas-bahia, tvc]
+conecta: [young-rubicam, casas-bahia, tvc]
 ---
 In addition to delivering for [[casas-bahia]], while still in the operation dedicated to Via Varejo, I took part in rebuilding one of Brazil's largest retail brands, Pontofrio.
 

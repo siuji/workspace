@@ -4,7 +4,7 @@ logo: nubank
 tipo: work
 resumo: "Nubank Life Insurance. The ways of loving."
 data: Financial Services · Monks
-conecta: [clients, monks]
+conecta: [monks]
 ---
 One of the largest digital financial services platforms in the world ran a campaign about its life insurance. People avoid this conversation, even though the service matters. The goal was to change that narrative and make insurance a real, shareable symbol of care and love.
 

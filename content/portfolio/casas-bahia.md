@@ -4,7 +4,7 @@ logo: casas-bahia
 tipo: work
 resumo: "One of Brazil's largest retailers and advertisers. A defining chapter."
 data: Retail · Young & Rubicam
-conecta: [clients, tvc, pontofrio]
+conecta: [tvc, pontofrio]
 tags: [TV, internet, out of home, radio, point of sale]
 ---
 Casas Bahia was the main client of [[young-rubicam|Young & Rubicam]] during my years there, and where I built a large part of my portfolio. First as art director, and in the last 6 years as Creative Director, with a team of about 30 creatives. From point of sale to digital, from newspapers to TV: a true 360º delivery.

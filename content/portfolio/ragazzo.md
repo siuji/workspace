@@ -4,7 +4,7 @@ logo: ragazzo
 tipo: work
 resumo: "No one saw this coming."
 data: Food & Restaurants · Monks São Paulo
-conecta: [clients, monks, tvc]
+conecta: [monks, tvc]
 ---
 A big Brazilian fast-food chain. Leading a complete creative squad fully dedicated to the client, we invested in the craft of the productions to reverse the promotional image that was strongly tied to the brand.
 
