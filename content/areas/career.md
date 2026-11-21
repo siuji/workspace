@@ -8,7 +8,6 @@ ordem: 3
 
 <div class="rows">
 <div class="row"><span>2025 – now</span><span>[[superside]]</span><span>AI Group Creative Director</span></div>
-<div class="row"><span>2021 – now</span><span>[[konkre|Konkrë]]</span><span>Co-founder</span></div>
 <div class="row"><span>2021 – 2025</span><span>[[monks]]</span><span>Group Creative Director</span></div>
 <div class="row"><span>2010 – 2020</span><span>[[young-rubicam|Young & Rubicam]]</span><span>Creative Director, Creative Art Director</span></div>
 <div class="row"><span>2008 – 2010</span><span>[[141-worldwide]]</span><span>Creative Director</span></div>

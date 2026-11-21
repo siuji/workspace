@@ -583,15 +583,3 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .wide-photo { display: block; width: calc(100% + 48px); height: auto; margin: 0 -24px var(--s3); border-radius: 10px; }
 .prose .award { display: flex; justify-content: center; margin: calc(-1 * var(--s2)) 0 var(--s3); }
 .prose .award img { width: 92px; height: auto; border-radius: 2px; }
-
-/* Teste no celular (?mobile): painel ocupa a tela, controles menores */
-@media (max-width: 700px) {
-  .phone-preview .panel, .phone-preview body:not(.classic) .panel.wide { width: calc(100vw - 24px) !important; max-height: calc(100vh - 120px); padding-left: 20px; padding-right: 20px; }
-  .phone-preview .prose .split { grid-template-columns: 1fr; }
-  .phone-preview .prose ul.logos li { flex-basis: 50% !important; }
-  .phone-preview .hint { display: none; }
-}
-@media (max-width: 700px) {
-  .phone-preview .close { margin: -8px -6px 0 0; }
-  .phone-preview .panel .back { margin: -8px 0 0 -6px; }
-}

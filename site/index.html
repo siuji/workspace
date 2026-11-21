@@ -16,10 +16,7 @@
       var t = null; try { t = localStorage.getItem('ws-theme'); } catch (e) {} if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; document.documentElement.dataset.theme = t;
       var ua = navigator.userAgent || '';
       var phone = /Android.+Mobile|iPhone|iPod|Windows Phone|Mobi/i.test(ua) || (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 600);
-      // ?mobile libera o site completo no celular (teste), lembrado na sessão
-      var force = /[?&]mobile\b/.test(location.search); try { if (force) sessionStorage.setItem('ws-mobile', '1'); else force = sessionStorage.getItem('ws-mobile') === '1'; } catch (e) {}
-      if (force) document.documentElement.classList.add('phone-preview');
-      else if (phone || innerWidth < 640) document.documentElement.classList.add('is-mobile');
+      if (phone || innerWidth < 640) document.documentElement.classList.add('is-mobile');
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">

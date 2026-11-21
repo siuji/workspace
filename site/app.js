@@ -582,7 +582,7 @@
   const kidsOf = (id) => [...neighbors.get(id)].map((k) => byId.get(k)).filter((k) => k.tipo !== 'hub' && k.id !== id && !(byId.get(id).tipo === 'area' && k.tipo === 'area' && !BACK_AREAS.has(k.id)))
     .sort((a, b) => a.ordem - b.ordem || a.titulo.localeCompare(b.titulo));
   function buildNav() {
-    const tops = [...neighbors.get(hub.id)].map((k) => byId.get(k)).filter((k) => k.tipo === 'area' && !(CFG.classicHide || ['entrepreneur']).includes(k.id)).sort((a, b) => a.ordem - b.ordem);
+    const tops = [...neighbors.get(hub.id)].map((k) => byId.get(k)).filter((k) => k.tipo === 'area' && !(CFG.classicHide || []).includes(k.id)).sort((a, b) => a.ordem - b.ordem);
     cnav.innerHTML = `<a class="cn-home" href="#/" data-node="">Paulo Asano</a><ul>${tops.map((t) => {
       const kids = kidsOf(t.id);
       return `<li class="cn-item"><a href="#/${t.id}" data-node="${t.id}">${esc(t.rotulo || t.titulo)}</a>${kids.length ? `<div class="cn-drop"><ul>${kids.map((k) => `<li><a href="#/${k.id}" data-node="${k.id}">${esc(k.rotulo || k.titulo)}</a></li>`).join('')}</ul></div>` : ''}</li>`;
