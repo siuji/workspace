@@ -35,6 +35,9 @@
     refresh();
   }));
 
+  // Sem escolha salva, o tema acompanha o sistema da pessoa (inclusive se ela trocar com o site aberto)
+  try { matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => { let saved = null; try { saved = localStorage.getItem('ws-theme'); } catch (x) {} if (!saved) { root.dataset.theme = e.matches ? 'light' : 'dark'; refresh(); } }); } catch (e) {}
+
   // Estrutura
   const byId = new Map(data.nodes.map((n) => [n.id, n]));
   const neighbors = new Map(data.nodes.map((n) => [n.id, new Set()]));
@@ -104,17 +107,18 @@
 
   if (params.has('debug')) window.WS_GRAPH = Graph;
   Graph.d3Force('charge').strength((n) => (back.has(n.id) ? -110 : -260));
-  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 170 : 220) : t.includes('area') ? 100 : 70; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
+  Graph.d3Force('link').distance((l) => { const [a, b] = linkEnds(l); const t = [byId.get(a).tipo, byId.get(b).tipo]; const base = t.includes('hub') ? (back.has(a) || back.has(b) ? 300 : 320) : t.includes('area') ? 110 : 75; return spreadId && (a === spreadId || b === spreadId) && !t.includes('hub') ? base * 1.9 : base; });
   // Contenção: a teia ocupa a janela toda (elipsoide mais largo em telas largas) sem fugir das bordas
-  const R = 300;
+  const R = 380;
   const shape = () => ({ rx: R * Math.min(1.9, Math.max(1, innerWidth / innerHeight)), ry: R, rz: R });
   Graph.d3Force('contain', (alpha) => {
     const { rx, ry, rz } = shape();
     for (const n of data.nodes) {
       if (n.fx !== undefined || n.x === undefined) continue;
-      n.vx += n.x * 0.03 * alpha * (rx / ry - 1);
+      n.vx += n.x * 0.06 * alpha * (rx / ry - 1);
       const k = Math.hypot(n.x / rx, n.y / ry, n.z / rz);
-      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 270) { const g = (1 - 270 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
+      { const r = Math.hypot(n.x, n.y, n.z) || 1, min = n.tipo === 'area' ? 300 : 210; if (r < min) { const g = (min / r - 1) * 0.5 * alpha; n.vx += n.x * g; n.vy += n.y * g; n.vz += n.z * g; } }
+      if (back.has(n.id)) { const r = Math.hypot(n.x, n.y, n.z); if (r > 380) { const g = (1 - 380 / r) * 0.6 * alpha; n.vx -= n.x * g; n.vy -= n.y * g; n.vz -= n.z * g; } }
       if (k > 0.85) { const f = (1 - 0.85 / k) * 0.7 * alpha; n.vx -= n.x * f; n.vy -= n.y * f; n.vz -= n.z * f; }
     }
   });
@@ -124,7 +128,7 @@
   Graph.cameraPosition(HOME);
   // Enquadramento pela teia real: a câmera chega até a teia ocupar a janela (com a rotação em volta do eixo vertical)
   function fitNodes() {
-    const t = Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), a = innerWidth / innerHeight, m = 0.9;
+    const t = Math.tan(((Graph.camera().fov || 40) * Math.PI / 180) / 2), a = innerWidth / innerHeight, m = 0.84;
     let need = 0;
     for (const n of data.nodes) {
       if (n.x === undefined || n.tipo === 'hub') continue;
@@ -174,6 +178,7 @@
 
   // Esferas e rótulos em HTML que acompanham os nós
   const labelLayer = $('#labels'), orbLayer = $('#orbs'), orb = $('#orb');
+  orbLayer.appendChild(orb); // a esfera central entra na mesma camada: quem está na frente dela aparece por cima
   const labels = new Map(), orbs = new Map();
   for (const n of data.nodes) {
     if (n.tipo !== 'hub') {
@@ -252,6 +257,7 @@
         orb.style.setProperty('--d', d.toFixed(1) + 'px');
         orb.style.transform = `translate(${(p.x - d / 2).toFixed(1)}px, ${(p.y - d / 2).toFixed(1)}px)`;
         orb.style.opacity = behind ? 0 : 1;
+        orb.style.zIndex = String(10000 - Math.round(dist));
         continue;
       }
       const ob = orbs.get(n.id), el = labels.get(n.id);

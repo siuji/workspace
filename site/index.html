@@ -13,7 +13,7 @@
   <script>
     // Tema salvo e detecção de celular antes de pintar a página
     (function () {
-      try { var t = localStorage.getItem('ws-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+      var t = null; try { t = localStorage.getItem('ws-theme'); } catch (e) {} if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; document.documentElement.dataset.theme = t;
       var ua = navigator.userAgent || '';
       var phone = /Android.+Mobile|iPhone|iPod|Windows Phone|Mobi/i.test(ua) || (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 600);
       if (phone || innerWidth < 640) document.documentElement.classList.add('is-mobile');

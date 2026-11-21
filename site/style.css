@@ -44,7 +44,7 @@ button, input { font: inherit; color: inherit; }
 #bg { position: fixed; inset: 0; z-index: 0; }
 #graph { position: fixed; inset: 0; z-index: 1; transition: filter 1.2s ease; }
 #orbs { position: fixed; inset: 0; z-index: 2; pointer-events: none; transition: filter 1.6s ease, opacity 1.6s ease; }
-#orb { position: fixed; left: 0; top: 0; z-index: 3; pointer-events: none; border-radius: 50%; will-change: transform; transition: opacity 1.6s ease, filter 1.2s ease; }
+#orb { position: fixed; left: 0; top: 0; pointer-events: none; border-radius: 50%; will-change: transform; transition: opacity 1.6s ease, filter 1.2s ease; }
 #labels { position: fixed; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; transition: opacity .5s; }
 
 /* Esfera central: iridescente, pulsando como uma estrela */
@@ -430,7 +430,7 @@ body.intro .fb-btn { display: none; }
 @keyframes drift { from { background-position: 0 0; } to { background-position: 0 0; } }
 :root[data-theme="light"] #orb::before { opacity: .6; }
 @media (prefers-reduced-motion: reduce) { #orb::before { animation: none; } }
-body.entering #labels, body.entering #orbs, body.entering #graph { opacity: 0; }
+body.entering #labels, body.entering #orbs > :not(#orb), body.entering #graph { opacity: 0; }
 #labels, #orbs, #graph { transition: opacity 1.2s ease, filter 1.2s ease; }
 .prose .stats:has(> :nth-child(5):last-child) { grid-template-columns: repeat(5, 1fr); gap: 32px 16px; }
 .prose .gallery video.alpha.keyed { border-radius: 0 !important; background: transparent; object-fit: contain; }
