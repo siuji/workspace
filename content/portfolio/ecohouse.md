@@ -9,7 +9,7 @@ Ecohouse Brastemp and Ecohouse Consul are Whirlpool's water purifier divisions. 
 
 We developed awareness and performance campaigns that strengthened the brands' positioning and brought products and services closer to end consumers.
 
-<div class="stats"><div><b>171</b><span>campaigns</span></div><div><b>7,877</b><span>media deliveries</span></div><div><b>624</b><span>CRM deliveries</span></div></div>
+<div class="stats"><div><b>49M</b><span>total pieces</span></div><div><b>171</b><span>campaigns</span></div><div><b>7,877</b><span>media deliveries</span></div><div><b>624</b><span>CRM deliveries</span></div></div>
 
 Data from Oct 2020 to Jun 2023.
 

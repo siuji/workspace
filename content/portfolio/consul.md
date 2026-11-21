@@ -9,7 +9,7 @@ Consul presented the challenge of increasing its own website's share of the bran
 
 Thinking about a simpler everyday life, we created commercial strategies that met consumer needs with an empathetic and authentic perspective, boosting sales and generating more satisfied customers.
 
-<div class="stats"><div><b>130</b><span>hard-sell campaigns</span></div></div>
+<div class="stats"><div><b>6,000</b><span>media creatives</span></div><div><b>130</b><span>hard-sell campaigns</span></div></div>
 
 Data from Oct 2020 to Jun 2023.
 
