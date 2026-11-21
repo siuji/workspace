@@ -1,5 +1,6 @@
 ---
 titulo: Sanofi
+logo: sanofi
 tipo: work
 resumo: "Creativity to go beyond localization."
 data: Health · Monks São Paulo

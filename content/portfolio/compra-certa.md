@@ -1,5 +1,6 @@
 ---
 titulo: Compra Certa
+logo: compra-certa
 tipo: work
 resumo: "A brand transformation journey."
 data: Consumer Brands · Whirlpool · Monks

@@ -1,5 +1,6 @@
 ---
 titulo: Leroy Merlin
+logo: leroy-merlin
 tipo: work
 resumo: "AI-powered transformation: from digital-first to AOR with AI."
 data: Retail · Monks São Paulo

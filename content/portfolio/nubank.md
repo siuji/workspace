@@ -1,5 +1,6 @@
 ---
 titulo: Nubank
+logo: nubank
 tipo: work
 resumo: "Nubank Life Insurance. The ways of loving."
 data: Financial Services · Monks

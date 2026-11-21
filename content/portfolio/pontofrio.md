@@ -1,5 +1,6 @@
 ---
 titulo: Pontofrio
+logo: pontofrio
 tipo: work
 resumo: "One of Brazil's largest retail brands."
 data: Retail · Young & Rubicam

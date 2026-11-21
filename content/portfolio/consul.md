@@ -1,5 +1,6 @@
 ---
 titulo: Consul
+logo: consul
 tipo: work
 resumo: "Smart solutions for everyday life."
 data: Consumer Brands · Whirlpool · Monks

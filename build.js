@@ -126,6 +126,7 @@ function makeGraph(notes, review = false) {
       capa: n.data.capa ? `media/${path.basename(String(n.data.capa))}` : '',
       placeholder: n.data.status === 'placeholder',
       largura: n.data.largura || '',
+      logo: n.data.logo ? String(n.data.logo) : '',
       oculto: n.data.publicar === false,
       ordem: typeof n.data.ordem === 'number' ? n.data.ordem : 100,
       html: marked.parse(md),

@@ -1,5 +1,6 @@
 ---
 titulo: YouTube
+logo: youtube
 tipo: work
 resumo: "An integrated agency team, with a focus on opportunities to increase team impact and effectiveness."
 data: Tech & Media · Monks

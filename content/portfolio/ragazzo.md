@@ -1,5 +1,6 @@
 ---
 titulo: Ragazzo
+logo: ragazzo
 tipo: work
 resumo: "No one saw this coming."
 data: Food & Restaurants · Monks São Paulo

@@ -1,6 +1,7 @@
 ---
 titulo: Quau!? Burger
 rotulo: "Quau!? Burger"
+logo: quau-burger
 tipo: work
 resumo: "Smashing a new burger branding."
 data: Food & Restaurants · Branding

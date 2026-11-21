@@ -1,5 +1,6 @@
 ---
 titulo: Whirlpool
+logo: whirlpool
 tipo: work
 resumo: "Brastemp, Consul, Compra Certa, Ecohouse and KitchenAid in a single journey."
 data: Consumer Brands · Monks

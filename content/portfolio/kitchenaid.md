@@ -1,5 +1,6 @@
 ---
 titulo: KitchenAid
+logo: kitchenaid
 tipo: work
 resumo: "Performance for the most desired brand."
 data: Consumer Brands · Whirlpool · Monks

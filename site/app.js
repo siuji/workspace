@@ -231,7 +231,7 @@
     const type = TYPES[n.tipo] || { label: n.tipo };
     $('#panel-body').innerHTML = `
       <p class="kicker"><span class="dot" style="${dotStyle(n)}"></span>${esc(n.tipo === 'hub' ? 'Creative Direction, Automation and AI Integration' : (n.data || ''))}</p>
-      <h1>${esc(n.titulo)}</h1>
+      ${n.logo ? `<h1 class="brand"><span class="sr">${esc(n.titulo)}</span><img class="logo-l" src="media/logos/${esc(n.logo)}.png" alt=""><img class="logo-d" src="media/logos/${esc(n.logo)}-dark.png" alt=""></h1>` : `<h1>${esc(n.titulo)}</h1>`}
       ${n.oculto ? '<span class="prov">Hidden from the public site</span>' : ''}
       ${n.resumo ? `<p class="lede">${esc(n.resumo)}</p>` : ''}
       ${n.capa ? `<img class="cover" src="${esc(n.capa)}" alt="">` : ''}

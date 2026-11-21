@@ -1,5 +1,6 @@
 ---
 titulo: Brastemp
+logo: brastemp
 tipo: work
 resumo: "Branding and performance: inseparable challenges."
 data: Consumer Brands · Whirlpool · Monks
