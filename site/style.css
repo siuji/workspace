@@ -2,6 +2,8 @@
 :root {
   --bg: #0a0a0c;
   --bg-1: #121216;
+  --bg-glow: #2a2230;
+  --bg-edge: #020203;
   --ink: #ebe6dc;
   --ink-2: rgba(235, 230, 220, .78);
   --muted: #8b8780;
@@ -22,6 +24,8 @@
 :root[data-theme="light"] {
   --bg: #ffffff;
   --bg-1: #f6f4f1;
+  --bg-glow: #fffdfb;
+  --bg-edge: #d6d0c9;
   --ink: #1c1a22;
   --ink-2: rgba(28, 26, 34, .78);
   --muted: #77736d;
@@ -527,3 +531,41 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .video.wide-v { margin-left: -24px; margin-right: -24px; border-radius: 10px; }
 .prose .gallery + .video.wide-v { margin-top: calc(8px - var(--s3)); }
 .prose .video.wide-v + .gallery { margin-top: 8px; }
+
+/* Foto do perfil: modo claro = círculo recortado simples; modo escuro = recorte esfumado */
+.me-photo.me-circle { display: none; width: 104px; height: 104px; margin: 0; border-radius: 50%; object-fit: cover; }
+:root[data-theme="light"] .me-photo.me-circle { display: block; }
+:root[data-theme="light"] .me-photo.me-cut { display: none; }
+
+/* Seta de voltar: espelho do X, no canto superior esquerdo do painel */
+.panel .back { position: sticky; top: 0; float: left; margin: -24px 0 0 -28px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: transparent; cursor: pointer; color: var(--ink-2); display: grid; place-items: center; z-index: 2; }
+.panel .back[hidden] { display: none; }
+.panel .back:hover { color: var(--ink); }
+/* Filtros: rótulo acima de cada grupo (como em Threads) e chips numa linha só */
+.prose .chips.mkt, .prose .chips.deliv { flex-wrap: wrap; gap: 6px; }
+.prose .chips-label { flex: 0 0 100%; text-align: center; margin: var(--s2) 0 4px; }
+.prose .chips.mkt button, .prose .chips.deliv button { padding: 0 11px; font-size: 12.5px; }
+
+/* Esfera viva: cores girando e se misturando por dentro, pulsação mais presente (desktop e celular) */
+#orb i::after, .m-orb i::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; mix-blend-mode: soft-light; opacity: .9;
+  background:
+    radial-gradient(circle at 30% 30%, #ff7ad9 0, rgba(255,122,217,0) 38%),
+    radial-gradient(circle at 72% 40%, #ffb85c 0, rgba(255,184,92,0) 34%),
+    radial-gradient(circle at 40% 76%, #4fd6c0 0, rgba(79,214,192,0) 36%),
+    radial-gradient(circle at 76% 76%, #5b5cff 0, rgba(91,92,255,0) 34%);
+  animation: swirl 19s linear infinite;
+}
+#orb i::before, .m-orb i::before {
+  content: ''; position: absolute; inset: 8%; border-radius: 50%; mix-blend-mode: overlay; opacity: .7;
+  background: conic-gradient(from 0deg, #f19ac4, #f2a45c, #efd862, #38b7a0, #4648cf, #c983e2, #f19ac4);
+  filter: blur(calc(var(--d, 200px) * .09));
+  animation: swirl 31s linear infinite reverse;
+}
+@keyframes swirl { to { transform: rotate(360deg); } }
+@keyframes alive { 0%, 100% { transform: scale(1); } 30% { transform: scale(1.045); } 55% { transform: scale(1.015); } 78% { transform: scale(1.055); } }
+@keyframes shimmer2 { 0%, 100% { filter: blur(calc(var(--d, 200px) * .018)) saturate(.95) hue-rotate(0deg); } 33% { filter: blur(calc(var(--d, 200px) * .018)) saturate(1.08) hue-rotate(-24deg); } 66% { filter: blur(calc(var(--d, 200px) * .018)) saturate(1) hue-rotate(18deg); } }
+#orb i, .m-orb i { animation: alive 6.5s ease-in-out infinite, shimmer2 17s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { #orb i::after, .m-orb i::after, #orb i::before, .m-orb i::before { animation: none; } }
+/* Celular: mesmo fundo com luz no centro e laterais mais escuras */
+.is-mobile body { background: radial-gradient(90% 70% at 50% 34%, var(--bg-glow) 0%, var(--bg-1) 45%, var(--bg-edge) 100%) fixed; }

@@ -60,7 +60,6 @@
 
   <header class="top">
     <div class="tools">
-      <button type="button" class="icon-btn sound-btn" id="sound-btn" aria-pressed="false" aria-label="Sound on" title="Sound on"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2.5 6v4h2.6L8.5 13V3L5.1 6z"/><path class="w1" d="M10.6 6.2a2.6 2.6 0 0 1 0 3.6"/><path class="w2" d="M12.4 4.4a5.2 5.2 0 0 1 0 7.2"/><path class="x" d="M10.5 6l3.5 4M14 6l-3.5 4"/></svg></button>
       <div class="theme" role="group" aria-label="Theme">
         <button type="button" class="icon-btn" data-theme-set="dark" aria-label="Dark mode"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7z"/></svg></button>
         <button type="button" class="icon-btn" data-theme-set="light" aria-label="Light mode"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3"/></svg></button>
@@ -87,12 +86,13 @@
   <div class="finder">
     <ul id="results" class="results" hidden></ul>
     <div class="search">
-      <input id="search" type="search" placeholder="Search anything" autocomplete="off" spellcheck="false" aria-label="Search">
+      <input id="search" type="search" placeholder="Search" autocomplete="off" spellcheck="false" aria-label="Search">
       <button type="button" class="icon-btn" id="search-btn" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="7" cy="7" r="5"/><path d="m11 11 4 4"/></svg></button>
     </div>
   </div>
 
   <aside id="panel" class="panel" hidden aria-live="polite">
+    <button class="back" type="button" aria-label="Back" hidden><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7H2M6.5 2.5 2 7l4.5 4.5"/></svg></button>
     <button class="close" type="button" aria-label="Close">×</button>
     <div id="panel-body"></div>
   </aside>
@@ -102,7 +102,7 @@
   <!-- Celular: o workspace é só para desktop -->
   <main id="mobile" class="mobile">
     <div class="m-orb"><i></i><div class="ot"><span class="on">Paulo<br>Asano</span><span class="or">Creative Direction,<br>Automation and<br>AI Integration</span></div></div>
-    <p class="msg">This is a 3D space built for a <strong>bigger screen</strong>. Open it on your desktop to explore it the way it was meant to be seen.</p>
+    <p class="msg">This is a 3D space built for a <strong>bigger screen</strong>.<br>Open it on your desktop to explore it the way it was meant to be seen.</p>
     <a class="m-btn" href="https://www.linkedin.com/in/paulo-asano/" target="_blank" rel="noopener">View LinkedIn profile</a>
   </main>
 

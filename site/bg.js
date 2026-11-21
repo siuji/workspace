@@ -7,7 +7,7 @@
   const rnd = (a, b) => a + Math.random() * (b - a);
   function readTheme() {
     const s = getComputedStyle(document.documentElement);
-    col = { a: s.getPropertyValue('--bg-1').trim(), b: s.getPropertyValue('--bg').trim(), d: s.getPropertyValue('--dust').trim() };
+    col = { a: s.getPropertyValue('--bg-1').trim(), g: s.getPropertyValue('--bg-glow').trim() || s.getPropertyValue('--bg-1').trim(), e: s.getPropertyValue('--bg-edge').trim() || s.getPropertyValue('--bg').trim(), d: s.getPropertyValue('--dust').trim() };
   }
   function size() {
     W = innerWidth; H = innerHeight; c.width = W * D; c.height = H * D; c.style.width = W + 'px'; c.style.height = H + 'px'; x.setTransform(D, 0, 0, D, 0, 0);
@@ -15,8 +15,12 @@
   }
   let running = false;
   function frame(t) {
-    const g = x.createRadialGradient(W * .5, H * .45, 0, W * .5, H * .5, Math.max(W, H) * .8);
-    g.addColorStop(0, col.a); g.addColorStop(1, col.b); x.fillStyle = g; x.fillRect(0, 0, W, H);
+    // Luz irradiando da esfera central: centro claro, laterais escurecendo (respira devagar)
+    const br = reduce ? 0 : Math.sin(t * .00045) * .03;
+    const R = Math.hypot(W, H) * .58;
+    const g = x.createRadialGradient(W * .5, H * .5, 0, W * .5, H * .5, R);
+    g.addColorStop(0, col.g); g.addColorStop(.22 + br, col.g); g.addColorStop(.55 + br, col.a); g.addColorStop(1, col.e);
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
     for (const d of dust) {
       if (!reduce) { d.x = (d.x + d.dx + W) % W; d.y = (d.y + d.dy + H) % H; }
       const a = d.a * (.6 + .4 * Math.sin(t * .001 * d.v + d.p));

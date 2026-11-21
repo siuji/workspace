@@ -407,7 +407,7 @@
     const type = TYPES[n.tipo] || { label: n.tipo };
     const me = n.id === CFG_ROOT;
     $('#panel-body').innerHTML = me ? `
-      <div class="me-head"><img class="me-photo" src="media/paulo.png" alt="Paulo Asano"><h1 class="me-name">Paulo<br>Asano</h1></div>
+      <div class="me-head"><img class="me-photo me-cut" src="media/paulo.png" alt="Paulo Asano"><img class="me-photo me-circle" src="media/paulo-circle.jpg" alt=""><h1 class="me-name">Paulo<br>Asano</h1></div>
       <p class="kicker me-role"><span class="dot" style="${dotStyle(n)}"></span>Creative Direction, Automation and AI Integration</p>
       ${n.resumo ? `<p class="lede me-lede">${esc(n.resumo)}</p>` : ''}
       <div class="prose">${n.html}</div>
@@ -519,7 +519,8 @@
     setTimeout(() => { if (!selected) { panel.hidden = true; panel.classList.remove('unpop'); } }, 340);
   }
   panel.addEventListener('click', (e) => {
-    if (e.target.closest('.close')) return go('');
+    if (e.target.closest('.back')) { const prev = backStack.pop(); goingBack = true; return go(prev || ''); }
+    if (e.target.closest('.close')) { backStack.length = 0; return go(''); }
     const t = e.target.closest('[data-node]');
     if (t) { e.preventDefault(); go(t.dataset.node); }
   });
@@ -570,6 +571,7 @@
     });
     Graph.d3ReheatSimulation();
   }
+  const backStack = []; let goingBack = false, lastRoute = '';
   function go(id) { location.hash = id ? `#/${id}` : '#/'; }
   // Classic view: o mesmo conteúdo como site convencional, com menu no topo e sem o mapa
   let classic = false;
@@ -608,6 +610,11 @@
   function route() {
     if (document.body.classList.contains('intro')) return;
     const id = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
+    // Seta de voltar: só aparece quando se pula de uma página aberta direto para outra
+    if (!goingBack && lastRoute && byId.get(lastRoute) && byId.get(id) && id !== lastRoute) backStack.push(lastRoute);
+    if (!byId.get(id) && !classic) backStack.length = 0;
+    goingBack = false; lastRoute = id;
+    $('#panel .back').hidden = !backStack.length;
     if (classic) {
       const c = byId.get(id) || hub;
       selected = c; clearTimeout(openTimer); renderPanel(c); panel.hidden = false; panel.classList.remove('unpop', 'pop');

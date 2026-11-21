@@ -192,15 +192,13 @@
   };
 
   function start(fromEnter) {
-    if (pref() === 'off' && !fromEnter) return;
     if (!ctx) build();
     if (ctx.state === 'suspended') ctx.resume();
     if (on) return;
     on = true; save('on');
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setTargetAtTime(0.9, ctx.currentTime, 1.6);
-    playSeq();
-    mark();
+    mark(); // trilha de fundo removida (pedido 21/11): só efeitos de interface
   }
   function stop() {
     on = false; save('off');
@@ -211,7 +209,7 @@
   function mark() { if (!btn) return; btn.setAttribute('aria-pressed', String(on)); btn.classList.toggle('on', on); btn.setAttribute('aria-label', on ? 'Sound off' : 'Sound on'); btn.title = on ? 'Sound off' : 'Sound on'; }
   if (btn) btn.addEventListener('click', (e) => { e.stopPropagation(); if (on) stop(); else start(true); });
   // Quem já entrou antes (e não desligou) ganha o som no primeiro clique em qualquer lugar
-  const first = (e) => { removeEventListener('pointerdown', first, true); if (e.target.closest && e.target.closest('#sound-btn')) return; if (pref() !== 'off') start(); };
+  const first = (e) => { removeEventListener('pointerdown', first, true); if (e.target.closest && e.target.closest('#sound-btn')) return; start(); };
   addEventListener('pointerdown', first, true);
   // Aba escondida: silencia; volta suave
   document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; master.gain.setTargetAtTime(document.hidden || ducked ? 0 : 0.9, ctx.currentTime, 0.5); });
