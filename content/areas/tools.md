@@ -1,12 +1,14 @@
 ---
 titulo: Tools
 tipo: area
-resumo: Claude at the center. Every other tool connected to it.
-status: placeholder
+resumo: AI at the center, connecting every tool.
 ordem: 8
 ---
-Today Claude is my main tool. It multiplies the fundamentals I built over {{years}} years in the classic creative software. Through connectors, I work with almost everything else from inside it: documents, spreadsheets, email, calendars, meetings, sites. One place to think, direct and produce.
+Today AI runs through every piece of software I use. It connects the tools, carries the work from one to the next, and multiplies the fundamentals I built over {{years}} years in the classic creative software.
 
+Workflows, images, video, motion, design: the creative side moves faster, with more room to explore before choosing. Documents, spreadsheets, email, calendars and meetings follow the same logic.
+
+The result is more time for what matters most: the idea, the craft and the people making it.
 
 ## AI
 

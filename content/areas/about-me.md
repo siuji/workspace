@@ -5,10 +5,10 @@ resumo: Endurance, education, tools and where to find me.
 ordem: 4
 conecta: [endurance, education, tools, social]
 ---
-I am married, dad of 2 boys and a pet dad.
+Married, dad of 2 boys and a pet dad. Home is busy, and I like it that way.
 
-I am eager to learn, curious and very active. I like to explore.
+Curiosity runs everything else. I want to learn how things work, try what's new and explore what I don't know yet. Sitting still was never my thing.
 
-That energy also goes into running. I am a long-distance runner, on road and trail, and I have completed the 6 Abbott World Marathon Majors. More in [[endurance|Endurance]].
+Running is where that energy goes. Long distance, on road and trail, with the 6 Abbott World Marathon Majors already crossed off. More in [[endurance|Endurance]].
 
-Here you also find my [[education|Education]], the [[tools|Tools]] I use, and where to find me on [[social|Social]].
+Around here you'll also find my [[education|Education]], the [[tools|Tools]] I work with, and where to find me on [[social|Social]].
