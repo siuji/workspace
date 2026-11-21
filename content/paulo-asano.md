@@ -4,7 +4,7 @@ tipo: hub
 resumo: Craft at scale.
 status: placeholder
 ordem: 0
-conecta: [portfolio, career, entrepreneur, about-me]
+conecta: [portfolio, career, konkre, about-me]
 ---
 {{years}} years in advertising and creative leadership. My real specialty is building and keeping high-performance teams, where the quality of the work and the quality of people's lives grow together. When people develop, the work gets better. It always comes back.
 

@@ -587,3 +587,6 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .award { align-items: center; gap: 22px; flex-wrap: wrap; }
 .prose .award img { width: auto; border-radius: 2px; }
 .prose .wide-photo { width: 100%; max-width: 100%; margin: 0 auto var(--s3); }
+.prose .award { gap: 36px; }
+.prose .stats:has(> :nth-child(4):last-child) { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 20px; }
+.prose .stats:has(> :nth-child(4):last-child) > div { max-width: none; }
