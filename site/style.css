@@ -503,7 +503,7 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 /* Painel central: foto em círculo com borda esfumada + nome em 2 linhas ao lado */
 .me-head { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 8px 0 var(--s4); }
 .me-photo { width: 210px; height: 210px; object-fit: contain; flex: none; margin: -20px -10px -20px -30px; }
-.panel h1.me-name { margin: 0; text-align: left; line-height: 1; font-size: clamp(40px, 4.4vw, 52px); }
+.panel h1.me-name { margin: 0; text-align: left; line-height: .98; font-size: clamp(40px, 4.4vw, 52px); font-weight: 200; letter-spacing: .05em; text-transform: uppercase; }
 .panel .kicker.me-role { margin: 0 0 var(--s3); }
 .panel .lede.me-lede { margin-bottom: var(--s1); }
 
