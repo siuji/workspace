@@ -229,6 +229,7 @@
       ${n.tags.length ? `<ul class="tags">${n.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
       ${conns.length ? `<div class="connections"><h2>Threads</h2><ul>${conns.map((c) => `
         <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul></div>` : ''}`;
+    panel.classList.toggle('wide', n.largura === 'wide');
     fillYears(panel);
     panel.querySelectorAll('.prose a[href^="http"]').forEach((a) => { a.target = '_blank'; a.rel = 'noopener'; });
     panel.scrollTop = 0;

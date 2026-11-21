@@ -295,3 +295,8 @@ body.panel-open #graph { filter: brightness(.8); }
 .finder .results { position: static; width: 300px; }
 body.intro .finder { opacity: 0; pointer-events: none; }
 .finder .search input::-webkit-search-cancel-button { display: none; }
+/* Painel largo (Clients): mais respiro e rolagem interna */
+.panel.wide { width: min(1180px, calc(100vw - 2 * var(--gutter))); max-height: 86vh; padding: 52px 72px 60px; }
+.panel.wide .prose { max-width: none; }
+.panel.wide .prose ul.logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 64px 40px; margin: 40px 0 48px; padding: 0; }
+.panel.wide .prose ul.logos li { height: 70px; }
