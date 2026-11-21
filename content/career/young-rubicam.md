@@ -1,6 +1,7 @@
 ---
 titulo: Young & Rubicam
 rotulo: Y&R
+logo: young-rubicam
 tipo: path
 data: 2004 – 2007 · 2010 – 2020
 ordem: 3

@@ -1,5 +1,6 @@
 ---
 titulo: Monks
+logo: monks
 tipo: path
 data: Jan 2021 – Nov 2025
 status: placeholder
