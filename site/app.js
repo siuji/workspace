@@ -59,12 +59,16 @@
   const linkCall = (l) => calling && linkEnds(l).includes(calling);
   const sizeOf = (n) => (n.tipo === 'hub' ? 22 : n.tipo === 'area' ? 8 + n.grau * 0.6 : 2 + n.grau * 0.8);
 
-  // A teia começa vazia e se forma durante a abertura
-  const shown = { nodes: [], links: [] };
+  // A teia nasce já assentada (sem tranco) e os nós vão acendendo aos poucos
+  const revealed = new Set();
   const Graph = ForceGraph3D({ controlType: 'orbit' })($('#graph'))
     .backgroundColor('rgba(0,0,0,0)')
     .showNavInfo(false)
-    .graphData(shown)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .warmupTicks(220)
+    .cooldownTime(6000)
+    .d3VelocityDecay(0.55)
+    .linkVisibility((l) => { const [a, b] = linkEnds(l); return revealed.has(a) && revealed.has(b); })
     .nodeId('id')
     .nodeVal(sizeOf)
     .nodeRelSize(4)
@@ -103,18 +107,13 @@
       .linkDirectionalParticleColor(Graph.linkDirectionalParticleColor());
   }
 
-  // Formação da teia: nós surgem aos poucos a partir do centro
+  // Formação da teia: nós acendem aos poucos a partir do centro
   let grown = 0;
   function grow() {
     if (grown >= order.length) return;
-    const n = byId.get(order[grown++]);
-    const near = [...neighbors.get(n.id)].map((id) => byId.get(id)).find((m) => m.x !== undefined);
-    if (near && n !== hub) Object.assign(n, { x: near.x + (Math.random() - .5) * 20, y: near.y + (Math.random() - .5) * 20, z: near.z + (Math.random() - .5) * 20 });
-    shown.nodes.push(n);
-    const ids = new Set(shown.nodes.map((m) => m.id));
-    shown.links = data.links.filter((l) => { const [a, b] = linkEnds(l); return ids.has(a) && ids.has(b); });
-    Graph.graphData({ nodes: shown.nodes, links: shown.links });
-    setTimeout(grow, reduceMotion ? 0 : grown < 9 ? 260 : 110);
+    revealed.add(order[grown++]);
+    Graph.linkVisibility(Graph.linkVisibility());
+    if (grown < order.length) setTimeout(grow, reduceMotion ? 0 : grown < 9 ? 260 : 110);
   }
   setTimeout(grow, 300);
 
@@ -157,7 +156,7 @@
         continue;
       }
       const ob = orbs.get(n.id), el = labels.get(n.id);
-      if (behind) { ob.style.opacity = 0; el.style.opacity = 0; continue; }
+      if (behind || !revealed.has(n.id)) { ob.style.opacity = 0; el.style.opacity = 0; continue; }
       const R = Math.cbrt(sizeOf(n)) * 4 * 1.15;
       const q = Graph.graph2ScreenCoords(n.x, n.y + R, n.z);
       const d = Math.max(6, Math.abs(q.y - p.y) * 2);
@@ -323,7 +322,7 @@
   // Abertura: frases, trava (nome + LinkedIn), convite, workspace
   const steps = [...document.querySelectorAll('.step')];
   const visitor = store.get('ws-visitor');
-  const needGate = CFG.gate !== false && !(visitor && visitor.name && visitor.linkedin);
+  const needGate = CFG.gate !== false && !(visitor && visitor.name);
   const deepLink = byId.get(decodeURIComponent(location.hash.replace(/^#\/?/, '')));
   let step = -1, stepTimer = null;
   function show(i) {
@@ -343,12 +342,9 @@
     e.preventDefault();
     const f = e.target, err = $('#gate-error');
     const name = f.name.value.trim();
-    let li = f.linkedin.value.trim();
     if (name.length < 2) { err.textContent = 'Please tell me your name.'; err.hidden = false; return f.name.focus(); }
-    if (!/(^|\.|\/)(linkedin\.com\/|lnkd\.in\/)/i.test(li)) { err.textContent = 'Please paste your LinkedIn profile link.'; err.hidden = false; return f.linkedin.focus(); }
-    if (!/^https?:\/\//i.test(li)) li = 'https://' + li;
     err.hidden = true;
-    const v = { name, linkedin: li, at: new Date().toISOString() };
+    const v = { name, at: new Date().toISOString() };
     store.set('ws-visitor', v);
     window.WS_TRACK && WS_TRACK.identify(v);
     show(5);

@@ -212,7 +212,7 @@ body.intro .intro-overlay { display: flex; }
 .enter::after { background: linear-gradient(90deg, var(--accent), transparent); }
 .enter:hover::before, .enter:hover::after { width: 90px; }
 .gate { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.gate .lead { font: 200 clamp(26px, 2.6vw, 38px)/1.2 var(--sans); margin: 4px 0 10px; }
+.gate .lead { font: 200 clamp(19px, 1.6vw, 24px)/1.3 var(--sans); margin: 0 0 8px; color: var(--ink-2); }
 .gate label { display: block; width: min(380px, 100%); text-align: left; }
 .gate label span { display: block; font: 400 10px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px 18px; }
 .gate input { width: 100%; height: 48px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); outline: none; font-size: 15px; backdrop-filter: blur(10px); transition: border-color .2s; }
