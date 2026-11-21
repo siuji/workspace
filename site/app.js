@@ -234,6 +234,10 @@
       el.className = 'label' + (n.tipo === 'area' ? ' big' : '');
       el.textContent = n.rotulo || n.titulo;
       el.style.opacity = 0;
+      // O nome também é link: mesmo clique e mesmo hover da esfera
+      el.addEventListener('click', (e) => { e.stopPropagation(); if (!document.body.classList.contains('intro')) go(n.id); });
+      el.addEventListener('mouseenter', () => { if (n !== hovered) window.WS_SOUND && WS_SOUND.hover(); hovered = n; refresh(); wantLift(n); });
+      el.addEventListener('mouseleave', () => { if (hovered === n) { hovered = null; refresh(); wantLift(null); } });
       labelLayer.appendChild(el); labels.set(n.id, el);
     }
   }
@@ -342,7 +346,8 @@
       if (f) o = n.id === f || neighbors.get(f).has(n.id) ? 1 : 0.08;
       if (n.id === calling && !f) o = Math.max(o, 0.85);
       el.style.opacity = o.toFixed(2);
-      el.style.transform = `translate(${(p.x + d / 2 + 8).toFixed(1)}px, ${(p.y - 6).toFixed(1)}px)`;
+      el.style.transform = `translate(${(p.x + d / 2 + 8).toFixed(1)}px, ${p.y.toFixed(1)}px) translateY(-50%)`;
+      el.style.pointerEvents = o > 0.15 ? 'auto' : 'none';
       el.style.zIndex = ob.style.zIndex;
     }
     requestAnimationFrame(draw);
