@@ -8,7 +8,6 @@ mercado: tech-media
 midias: [d-social, d-ai-automation]
 conecta: [portfolio, superside]
 largura: wide
-publicar: false
 ---
 Wikimedia, the nonprofit organization behind Wikipedia, partnered with us to create a series of videos featuring a character originally developed by its community. The goal was to bring the character to life through AI-assisted animation, while staying true to its established identity and visual style.
 
