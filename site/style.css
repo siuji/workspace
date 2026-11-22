@@ -593,3 +593,15 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 /* Rótulos do mapa: mesma fonte do botão Feedback, caixa alta */
 .label { font: 400 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .label.big { font-size: 13px; }
+/* Esferas menores: movimento de cor barato (só transform, feito pela placa de vídeo) */
+.node-orb i { overflow: hidden; }
+.node-orb i::before {
+  content: ''; position: absolute; inset: -10%; border-radius: 50%; mix-blend-mode: soft-light; opacity: .85;
+  background:
+    radial-gradient(circle at 28% 30%, var(--c2) 0, transparent 42%),
+    radial-gradient(circle at 74% 66%, color-mix(in srgb, var(--c1) 60%, #fff) 0, transparent 40%),
+    radial-gradient(circle at 36% 80%, color-mix(in srgb, var(--c2) 70%, #1a1830) 0, transparent 38%);
+  animation: swirl var(--t2, 14s) linear var(--delay, 0s) infinite;
+}
+.node-orb.alive i::before { display: none; }
+@media (prefers-reduced-motion: reduce) { .node-orb i::before { animation: none; } }

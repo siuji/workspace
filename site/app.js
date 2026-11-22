@@ -231,8 +231,9 @@
       o.className = 'node-orb' + (n.oculto ? ' hidden-node' : '');
       const [c1, c2] = pairOf[n.id];
       const h = hash(n.id + 'h');
-      o.style.cssText = `--c1:${c1};--c2:${c2};--t:${(5 + h * 4).toFixed(1)}s;--delay:-${(h * 6).toFixed(1)}s;filter:hue-rotate(${Math.round(h * 36 - 18)}deg) saturate(.92);opacity:0`;
+      o.style.cssText = `--c1:${c1};--c2:${c2};--t:${(5 + h * 4).toFixed(1)}s;--t2:${(10 + h * 9).toFixed(1)}s;--delay:-${(h * 6).toFixed(1)}s;filter:hue-rotate(${Math.round(h * 36 - 18)}deg) saturate(.92);opacity:0`;
       o.innerHTML = '<i></i>';
+      if (hubKids.has(n.id)) o.classList.add('alive');
       o.dataset.id = n.id; orbLayer.appendChild(o); orbs.set(n.id, o);
       const el = document.createElement('div');
       el.className = 'label' + (hubKids.has(n.id) ? ' big' : '');
@@ -361,14 +362,14 @@
 
   // De tempos em tempos uma esfera e seus fios chamam o clique
   function call() {
-    if (calling) orbs.get(calling)?.classList.remove('calling');
+    if (calling) orbs.get(calling)?.classList.remove('calling', 'alive');
     calling = null;
     if (!selected && !document.hidden && !reduceMotion) {
       // Só estas acendem, em rodízio (pedido do Paulo)
       const ids = CFG.callIds || ['superside', 'casas-bahia', 'youtube'];
       const list = ids.map((id) => data.nodes.find((k) => k.id === id)).filter((k) => k && k.x !== undefined);
       const n = list.length ? list[(callIdx++) % list.length] : null;
-      if (n) { calling = n.id; orbs.get(n.id).classList.add('calling'); window.WS_SOUND && WS_SOUND.call(); }
+      if (n) { calling = n.id; orbs.get(n.id).classList.add('calling', 'alive'); window.WS_SOUND && WS_SOUND.call(); }
     }
     refresh();
     setTimeout(call, calling ? 5200 : 2400);
@@ -636,7 +637,7 @@
     }
     const n = byId.get(id);
     if (n) {
-      if (calling) { orbs.get(calling)?.classList.remove('calling'); calling = null; }
+      if (calling) { orbs.get(calling)?.classList.remove('calling', 'alive'); calling = null; }
       selected = n; openPanel(n); window.WS_TRACK && WS_TRACK.node(n.id);
       spread(n);
     } else if (selected) {
