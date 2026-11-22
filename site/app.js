@@ -185,7 +185,7 @@
   function drift(n) {
     if (reduceMotion) return { x: 0, y: 0, z: 0 };
     let q = driftSeed.get(n.id);
-    if (!q) { const h = hash(n.id + 'd'), h2 = hash(n.id + 'e'); q = { a: h * 6.28, b: h2 * 6.28, fx: 0.11 + h * 0.09, fy: 0.09 + h2 * 0.1, fz: 0.07 + h * 0.06, amp: n.tipo === 'area' ? 3 : 4.5 }; driftSeed.set(n.id, q); }
+    if (!q) { const h = hash(n.id + 'd'), h2 = hash(n.id + 'e'); q = { a: h * 6.28, b: h2 * 6.28, fx: 0.17 + h * 0.13, fy: 0.14 + h2 * 0.14, fz: 0.1 + h * 0.08, amp: n.tipo === 'area' ? 5.5 : 8 }; driftSeed.set(n.id, q); }
     const t = performance.now() / 1000;
     return {
       x: q.amp * (Math.sin(t * q.fx + q.a) + 0.45 * Math.sin(t * q.fx * 2.3 + q.b)),
