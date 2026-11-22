@@ -7,7 +7,6 @@ data: Health · Superside
 mercado: health
 midias: [d-film-tv, d-ai-automation]
 conecta: [portfolio, superside]
-publicar: false
 ---
 <div class="video"><iframe src="https://player.vimeo.com/video/1249010854?autopause=0&amp;dnt=1" title="Quest Diagnostics" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
 
