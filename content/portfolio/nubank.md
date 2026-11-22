@@ -2,6 +2,7 @@
 titulo: Nubank
 logo: nubank
 tipo: work
+publicar: false
 resumo: "Nubank Life Insurance. The ways of loving."
 data: Financial Services · Monks
 mercado: financial-services

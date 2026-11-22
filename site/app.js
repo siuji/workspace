@@ -842,3 +842,20 @@
   if (SKIP || (deepLink && !needGate)) enter();
   else setTimeout(nextLine, reduceMotion ? 0 : 900);
 })();
+
+// Arquivo (só no ?review): bolinha tracejada ao lado da busca, lista as páginas prontas e guardadas
+(function () {
+  if (!/[?&]review\b/.test(location.search)) return;
+  const finder = document.querySelector('.finder .search'); if (!finder || !window.WORKSPACE) return;
+  const kept = WORKSPACE.nodes.filter((n) => n.oculto && n.tipo === 'work').sort((a, b) => a.titulo.localeCompare(b.titulo));
+  if (!kept.length) return;
+  const wrap = document.createElement('div'); wrap.className = 'archive';
+  wrap.innerHTML = `<button type="button" class="archive-orb" aria-label="Archive: ${kept.length} hidden pages" title="Archive"><i></i><b>${kept.length}</b></button>
+    <div class="archive-list" hidden><p>Archive · hidden pages</p><ul>${kept.map((n) => `<li><a href="#/${n.id}">${n.titulo}</a></li>`).join('')}</ul></div>`;
+  finder.parentNode.insertBefore(wrap, finder);
+  finder.parentNode.classList.add('has-archive');
+  const list = wrap.querySelector('.archive-list');
+  wrap.querySelector('.archive-orb').addEventListener('click', (e) => { e.stopPropagation(); list.hidden = !list.hidden; });
+  list.addEventListener('click', (e) => { if (e.target.closest('a')) list.hidden = true; });
+  document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) list.hidden = true; });
+})();

@@ -612,3 +612,15 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: var(--s3) 0; }
 .prose .row4 .video.vertical { aspect-ratio: 240 / 426; margin: 0; }
 .prose .row4 .video.vertical iframe { inset: -2px; width: calc(100% + 4px); height: calc(100% + 4px); }
+/* Arquivo de páginas guardadas (só ?review) */
+.finder.has-archive { flex-direction: row; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.finder.has-archive .results { order: -1; flex-basis: 100%; display: flex; justify-content: flex-end; }
+.archive { position: relative; }
+.archive-orb { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 0; background: transparent; cursor: pointer; padding: 0; outline: 1.5px dashed var(--accent); outline-offset: 5px; }
+.archive-orb i { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 32% 26%, rgba(255,250,252,.8), rgba(255,250,252,0) 32%), radial-gradient(circle at 70% 72%, #5b5cff 0, transparent 60%), radial-gradient(circle at 42% 44%, #e86bd0 0, #4a2a5a 90%); animation: float 6s ease-in-out infinite; }
+.archive-orb b { position: absolute; right: -12px; top: -12px; font: 400 10px/1 var(--mono); color: var(--muted); }
+.archive-list { position: absolute; right: 0; bottom: 48px; min-width: 220px; padding: 14px 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.archive-list p { margin: 0 0 8px; font: 400 10px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.archive-list ul { list-style: none; margin: 0; padding: 0; }
+.archive-list a { display: block; padding: 5px 0; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 300; }
+.archive-list a:hover { color: var(--accent); }
