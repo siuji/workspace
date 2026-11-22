@@ -652,11 +652,9 @@ body:not(.classic) .panel.wide .prose ul.logos .logo-c { scale: .82; }
 .cnav .cside .cn-item > a.on { background-image: var(--grad) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent; }
 .cnav .cside .cn-drop { position: static; transform: none; padding: 0; opacity: 1; pointer-events: auto; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1); }
 .cnav .cside .cn-drop > ul { overflow: hidden; min-height: 0; min-width: 0; max-height: none; margin: 0 0 0 18px; padding: 0; border: 0; border-left: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
-.cnav .cside .cn-item.open .cn-drop { grid-template-rows: 1fr; transform: none; }
+.cnav .cside .cn-item.open .cn-drop, .cnav .cside .cn-item:hover .cn-drop, .cnav .cside .cn-item:focus-within .cn-drop { grid-template-rows: 1fr; transform: none; }
 /* Seção fechada: no hover os subitens abrem ao lado, em cascata, sem empurrar o menu */
-.cnav .cside .cn-item:not(.open) .cn-drop { position: absolute; left: 100%; top: 0; width: max-content; z-index: 2; grid-template-rows: 1fr; pointer-events: none; padding-left: 8px; }
-.cnav .cside .cn-item:not(.open) .cn-drop > ul { margin-left: 0; padding: 4px 0; white-space: nowrap; max-height: 70vh; overflow: auto; }
-.cnav .cside .cn-item:not(.open):hover .cn-drop, .cnav .cside .cn-item:not(.open):focus-within .cn-drop { pointer-events: auto; }
+
 .cnav .cside .cn-drop li { opacity: 0; transform: translateX(-10px); transition: opacity .3s, transform .35s cubic-bezier(.2,.7,.2,1); transition-delay: 0s; }
 .cnav .cside .cn-item:hover .cn-drop li, .cnav .cside .cn-item:focus-within .cn-drop li, .cnav .cside .cn-item.open .cn-drop li { opacity: 1; transform: none; transition-delay: calc(var(--i) * 35ms + 60ms); }
 .cnav .cside .cn-drop a { text-align: left; padding: 6px 14px; border-radius: 0; font-size: 13.5px; background: none !important; transition: color .2s, padding .25s; }
@@ -665,14 +663,19 @@ body:not(.classic) .panel.wide .prose ul.logos .logo-c { scale: .82; }
 body.classic .panel { inset: 72px 0 0 0; padding-left: max(280px, calc((100vw - 860px) / 2)); }
 body.classic .panel.wide { padding-left: max(280px, calc((100vw - 1180px) / 2)); }
 .cnav .cside > ul { width: 180px; overflow: visible; max-height: none; }
-.cnav .cside .cn-item:not(.open) .cn-drop { left: calc(100% + 12px); top: -6px; padding-left: 0; }
-.cnav .cside .cn-item:not(.open) .cn-drop > ul { padding: 8px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--glass); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 16px 40px rgba(0,0,0,.3); }
-.cnav .cside .cn-item:not(.open) .cn-drop::before { content: ''; position: absolute; left: -14px; top: 0; bottom: 0; width: 14px; }
-.cnav .cside .cn-item:not(.open) .cn-drop { opacity: 0; visibility: hidden; transform: translateX(-6px); transition: opacity .25s, transform .3s cubic-bezier(.2,.7,.2,1), visibility 0s .3s; }
-.cnav .cside .cn-item:not(.open):hover .cn-drop, .cnav .cside .cn-item:not(.open):focus-within .cn-drop { opacity: 1; visibility: visible; transform: none; transition: opacity .25s, transform .3s cubic-bezier(.2,.7,.2,1), visibility 0s; }
 /* Faixas de clientes das agências: mesmo padrão da grade (cinza em repouso, cores originais no hover) */
 .prose ul.logos.mini .logo-c { scale: .68; }
 body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
 /* Logo colorido no hover: claro = original; escuro = só as cores, o que era preto/neutro vira branco */
 .prose ul.logos .logo-c { background-image: var(--lc); }
 :root:not([data-theme="light"]) .prose ul.logos .logo-c { background-image: var(--lcd, var(--lc)); }
+/* Menu do Classic: mesma fonte mono dos rótulos do mapa; abre no hover, embaixo da palavra, crescendo só para baixo */
+.cnav .cside { align-items: flex-start; }
+.cnav .cside .cn-item > a { font: 400 12px/1.1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 11px 0 11px 18px; }
+.cnav .cside .cn-drop a { font: 400 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 6px 14px; }
+.cnav .cside .cn-drop a:hover { padding-left: 18px; }
+/* Ao abrir uma seção no hover, a seção aberta que está abaixo dela recolhe (a de cima fica, para nada pular sob o mouse) */
+.cnav .cside .cn-item:hover ~ .cn-item.open .cn-drop { grid-template-rows: 0fr; }
+.cnav .cside .cn-item:hover ~ .cn-item.open .cn-drop li { opacity: 0; transform: translateX(-10px); transition-delay: 0s; }
+.cnav .cside .cn-drop a { padding-top: 4px; padding-bottom: 4px; }
+.cnav .cside .cn-item > a { padding-top: 9px; padding-bottom: 9px; }

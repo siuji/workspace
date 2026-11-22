@@ -654,12 +654,20 @@
       return `<li class="cn-item${kids.length ? ' has-kids' : ''}"><a href="#/${t.id}" data-node="${t.id}">${esc(t.rotulo || t.titulo)}</a>${kids.length ? `<div class="cn-drop"><ul>${kids.map((k, i) => `<li style="--i:${i}"><a href="#/${k.id}" data-node="${k.id}">${esc(k.rotulo || k.titulo)}</a></li>`).join('')}</ul></div>` : ''}</li>`;
     }).join('')}</ul></aside>`;
   }
+  // Menu lateral: centralizado pela altura no estado de repouso; ao abrir no hover cresce só para baixo (não foge do mouse)
+  function placeSide() {
+    const side = cnav.querySelector('.cside'), ul = side && side.querySelector(':scope > ul'); if (!ul || cnav.hidden) return;
+    if (side.matches(':hover')) return;
+    ul.style.marginTop = Math.max(0, (side.clientHeight - ul.offsetHeight) / 2) + 'px';
+  }
+  addEventListener('resize', () => requestAnimationFrame(placeSide));
   function markNav(n) {
     const top = n.tipo === 'hub' ? '' : (n.tipo === 'area' || (n.tipo === 'venture' && neighbors.get(hub.id).has(n.id))) ? n.id : [...neighbors.get(n.id)].find((k) => byId.get(k).tipo === 'area' && [...neighbors.get(hub.id)].includes(k)) || '';
     cnav.querySelectorAll('.cn-item > a').forEach((a) => a.classList.toggle('on', a.dataset.node === top || (n.tipo !== 'hub' && byId.get(a.dataset.node) && kidsOf(a.dataset.node).some((k) => k.id === n.id))));
     cnav.querySelector('.cn-home').classList.toggle('on', n.tipo === 'hub');
     cnav.querySelectorAll('.cn-item').forEach((li) => li.classList.toggle('open', li.querySelector(':scope > a').classList.contains('on')));
     cnav.querySelectorAll('.cn-drop a').forEach((a) => a.classList.toggle('on', a.dataset.node === n.id));
+    requestAnimationFrame(placeSide);
   }
   function setMode(on, save = true) {
     classic = on;
