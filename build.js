@@ -140,6 +140,14 @@ function makeGraph(notes, review = false) {
     };
   });
 
+  // Logos de cliente (grade do Portfolio e faixas das agências): se o cliente tem página publicada, o logo vira link
+  const byTitle = new Map(nodes.filter((x) => x.tipo === 'work').map((x) => [x.titulo.toLowerCase(), x.id]));
+  const dec = (t) => t.replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, '&').toLowerCase();
+  for (const n of nodes) n.html = n.html.replace(/<li([^>]*)>(<span class="logo"[^>]*aria-label="([^"]+)"[^>]*><\/span>)<\/li>/g, (m, attrs, span, label) => {
+    const id = byTitle.get(dec(label));
+    return id && id !== n.id ? `<li${attrs}><a href="#/${id}" data-node="${id}">${span}</a></li>` : m;
+  });
+
   // Grade do Portfolio: data-tags de cada logo com case vêm do frontmatter do case (mercado + midias)
   const pf = nodes.find((x) => x.id === 'portfolio');
   if (pf) pf.html = pf.html.replace(/<li data-tags="[^"]*"><a href="#\/([^"]+)"/g, (m, id) => {
