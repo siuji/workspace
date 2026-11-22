@@ -196,6 +196,15 @@
   let sway = !reduceMotion, swayA = 0, swayT0 = performance.now();
   controls.enableDamping = true;
   controls.addEventListener('start', () => { sway = false; $('#hint').style.opacity = 0; });
+  // Dica de navegação volta depois de 15 s sem nenhuma ação; some na próxima ação
+  let idleTimer;
+  const poke = () => {
+    clearTimeout(idleTimer);
+    const h = $('#hint'); if (h.style.opacity === '1') h.style.opacity = 0;
+    idleTimer = setTimeout(() => { if (!document.body.classList.contains('intro')) $('#hint').style.opacity = 1; }, 15000);
+  };
+  ['pointerdown', 'pointermove', 'wheel', 'keydown', 'touchstart'].forEach((ev) => addEventListener(ev, poke, { passive: true }));
+  poke();
   addEventListener('resize', () => {
     Graph.width(innerWidth).height(innerHeight);
     layout();
