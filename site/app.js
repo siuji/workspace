@@ -519,6 +519,7 @@
   function closePanel() {
     clearTimeout(openTimer);
     if (panel.hidden) return;
+    stopMedia();
     panel.classList.remove('pop'); panel.classList.add('unpop');
     document.body.classList.remove('panel-open');
     document.title = window.WS_TITLE || 'Paulo Asano';
@@ -613,8 +614,14 @@
   }
   modeBtn.addEventListener('click', () => setMode(!classic));
   cnav.addEventListener('click', (e) => { const a = e.target.closest('a[data-node]'); if (!a) return; e.preventDefault(); go(a.dataset.node); panel.scrollTop = 0; });
+  // Para qualquer vídeo do painel na hora (fechar, voltar, Esc, clique fora, pular de página, Classic)
+  function stopMedia() {
+    panel.querySelectorAll('iframe').forEach((f) => { const src = f.getAttribute('src'); if (src && src !== 'about:blank') { f.dataset.src = src; f.setAttribute('src', 'about:blank'); } });
+    panel.querySelectorAll('video').forEach((v) => { if (!v.muted) v.pause(); });
+  }
   function route() {
     if (document.body.classList.contains('intro')) return;
+    stopMedia();
     const id = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
     // Seta de voltar: só aparece quando se pula de uma página aberta direto para outra
     if (!goingBack && lastRoute && byId.get(lastRoute) && byId.get(id) && id !== lastRoute) backStack.push(lastRoute);
