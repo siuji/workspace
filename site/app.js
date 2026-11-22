@@ -366,7 +366,7 @@
     calling = null;
     if (!selected && !document.hidden && !reduceMotion) {
       // Só estas acendem, em rodízio (pedido do Paulo)
-      const ids = CFG.callIds || ['superside', 'casas-bahia', 'youtube'];
+      const ids = CFG.callIds || ['superside', 'casas-bahia', 'youtube', 'macys', 'wikimedia'];
       const list = ids.map((id) => data.nodes.find((k) => k.id === id)).filter((k) => k && k.x !== undefined);
       const n = list.length ? list[(callIdx++) % list.length] : null;
       if (n) { calling = n.id; orbs.get(n.id).classList.add('calling', 'alive'); window.WS_SOUND && WS_SOUND.call(); }
