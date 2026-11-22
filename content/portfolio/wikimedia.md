@@ -1,5 +1,6 @@
 ---
 titulo: Wikimedia Foundation
+rotulo: Wikimedia
 logo: wikimedia
 tipo: work
 resumo: "Bringing a community-created character to life with AI-assisted animation."
