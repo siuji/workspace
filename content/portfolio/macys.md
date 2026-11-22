@@ -8,7 +8,6 @@ mercado: retail
 midias: [d-film-tv, d-social, d-ai-automation]
 conecta: [portfolio, superside]
 largura: wide
-publicar: false
 ---
 At Macy's, we're using AI to change the way the brand works. We create proofs of concept, from the concept to the full aesthetic, much faster and more practically. That gives Macy's the material it needs to get internal approvals, before moving into the real productions.
 
