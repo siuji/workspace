@@ -636,3 +636,11 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .carousel .c-dots button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.45); cursor: pointer; }
 .prose .carousel .c-dots button.on { background: #fff; }
 @media (max-width: 720px) { .prose .split:has(.carousel) { grid-template-columns: 1fr; } .prose .carousel { margin: 0 auto; } }
+/* Grade do Portfolio: no hover o logo aparece nas cores originais (no escuro, sobre uma cápsula branca) */
+.prose ul.logos li:has(.logo-c) > span.logo, .prose ul.logos li:has(.logo-c) > a > span.logo { transition: opacity .3s; }
+.prose ul.logos li > a:has(.logo-c), .prose ul.logos li:has(> .logo-c) { position: relative; }
+.prose ul.logos .logo-c { position: absolute; left: 50%; top: 50%; translate: -50% -50%; background: center / contain no-repeat; opacity: 0; transition: opacity .3s; pointer-events: none; }
+body:not(.classic) .panel.wide .prose ul.logos .logo-c { scale: .82; }
+.prose ul.logos li:hover .logo-c { opacity: 1; }
+.prose ul.logos li:hover:has(.logo-c) .logo { opacity: 0; }
+:root:not([data-theme="light"]) .prose ul.logos .logo-c { background-color: #fff; box-shadow: 0 0 0 10px #fff; border-radius: 4px; }
