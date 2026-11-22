@@ -605,3 +605,6 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 }
 .node-orb.alive i::before { display: none; }
 @media (prefers-reduced-motion: reduce) { .node-orb i::before { animation: none; } }
+/* 3 peças lado a lado, mesmo tamanho */
+.prose .row3 { display: flex; gap: 10px; margin: var(--s3) 0; }
+.prose .row3 img { flex: 1 1 0; min-width: 0; width: 100%; height: auto; border-radius: 10px; }
