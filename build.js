@@ -140,6 +140,12 @@ function makeGraph(notes, review = false) {
     };
   });
 
+  // Logos guardados (content/hidden-logos.json): somem da grade e das faixas, mas o HTML fica nos .md
+  let HIDE_LOGOS = [];
+  try { HIDE_LOGOS = JSON.parse(fs.readFileSync(path.join(CONTENT, 'hidden-logos.json'), 'utf8')).hide.map((x) => x.toLowerCase()); } catch (e) {}
+  const decH = (t) => t.replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, '&').toLowerCase();
+  for (const n of nodes) n.html = n.html.replace(/<li[^>]*>(?:<a [^>]*>)?(?:<span class="logo"[^>]*aria-label="([^"]+)"[^>]*><\/span>|<span class="logo-text">([^<]+)<\/span>)(?:<\/a>)?<\/li>/g, (m, a1, a2) => (HIDE_LOGOS.includes(decH(a1 || a2)) ? '' : m));
+
   // Logos de cliente (grade do Portfolio e faixas das agências): se o cliente tem página publicada, o logo vira link
   const byTitle = new Map(nodes.filter((x) => x.tipo === 'work').map((x) => [x.titulo.toLowerCase(), x.id]));
   const dec = (t) => t.replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, '&').toLowerCase();
@@ -154,6 +160,12 @@ function makeGraph(notes, review = false) {
     const c = nodes.find((x) => x.id === id);
     return c && c.mercado ? `<li data-tags="${[c.mercado, ...c.midias].join(' ')}"><a href="#/${id}"` : m;
   });
+
+  // Filtro sem nenhum logo (ex.: depois de guardar logos) some da grade
+  if (pf) {
+    const used = new Set([...pf.html.matchAll(/data-tags="([^"]*)"/g)].flatMap((m) => m[1].split(' ')));
+    pf.html = pf.html.replace(/<button type="button"[^>]*data-filter="([^"]+)"[^>]*>[^<]*<\/button>/g, (m, f) => (f === 'all' || used.has(f) ? m : ''));
+  }
 
   // Grau de cada nó para o tamanho
   const degree = Object.fromEntries(nodes.map((n) => [n.id, 0]));
