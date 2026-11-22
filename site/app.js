@@ -235,7 +235,7 @@
       o.innerHTML = '<i></i>';
       o.dataset.id = n.id; orbLayer.appendChild(o); orbs.set(n.id, o);
       const el = document.createElement('div');
-      el.className = 'label' + (n.tipo === 'area' ? ' big' : '');
+      el.className = 'label' + (hubKids.has(n.id) ? ' big' : '');
       el.textContent = n.rotulo || n.titulo;
       el.style.opacity = 0;
       // O nome também é link: mesmo clique e mesmo hover da esfera

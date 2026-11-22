@@ -590,3 +590,6 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose .award { gap: 36px; }
 .prose .stats:has(> :nth-child(4):last-child) { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 20px; }
 .prose .stats:has(> :nth-child(4):last-child) > div { max-width: none; }
+/* Rótulos do mapa: mesma fonte do botão Feedback, caixa alta */
+.label { font: 400 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.label.big { font-size: 13px; }
