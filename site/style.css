@@ -639,7 +639,6 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 body:not(.classic) .panel.wide .prose ul.logos .logo-c { scale: .82; }
 .prose ul.logos li:hover .logo-c { opacity: 1; }
 .prose ul.logos li:hover:has(.logo-c) .logo { opacity: 0; }
-:root:not([data-theme="light"]) .prose ul.logos .logo-c { background-color: #fff; box-shadow: 0 0 0 10px #fff; border-radius: 4px; }
 /* Classic view: topo só com o nome; menu na coluna esquerda, centralizado na vertical, subitens em cascata */
 .cnav { height: 72px; }
 .cnav > .cn-home { font-size: 14px; }
