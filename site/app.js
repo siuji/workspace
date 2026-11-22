@@ -364,13 +364,16 @@
     if (calling) orbs.get(calling)?.classList.remove('calling');
     calling = null;
     if (!selected && !document.hidden && !reduceMotion) {
-      const list = data.nodes.filter((n) => n.tipo !== 'hub' && n.x !== undefined && !hubKids.has(n.id));
-      const n = list[Math.floor(Math.random() * list.length)];
+      // Só estas acendem, em rodízio (pedido do Paulo)
+      const ids = CFG.callIds || ['superside', 'casas-bahia', 'youtube'];
+      const list = ids.map((id) => data.nodes.find((k) => k.id === id)).filter((k) => k && k.x !== undefined);
+      const n = list.length ? list[(callIdx++) % list.length] : null;
       if (n) { calling = n.id; orbs.get(n.id).classList.add('calling'); window.WS_SOUND && WS_SOUND.call(); }
     }
     refresh();
     setTimeout(call, calling ? 5200 : 2400);
   }
+  let callIdx = 0;
   setTimeout(call, 4000);
 
   // Câmera com partida e chegada suaves
