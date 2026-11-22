@@ -648,15 +648,18 @@
     .sort((a, b) => a.ordem - b.ordem || a.titulo.localeCompare(b.titulo));
   function buildNav() {
     const tops = [...neighbors.get(hub.id)].map((k) => byId.get(k)).filter((k) => (k.tipo === 'area' || k.tipo === 'venture') && !(CFG.classicHide || []).includes(k.id)).sort((a, b) => a.ordem - b.ordem);
-    cnav.innerHTML = `<a class="cn-home" href="#/" data-node="">Paulo Asano</a><ul>${tops.map((t) => {
+    // Topo: só o nome. Menu numa coluna à esquerda, centralizada; os subitens abrem em cascata
+    cnav.innerHTML = `<a class="cn-home" href="#/" data-node="">Paulo Asano</a><aside class="cside"><ul>${tops.map((t) => {
       const kids = kidsOf(t.id);
-      return `<li class="cn-item"><a href="#/${t.id}" data-node="${t.id}">${esc(t.rotulo || t.titulo)}</a>${kids.length ? `<div class="cn-drop"><ul>${kids.map((k) => `<li><a href="#/${k.id}" data-node="${k.id}">${esc(k.rotulo || k.titulo)}</a></li>`).join('')}</ul></div>` : ''}</li>`;
-    }).join('')}</ul>`;
+      return `<li class="cn-item${kids.length ? ' has-kids' : ''}"><a href="#/${t.id}" data-node="${t.id}">${esc(t.rotulo || t.titulo)}</a>${kids.length ? `<div class="cn-drop"><ul>${kids.map((k, i) => `<li style="--i:${i}"><a href="#/${k.id}" data-node="${k.id}">${esc(k.rotulo || k.titulo)}</a></li>`).join('')}</ul></div>` : ''}</li>`;
+    }).join('')}</ul></aside>`;
   }
   function markNav(n) {
     const top = n.tipo === 'hub' ? '' : (n.tipo === 'area' || (n.tipo === 'venture' && neighbors.get(hub.id).has(n.id))) ? n.id : [...neighbors.get(n.id)].find((k) => byId.get(k).tipo === 'area' && [...neighbors.get(hub.id)].includes(k)) || '';
     cnav.querySelectorAll('.cn-item > a').forEach((a) => a.classList.toggle('on', a.dataset.node === top || (n.tipo !== 'hub' && byId.get(a.dataset.node) && kidsOf(a.dataset.node).some((k) => k.id === n.id))));
     cnav.querySelector('.cn-home').classList.toggle('on', n.tipo === 'hub');
+    cnav.querySelectorAll('.cn-item').forEach((li) => li.classList.toggle('open', li.querySelector(':scope > a').classList.contains('on')));
+    cnav.querySelectorAll('.cn-drop a').forEach((a) => a.classList.toggle('on', a.dataset.node === n.id));
   }
   function setMode(on, save = true) {
     classic = on;

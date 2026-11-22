@@ -8,7 +8,7 @@ mercado: consumer-brands
 midias: [d-performance-crm, d-ai-automation]
 conecta: [whirlpool]
 ---
-Whirlpool's most important brand in Brazil. Elevating the sales results of Brastemp's official site becomes even more interesting with such a well-established brand.
+Whirlpool's most important brand in Brazil. Elevating the sales results of Brastemp's official site became even more interesting with such a well-established brand.
 
 With a full-funnel strategy, we developed hard-sell campaigns, distributing commercial levers in a practical and efficient way. The result: more website visits and more significant sales.
 

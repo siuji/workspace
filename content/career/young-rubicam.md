@@ -13,7 +13,7 @@ conecta: [career, casas-bahia, pontofrio]
 - **Period** · May 2010 – Apr 2020
 - **Role** · Creative Director · Creative Art Director
 
-One of the leaders of the creative team serving Casas Bahia, one of Brazil's largest retailers and advertisers, and the agency's main client. TV, digital, out of home, radio and in-store: campaigns for everything, all the time. This is where most of my portfolio was built, and the peak of a complete offline delivery.
+One of the leaders of the creative team serving Casas Bahia, one of Brazil's largest retailers and advertisers, and the agency's main client. TV, digital, out of home, radio and in-store: campaigns for everything, all the time. This was where most of my portfolio was built, and the peak of a complete offline delivery.
 
 <div class="video"><iframe src="https://player.vimeo.com/video/417402884?autopause=0&amp;dnt=1" title="Casas Bahia showreel" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
 

@@ -12,7 +12,7 @@ conecta: [monks]
 
 A big task with a main challenge: bring more visibility and results in D2C channels. With well-established operational processes, a single team generated thousands of relevant assets, making sure the performance-focused creative work had real impact.
 
-This is the operation that brought me to Monks. Whirlpool operates in Brazil under several brands, and we delivered for all of them. I joined to make the whole operation run: creative, but also client relationship, account management and operations.
+This was the operation that brought me to Monks. Whirlpool operates in Brazil under several brands, and we delivered for all of them. I joined to make the whole operation run: creative, but also client relationship, account management and operations.
 
 <div class="stats"><div><b>27</b><span>FTEs, 100% dedicated</span></div><div><b>592</b><span>performance campaigns</span></div></div>
 

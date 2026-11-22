@@ -3,7 +3,7 @@ titulo: Portfolio
 tipo: area
 ordem: 1
 largura: wide
-conecta: [pfizer, youtube, leroy-merlin, whirlpool, ragazzo, nubank, quau-burger, sanofi, casas-bahia, pontofrio]
+conecta: [career, pfizer, youtube, leroy-merlin, whirlpool, ragazzo, nubank, quau-burger, sanofi, casas-bahia, pontofrio]
 ---
 <div class="intro">
 
