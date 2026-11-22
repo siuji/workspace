@@ -17,3 +17,5 @@ Wikimedia, the nonprofit organization behind Wikipedia, partnered with us to cre
 We used Weavy to generate the first animation frames and build the character's motion. Then we separated the scenes into layers for refinement and compositing. The creative team combined these elements with voiceover, music and motion design to produce polished final videos.
 
 This collaborative workflow let us deliver high-quality content efficiently. A successful project that strengthened the client relationship at a critical moment.
+
+It's one more example of how AI is changing video production as a whole. Animation that once had to be built frame by frame can now start from AI-generated motion, giving the team more time for what really matters: story, craft and finish.
