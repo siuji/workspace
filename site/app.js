@@ -224,6 +224,7 @@
   const labelLayer = $('#labels'), orbLayer = $('#orbs'), orb = $('#orb');
   orbLayer.appendChild(orb); // a esfera central entra na mesma camada: quem está na frente dela aparece por cima
   const labels = new Map(), orbs = new Map();
+  const hubKids = new Set(data.nodes.filter((n) => n.tipo !== 'hub' && neighbors.get(hub.id).has(n.id)).map((n) => n.id));
   for (const n of data.nodes) {
     if (n.tipo !== 'hub') {
       const o = document.createElement('div');
@@ -344,7 +345,8 @@
       if (ob.classList.contains('beside') !== beside) ob.classList.toggle('beside', beside);
       if (beside) ob.style.opacity = '1';
       const near = Math.max(0, Math.min(1, (560 - dist) / 260));
-      let o = n.tipo === 'area' ? Math.max(0.6, near) : near;
+      // Acesos direto só os nós ligados à esfera central (Portfolio, Career, Konkrë, About me); o resto acende de vez em quando
+      let o = hubKids.has(n.id) ? Math.max(0.6, near) : near * 0.35;
       if (isBack(n)) o *= 0.6;
       if (f) o = n.id === f || neighbors.get(f).has(n.id) ? 1 : 0.08;
       if (n.id === calling && !f) o = Math.max(o, 0.85);
@@ -362,9 +364,7 @@
     if (calling) orbs.get(calling)?.classList.remove('calling');
     calling = null;
     if (!selected && !document.hidden && !reduceMotion) {
-      const pool = data.nodes.filter((n) => n.tipo !== 'hub' && n.x !== undefined && !isBack(n));
-      const areaFirst = pool.filter((n) => n.tipo === 'area');
-      const list = Math.random() < 0.6 && areaFirst.length ? areaFirst : pool;
+      const list = data.nodes.filter((n) => n.tipo !== 'hub' && n.x !== undefined && !hubKids.has(n.id));
       const n = list[Math.floor(Math.random() * list.length)];
       if (n) { calling = n.id; orbs.get(n.id).classList.add('calling'); window.WS_SOUND && WS_SOUND.call(); }
     }
