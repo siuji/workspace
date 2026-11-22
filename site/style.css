@@ -608,3 +608,7 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 /* 3 peças lado a lado, mesmo tamanho */
 .prose .row3 { display: flex; gap: 10px; margin: var(--s3) 0; }
 .prose .row3 img { flex: 1 1 0; min-width: 0; width: 100%; height: auto; border-radius: 10px; }
+/* 4 vídeos verticais lado a lado */
+.prose .row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: var(--s3) 0; }
+.prose .row4 .video.vertical { aspect-ratio: 240 / 426; margin: 0; }
+.prose .row4 .video.vertical iframe { inset: -2px; width: calc(100% + 4px); height: calc(100% + 4px); }
