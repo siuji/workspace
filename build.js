@@ -161,8 +161,8 @@ function makeGraph(notes, review = false) {
     return c && c.mercado ? `<li data-tags="${[c.mercado, ...c.midias].join(' ')}"><a href="#/${id}"` : m;
   });
 
-  // Grade do Portfolio: versão colorida de cada logo, que aparece no hover (content/media/clients-color)
-  if (pf) pf.html = pf.html.replace(/(<span class="logo" role="img" aria-label="[^"]*" style="--logo:url\(media\/clients\/([a-z0-9-]+\.png)\);(width:\d+px;height:\d+px)"><\/span>)/g, (m, span, file, dims) =>
+  // Logos de cliente (grade do Portfolio e faixas das agências): versão colorida que aparece no hover (content/media/clients-color)
+  for (const n of nodes) n.html = n.html.replace(/(<span class="logo" role="img" aria-label="[^"]*" style="--logo:url\(media\/clients\/([a-z0-9-]+\.png)\);(width:\d+px;height:\d+px)"><\/span>)/g, (m, span, file, dims) =>
     fs.existsSync(path.join(CONTENT, 'media', 'clients-color', file)) ? `${span}<span class="logo-c" aria-hidden="true" style="background-image:url(media/clients-color/${file});${dims}"></span>` : m);
 
   // Filtro sem nenhum logo (ex.: depois de guardar logos) some da grade

@@ -574,10 +574,6 @@ body:not(.classic) .panel.wide .prose ul.logos { margin-left: -24px; margin-righ
 .prose ul.logos.mini li { flex: 0 0 25%; }
 .prose ul.logos.mini .logo { transform: scale(.68); }
 .prose ul.logos.mini .logo-text { font-size: 22px; }
-.prose ul.logos.mini .logo { background-color: var(--ink) !important; }
-.prose ul.logos.mini .logo-text { color: var(--ink); }
-:root:not([data-theme="light"]) .prose ul.logos.mini .logo { background-color: #fff !important; }
-:root:not([data-theme="light"]) .prose ul.logos.mini .logo-text { color: #fff; }
 
 /* Konkrë: foto larga no topo e selo do iF depois dos números */
 .prose .wide-photo { display: block; width: calc(100% + 48px); height: auto; margin: 0 -24px var(--s3); border-radius: 10px; }
@@ -675,3 +671,6 @@ body.classic .panel.wide { padding-left: max(280px, calc((100vw - 1180px) / 2));
 .cnav .cside .cn-item:not(.open) .cn-drop::before { content: ''; position: absolute; left: -14px; top: 0; bottom: 0; width: 14px; }
 .cnav .cside .cn-item:not(.open) .cn-drop { opacity: 0; visibility: hidden; transform: translateX(-6px); transition: opacity .25s, transform .3s cubic-bezier(.2,.7,.2,1), visibility 0s .3s; }
 .cnav .cside .cn-item:not(.open):hover .cn-drop, .cnav .cside .cn-item:not(.open):focus-within .cn-drop { opacity: 1; visibility: visible; transform: none; transition: opacity .25s, transform .3s cubic-bezier(.2,.7,.2,1), visibility 0s; }
+/* Faixas de clientes das agências: mesmo padrão da grade (cinza em repouso, cores originais no hover) */
+.prose ul.logos.mini .logo-c { scale: .68; }
+body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
