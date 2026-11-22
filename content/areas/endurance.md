@@ -4,13 +4,15 @@ tipo: area
 resumo: Long-distance runner. Road and trail.
 ordem: 5
 ---
-Running is part of my life. It keeps my body and my head in place. It's my daily therapy.
-
-27 marathons and longer races since 2009, in 8 countries, including all 6 World Marathon Majors. Boston twice, a race most runners can only enter with a qualifying time.
-
-My best is 3:04:54. Sub-3 passed very close, and I still think one day I can get there.
-
-Long distance teaches what no brief does. Plans change at kilometer 30, and you adapt, adjust the pace and keep going. That is how I see work, too.
+<div class="split">
+<div class="carousel"><img src="media/work/endurance/run-01.jpg" alt="" loading="eager"><img src="media/work/endurance/run-02.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-03.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-04.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-05.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-06.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-07.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-08.jpg" alt="" loading="lazy"><img src="media/work/endurance/run-09.jpg" alt="" loading="lazy"></div>
+<div class="split-text">
+<p>Running is part of my life. It keeps my body and my head in place. It's my daily therapy.</p>
+<p>27 marathons and longer races since 2009, in 8 countries, including all 6 World Marathon Majors. Boston twice, a race most runners can only enter with a qualifying time.</p>
+<p>My best is 3:04:54. Sub-3 passed very close, and I still think one day I can get there.</p>
+<p>Long distance teaches what no brief does. Plans change at kilometer 30, and you adapt, adjust the pace and keep going. That is how I see work, too.</p>
+</div>
+</div>
 
 <h3 class="sector">Marathons</h3>
 

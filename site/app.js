@@ -441,6 +441,24 @@
       v.style.width = lo.toFixed(1) + 'px';
     });
     requestAnimationFrame(fitSplit); setTimeout(fitSplit, 400); setTimeout(fitSplit, 1200);
+    // Carrossel de fotos: troca sozinho, setas e pontos
+    panel.querySelectorAll('.carousel').forEach((c) => {
+      const imgs = [...c.querySelectorAll('img')]; if (imgs.length < 2) return;
+      let i = 0, timer;
+      const dots = document.createElement('div'); dots.className = 'c-dots';
+      dots.innerHTML = imgs.map((_, k) => `<button type="button" aria-label="Photo ${k + 1}"></button>`).join('');
+      c.insertAdjacentHTML('beforeend', '<button type="button" class="c-prev" aria-label="Previous">‹</button><button type="button" class="c-next" aria-label="Next">›</button>');
+      c.appendChild(dots);
+      const show = (k) => { i = (k + imgs.length) % imgs.length; imgs.forEach((im, n) => im.classList.toggle('on', n === i)); [...dots.children].forEach((d, n) => d.classList.toggle('on', n === i)); };
+      const auto = () => { clearInterval(timer); timer = setInterval(() => { if (!document.body.contains(c)) return clearInterval(timer); show(i + 1); }, 3800); };
+      c.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (e.target.closest('.c-prev')) show(i - 1); else if (e.target.closest('.c-next')) show(i + 1);
+        else { const d = e.target.closest('.c-dots button'); if (d) show([...dots.children].indexOf(d)); else return; }
+        auto();
+      });
+      show(0); auto();
+    });
     if (!window.__fitSplit) { window.__fitSplit = true; addEventListener('resize', () => requestAnimationFrame(fitSplit)); }
     // Vídeos com fundo transparente (WebM com alfa); Safari não mostra alfa em WebM e fica com o MP4
     const noAlpha = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
