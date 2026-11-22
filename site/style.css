@@ -673,3 +673,6 @@ body.classic .panel.wide { padding-left: max(280px, calc((100vw - 1180px) / 2));
 /* Faixas de clientes das agências: mesmo padrão da grade (cinza em repouso, cores originais no hover) */
 .prose ul.logos.mini .logo-c { scale: .68; }
 body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
+/* Logo colorido no hover: claro = original; escuro = só as cores, o que era preto/neutro vira branco */
+.prose ul.logos .logo-c { background-image: var(--lc); }
+:root:not([data-theme="light"]) .prose ul.logos .logo-c { background-image: var(--lcd, var(--lc)); }
