@@ -88,7 +88,7 @@
     .showNavInfo(false)
     .graphData({ nodes: data.nodes, links: data.links })
     .warmupTicks(220)
-    .cooldownTime(6000)
+    .cooldownTime(Infinity)
     .d3VelocityDecay(0.55)
     .linkVisibility((l) => { const [a, b] = linkEnds(l); return revealed.has(a) && revealed.has(b); })
     .nodeId('id')
@@ -181,11 +181,25 @@
   }
   layout();
   for (const n of data.nodes) { const p = target.get(n.id); if (p) { n.x = p.tx; n.y = p.ty; n.z = p.tz; } }
+  const driftSeed = new Map();
+  function drift(n) {
+    if (reduceMotion) return { x: 0, y: 0, z: 0 };
+    let q = driftSeed.get(n.id);
+    if (!q) { const h = hash(n.id + 'd'), h2 = hash(n.id + 'e'); q = { a: h * 6.28, b: h2 * 6.28, fx: 0.11 + h * 0.09, fy: 0.09 + h2 * 0.1, fz: 0.07 + h * 0.06, amp: n.tipo === 'area' ? 3 : 4.5 }; driftSeed.set(n.id, q); }
+    const t = performance.now() / 1000;
+    return {
+      x: q.amp * (Math.sin(t * q.fx + q.a) + 0.45 * Math.sin(t * q.fx * 2.3 + q.b)),
+      y: q.amp * (Math.cos(t * q.fy + q.b) + 0.4 * Math.sin(t * q.fy * 1.9 + q.a)),
+      z: q.amp * 0.8 * Math.sin(t * q.fz + q.a + q.b),
+    };
+  }
   Graph.d3Force('place', (alpha) => {
     for (const n of data.nodes) {
       const p = around.get(n.id) || target.get(n.id); if (!p || n.fx !== undefined) continue;
       const k = 0.14 * Math.max(alpha, 0.5);
-      n.vx += (p.tx - n.x) * k; n.vy += (p.ty - n.y) * k; n.vz += (p.tz - n.z) * k;
+      // Respiração própria de cada esfera: pequenos desvios com ritmos diferentes, como se se reorganizassem
+      const d = drift(n);
+      n.vx += (p.tx + d.x - n.x) * k; n.vy += (p.ty + d.y - n.y) * k; n.vz += (p.tz + d.z - n.z) * k;
     }
   });
 
@@ -193,7 +207,7 @@
   const controls = Graph.controls();
   // Balanço suave da câmera (vai e volta), em vez de girar a volta inteira: nada passa por trás da esfera central
   controls.autoRotate = false;
-  let sway = !reduceMotion, swayA = 0, swayT0 = performance.now();
+  let sway = false, swayA = 0, swayT0 = performance.now(); // balanço em bloco desligado: agora cada esfera respira sozinha (drift)
   controls.enableDamping = true;
   controls.addEventListener('start', () => { sway = false; $('#hint').style.opacity = 0; });
   // Dica de navegação volta depois de 15 s sem nenhuma ação; some na próxima ação
@@ -397,7 +411,7 @@
   }
   function flyHome() {
     Graph.cameraPosition(HOME, { x: 0, y: 0, z: 0 }, reduceMotion ? 0 : 1600);
-    setTimeout(() => { swayA = 0; swayT0 = performance.now(); sway = !reduceMotion; }, 1700);
+    setTimeout(() => { swayA = 0; swayT0 = performance.now(); }, 1700);
   }
 
   // Painel: a esfera clicada vem para frente e se expande numa tela de vidro
