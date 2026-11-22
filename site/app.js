@@ -83,6 +83,7 @@
 
   // A teia nasce já assentada (sem tranco) e os nós vão acendendo aos poucos
   const revealed = new Set();
+  let orbGoAt = 0; // clique tratado pela área da esfera: o clique 'de fundo' da biblioteca chega depois e não pode fechar
   const Graph = ForceGraph3D({ controlType: 'orbit' })($('#graph'))
     .backgroundColor('rgba(0,0,0,0)')
     .showNavInfo(false)
@@ -106,7 +107,7 @@
     .linkDirectionalParticleColor(() => (isLight() ? '#c46a8e' : '#f3c2ae'))
     .onNodeHover((n) => { if (n && n !== hovered) window.WS_SOUND && WS_SOUND.hover(); hovered = n || null; $('#graph').style.cursor = n ? 'pointer' : ''; refresh(); wantLift(n); })
     .onNodeClick((n) => { if (!document.body.classList.contains('intro')) go(n.id); })
-    .onBackgroundClick(() => { if (selected) go(''); });
+    .onBackgroundClick(() => { if (selected && performance.now() - orbGoAt > 700) go(''); });
 
   if (params.has('debug')) window.WS_GRAPH = Graph;
   if (params.has('debug')) setTimeout(() => (window.WS_DBG = { around, target }), 0);
@@ -622,6 +623,24 @@
   }
   const backStack = []; let goingBack = false, lastRoute = '';
   function go(id) { location.hash = id ? `#/${id}` : '#/'; }
+  // Esfera central: o clique vale em toda a área desenhada (o raio 3D é menor e os fios na frente roubavam o clique)
+  (() => {
+    let down = null;
+    const g = $('#graph');
+    g.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+    g.addEventListener('pointerup', (e) => {
+      if (!down || document.body.classList.contains('intro') || document.body.classList.contains('classic')) return;
+      const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y), dt = performance.now() - down.t; down = null;
+      if (moved > 6 || dt > 600) return;
+      // Uma esfera menor na frente, de fato sob o mouse, tem prioridade
+      const inside = (el) => { if (!el) return false; const b = el.getBoundingClientRect(); return b.width && Math.hypot(e.clientX - (b.left + b.width / 2), e.clientY - (b.top + b.height / 2)) <= b.width / 2; };
+      const front = [...orbs.values()].find((o) => +o.style.opacity > 0.15 && +(o.style.zIndex || 0) > +(orb.style.zIndex || 0) && inside(o));
+      if (front) { orbGoAt = performance.now(); setTimeout(() => go(front.dataset.id), 0); return; }
+      const r = orb.getBoundingClientRect(); if (!r.width || orb.style.opacity === '0') return;
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      if (Math.hypot(e.clientX - cx, e.clientY - cy) <= r.width / 2) { orbGoAt = performance.now(); setTimeout(() => go(hub.id), 0); }
+    });
+  })();
   // Classic view: o mesmo conteúdo como site convencional, com menu no topo e sem o mapa
   let classic = false;
   const modeBtn = $('#mode-btn'), cnav = $('#cnav');
