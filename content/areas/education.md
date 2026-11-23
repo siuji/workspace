@@ -12,9 +12,9 @@ ordem: 4
 <div class="row"><span>1994 – 1997</span><span>Technical high school in Business Administration</span><span>CIM Alcina Dantas Feijão</span></div>
 <h2 class="rows-title">Certifications</h2>
 <div class="row"><span>2024</span><span>Human Centric Innovation</span><span>Hyper Island</span></div>
-<div class="row"><span></span><span>Facebook Certified Creative Strategy Professional</span><span>Meta</span></div>
-<div class="row"><span></span><span>MESA Method</span><span></span></div>
-<div class="row"><span></span><span>Leadership Development Program</span><span>Young &amp; Rubicam</span></div>
-<div class="row"><span></span><span>Impact NYC</span><span>Yahoo</span></div>
+<div class="row"><span>2024</span><span>Facebook Certified Creative Strategy Professional</span><span>Meta</span></div>
+<div class="row"><span>2024</span><span>MESA Method</span><span>MESA</span></div>
 <div class="row"><span>2023</span><span>Leadership Coaching Program</span><span>WayFinder</span></div>
+<div class="row"><span>2019</span><span>Leadership Development Program</span><span>Young &amp; Rubicam</span></div>
+<div class="row"><span>2018</span><span>Impact NYC</span><span>Yahoo</span></div>
 </div>
