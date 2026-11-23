@@ -455,13 +455,18 @@
         <li><button type="button" data-node="${c.id}"><span class="dot" style="${dotStyle(c)}"></span>${esc(c.titulo)}</button></li>`).join('')}</ul>${n.mercado ? `<ul class="facets">${[n.mercado, ...n.midias].map((f, i) => `<li><button type="button" class="${i ? 'f-media' : 'f-market'}" data-facet="${esc(f)}">${esc(facetLabel(f))}</button></li>`).join('')}</ul>` : ''}</div>` : ''}`;
     panel.classList.toggle('wide', n.largura === 'wide');
     // Vídeo vertical ao lado do texto: cresce até a altura da coluna de texto
+    // Regra: mídia ao lado do texto (vídeo, foto ou carrossel) sempre com a mesma altura do bloco de texto
     const fitSplit = () => panel.querySelectorAll('.split').forEach((sp) => {
-      const v = sp.querySelector('.video.vertical'), t = sp.querySelector('.split-text');
-      if (!v || !t || innerWidth <= 720) { if (v) v.style.width = ''; return; }
-      // largura em que a altura do vídeo = altura do texto (bissecção; o texto cresce quando o vídeo alarga)
-      const ar = 240 / 426;
-      let lo = 200, hi = sp.clientWidth * 0.6;
-      for (let i = 0; i < 10; i++) { const w = (lo + hi) / 2; v.style.width = w + 'px'; if (w / ar < t.offsetHeight) lo = w; else hi = w; }
+      const t = sp.querySelector(':scope > .split-text');
+      const v = [...sp.children].find((c) => c !== t);
+      if (!v || !t) return;
+      if (innerWidth <= 720) { v.style.width = ''; return; }
+      let ar = 240 / 426;
+      if (v.tagName === 'IMG') { if (!v.naturalWidth) return v.addEventListener('load', fitSplit, { once: true }); ar = v.naturalWidth / v.naturalHeight; }
+      else if (v.classList.contains('carousel')) ar = 4 / 5;
+      // largura em que a altura da mídia = altura do texto (bissecção; o texto cresce quando a mídia alarga)
+      let lo = 120, hi = sp.clientWidth * 0.6;
+      for (let i = 0; i < 12; i++) { const w = (lo + hi) / 2; v.style.width = w + 'px'; if (w / ar < t.offsetHeight) lo = w; else hi = w; }
       v.style.width = lo.toFixed(1) + 'px';
     });
     requestAnimationFrame(fitSplit); setTimeout(fitSplit, 400); setTimeout(fitSplit, 1200);
