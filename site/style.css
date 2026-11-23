@@ -679,3 +679,8 @@ body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
 .cnav .cside .cn-item:hover ~ .cn-item.open .cn-drop li { opacity: 0; transform: translateX(-10px); transition-delay: 0s; }
 .cnav .cside .cn-drop a { padding-top: 4px; padding-bottom: 4px; }
 .cnav .cside .cn-item > a { padding-top: 9px; padding-bottom: 9px; }
+/* About me: foto vertical ao lado, texto alinhado pelo topo */
+.prose .split.ptop { grid-template-columns: 300px minmax(0, 460px); align-items: start; gap: 40px; }
+.prose .split.ptop > img { width: 300px; height: auto; border-radius: 14px; display: block; margin: 0; }
+.prose .split.ptop .split-text p:first-child { margin-top: 0; }
+@media (max-width: 720px) { .prose .split.ptop { grid-template-columns: 1fr; } .prose .split.ptop > img { margin: 0 auto; } }
