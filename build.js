@@ -154,6 +154,25 @@ function makeGraph(notes, review = false) {
     return id && id !== n.id ? `<li${attrs}><a href="#/${id}" data-node="${id}">${span}</a></li>` : m;
   });
 
+  // Agências: mosaico logo abaixo do logo, com imagens das páginas publicadas dos clientes; cada imagem leva ao cliente
+  for (const ag of nodes.filter((x) => x.tipo === 'path')) {
+    const ids = [...new Set([...ag.html.matchAll(/data-node="([^"]+)"/g)].map((m) => m[1]))];
+    const pools = ids.map((id) => nodes.find((x) => x.id === id)).filter((c) => c && c.tipo === 'work' && c.data.publicar !== false).map((c) => {
+      const imgs = [...c.html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<img [^>]*src="(media\/work\/[^"]+)"[^>]*>/g)]
+        .filter((m) => !/class="(?:logo|brand)/.test(m[0]))
+        .concat([...c.html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<video [^>]*poster="(media\/work\/[^"]+)"[^>]*>/g)])
+        .sort((a, b) => (/data-hero/.test(b[0]) ? 1 : 0) - (/data-hero/.test(a[0]) ? 1 : 0))
+        .map((m) => m[1]);
+      // Sem imagem na página (só Vimeo): a miniatura do vídeo é buscada no navegador (oEmbed do Vimeo)
+      if (!imgs.length) for (const m of c.html.matchAll(/player\.vimeo\.com\/video\/(\d+)/g)) imgs.push('vimeo:' + m[1]);
+      return { c, imgs };
+    }).filter((p) => p.imgs.length);
+    const pick = [];
+    for (let r = 0; pick.length < 8 && pools.some((p) => p.imgs[r]); r++) for (const p of pools) if (p.imgs[r] && pick.length < 8) pick.push({ c: p.c, src: p.imgs[r] });
+    if (pick.length < 2) continue;
+    ag.html = `<div class="ag-mosaic n${pick.length}">${pick.map((x) => `<a href="#/${x.c.id}" data-node="${x.c.id}" title="${x.c.titulo.replace(/"/g, '&quot;')}"><img ${x.src.startsWith('vimeo:') ? `data-vimeo="${x.src.slice(6)}"` : `src="${x.src}"`} alt=""${x.c.titulo.replace(/"/g, '&quot;')}" loading="lazy"><span>${x.c.titulo}</span></a>`).join('')}</div>\n` + ag.html;
+  }
+
   // Grade do Portfolio: data-tags de cada logo com case vêm do frontmatter do case (mercado + midias)
   const pf = nodes.find((x) => x.id === 'portfolio');
   if (pf) pf.html = pf.html.replace(/<li data-tags="[^"]*"><a href="#\/([^"]+)"/g, (m, id) => {

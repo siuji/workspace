@@ -469,6 +469,13 @@
       for (let i = 0; i < 12; i++) { const w = (lo + hi) / 2; v.style.width = w + 'px'; if (w / ar < t.offsetHeight) lo = w; else hi = w; }
       v.style.width = lo.toFixed(1) + 'px';
     });
+    // Mosaico das agências: miniatura de vídeo do Vimeo (clientes sem imagem na página); se falhar, o quadro sai
+    panel.querySelectorAll('.ag-mosaic img[data-vimeo]').forEach((im) => {
+      const tile = im.closest('a');
+      fetch('https://vimeo.com/api/oembed.json?width=960&url=' + encodeURIComponent('https://vimeo.com/' + im.dataset.vimeo))
+        .then((r) => (r.ok ? r.json() : Promise.reject())).then((j) => { if (!j.thumbnail_url) throw 0; im.src = j.thumbnail_url; })
+        .catch(() => { const m = tile.parentElement; tile.remove(); if (m) m.className = m.className.replace(/n\d+/, 'n' + m.children.length); });
+    });
     requestAnimationFrame(fitSplit); setTimeout(fitSplit, 400); setTimeout(fitSplit, 1200);
     // Carrossel de fotos: troca sozinho, setas e pontos
     panel.querySelectorAll('.carousel').forEach((c) => {
