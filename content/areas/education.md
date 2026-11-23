@@ -1,9 +1,13 @@
 ---
 titulo: Education
 tipo: area
-resumo: Business, photography and advertising.
+resumo: Both sides of the brief.
 ordem: 4
 ---
+My education follows the same logic as my career. On one side, advertising and craft: art, photography, creativity. On the other, people and business: leadership, finance and company management.
+
+I've always worked to keep both sides growing together. That mix is what makes me a different kind of creative director: one who cares about the idea, the people who make it, and the numbers behind it.
+
 <div class="rows">
 <div class="row"><span>2026 – 2027</span><span>MBA in Finance <em>in progress</em></span><span>USP/Esalq</span></div>
 <div class="row"><span>2014 – 2016</span><span>MBA in Business Administration and Management</span><span>Fundação Getulio Vargas</span></div>
