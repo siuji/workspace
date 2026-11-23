@@ -685,3 +685,7 @@ body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
 .prose .split.ptop .split-text p:first-child { margin-top: 0; }
 .prose .split .split-text > :last-child { margin-bottom: 0; }
 @media (max-width: 720px) { .prose .split.ptop { grid-template-columns: 1fr; } .prose .split.ptop > img { margin: 0 auto; } }
+/* Endurance: lista de maratonas em colunas, alinhadas à esquerda */
+.prose .badge-line + ul { display: block; columns: 3; column-gap: 36px; text-align: left; list-style: none; padding: 0; max-width: 920px; margin: 18px auto 0; }
+.prose .badge-line + ul li { break-inside: avoid; margin: 0 0 8px; padding: 0; }
+@media (max-width: 900px) { .prose .badge-line + ul { columns: 2; } }
