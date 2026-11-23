@@ -474,7 +474,7 @@
       const tile = im.closest('a');
       fetch('https://vimeo.com/api/oembed.json?width=960&url=' + encodeURIComponent('https://vimeo.com/' + im.dataset.vimeo))
         .then((r) => (r.ok ? r.json() : Promise.reject())).then((j) => { if (!j.thumbnail_url) throw 0; im.src = j.thumbnail_url; })
-        .catch(() => { const m = tile.parentElement; tile.remove(); if (m) m.className = m.className.replace(/n\d+/, 'n' + m.children.length); });
+        .catch(() => { const r = tile.parentElement; tile.remove(); if (r && !r.children.length) r.remove(); });
     });
     requestAnimationFrame(fitSplit); setTimeout(fitSplit, 400); setTimeout(fitSplit, 1200);
     // Carrossel de fotos: troca sozinho, setas e pontos

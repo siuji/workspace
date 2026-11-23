@@ -5,6 +5,7 @@ tipo: path
 data: Jan 2021 – Nov 2025
 status: placeholder
 ordem: 2
+mosaico: [youtube:media/work/youtube/05.jpg, brastemp:media/work/whirlpool-brastemp/02.jpg, compra-certa:media/work/whirlpool-compra-certa/01.jpg, smilink:media/work/smilink/key-03.jpg, vans:media/work/vans/slide01-13.jpg, dominos:media/work/dominos/slide01-11.jpg, ragazzo:media/work/ragazzo/09.jpg, sanofi:media/work/sanofi/13.jpg]
 conecta: [career, youtube, whirlpool, brastemp, consul, kitchenaid, compra-certa, ecohouse, leroy-merlin, nubank, ragazzo, sanofi, smilink, dominos, vans]
 ---
 - **Role** · Group Creative Director

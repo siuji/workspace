@@ -689,19 +689,13 @@ body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
 .prose .badge-line + ul { display: block; columns: 3; column-gap: 36px; text-align: left; list-style: none; padding: 0; max-width: 920px; margin: 18px auto 0; }
 .prose .badge-line + ul li { break-inside: avoid; margin: 0 0 8px; padding: 0; }
 @media (max-width: 900px) { .prose .badge-line + ul { columns: 2; } }
-/* Agências: mosaico de imagens dos clientes logo abaixo do logo; cada imagem leva à página do cliente */
-.prose .ag-mosaic { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 120px; gap: 8px; margin: 4px 0 28px; }
-.prose .ag-mosaic a { position: relative; display: block; overflow: hidden; border-radius: 10px; background: rgba(0,0,0,.06); }
-.prose .ag-mosaic a:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-/* spans por quantidade de imagens, sempre fechando a grade de 4 colunas sem buracos */
-.prose .ag-mosaic { grid-auto-flow: row dense; }
-.prose .ag-mosaic.n2 a { grid-column: span 2; grid-row: span 2; }
-.prose .ag-mosaic.n3 a:nth-child(n+2) { grid-column: span 2; }
-.prose .ag-mosaic.n4 a:nth-child(2) { grid-column: span 2; }
-.prose .ag-mosaic.n6 a:nth-child(6) { grid-column: span 2; grid-row: span 2; }
-.prose .ag-mosaic.n7 a:nth-child(6), .prose .ag-mosaic.n7 a:nth-child(7) { grid-column: span 2; }
-.prose .ag-mosaic.n8 a:nth-child(8) { grid-column: span 2; }
+/* Agências: mosaico de imagens dos clientes logo abaixo do logo; proporção original, linhas justificadas; cada imagem leva ao cliente */
+.prose .ag-mosaic { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 28px; }
+.prose .ag-row { display: flex; gap: 8px; }
+.prose .ag-mosaic a { position: relative; display: block; min-width: 0; overflow: hidden; border-radius: 10px; background: rgba(0,0,0,.06); }
 .prose .ag-mosaic img { width: 100%; height: 100%; object-fit: cover; margin: 0; border-radius: 0; display: block; transition: transform .6s ease, filter .4s; }
-.prose .ag-mosaic span { position: absolute; left: 10px; bottom: 8px; font: 500 10px/1 var(--mono, monospace); letter-spacing: .12em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); opacity: 0; transition: opacity .3s; }
+.prose .ag-mosaic span { position: absolute; left: 10px; bottom: 8px; font: 500 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); opacity: 0; transition: opacity .3s; }
 .prose .ag-mosaic a:hover img { transform: scale(1.05); filter: brightness(.8); }
 .prose .ag-mosaic a:hover span { opacity: 1; }
+/* Links que envolvem imagem, logo ou vídeo não levam o sublinhado laranja dos links de texto */
+.prose a:has(img, video, iframe, .logo, .logo-text, .logo-c), .prose .ag-mosaic a, .prose ul.logos a { border-bottom: 0; }

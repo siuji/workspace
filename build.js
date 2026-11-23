@@ -41,6 +41,24 @@ const slugify = (s) =>
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 // Frontmatter simples: chave: valor, listas [a, b] ou com "- item" nas linhas seguintes.
+// Dimensões de JPG/PNG lendo só o cabeçalho (sem dependências)
+function imgDims(file) {
+  try {
+    const b = fs.readFileSync(file);
+    if (b[0] === 0x89 && b[1] === 0x50) return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+    if (b[0] === 0xff && b[1] === 0xd8) {
+      let o = 2;
+      while (o < b.length) {
+        if (b[o] !== 0xff) { o++; continue; }
+        const mk = b[o + 1], len = b.readUInt16BE(o + 2);
+        if (mk >= 0xc0 && mk <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(mk)) return { h: b.readUInt16BE(o + 5), w: b.readUInt16BE(o + 7) };
+        o += 2 + len;
+      }
+    }
+  } catch (e) {}
+  return null;
+}
+
 function parseFrontmatter(raw) {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
   if (!m) return { data: {}, body: raw };
@@ -135,6 +153,7 @@ function makeGraph(notes, review = false) {
       destaque: !!n.data.destaque,
       logo: n.data.logo ? String(n.data.logo) : '',
       oculto: n.data.publicar === false,
+      mosaico: [].concat(n.data.mosaico || []),
       ordem: typeof n.data.ordem === 'number' ? n.data.ordem : 100,
       html: marked.parse(md),
     };
@@ -157,7 +176,7 @@ function makeGraph(notes, review = false) {
   // Agências: mosaico logo abaixo do logo, com imagens das páginas publicadas dos clientes; cada imagem leva ao cliente
   for (const ag of nodes.filter((x) => x.tipo === 'path')) {
     const ids = [...new Set([...ag.html.matchAll(/data-node="([^"]+)"/g)].map((m) => m[1]))];
-    const pools = ids.map((id) => nodes.find((x) => x.id === id)).filter((c) => c && c.tipo === 'work' && c.data.publicar !== false).map((c) => {
+    const pools = ids.map((id) => nodes.find((x) => x.id === id)).filter((c) => c && c.tipo === 'work' && !c.oculto).map((c) => {
       const imgs = [...c.html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<img [^>]*src="(media\/work\/[^"]+)"[^>]*>/g)]
         .filter((m) => !/class="(?:logo|brand)/.test(m[0]))
         .concat([...c.html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<video [^>]*poster="(media\/work\/[^"]+)"[^>]*>/g)])
@@ -168,9 +187,24 @@ function makeGraph(notes, review = false) {
       return { c, imgs };
     }).filter((p) => p.imgs.length);
     const pick = [];
+    // Seleção manual (frontmatter mosaico: [cliente:caminho, ...]) tem prioridade sobre a automática
+    for (const it of ag.mosaico) { const [cid, src] = String(it).split(/:(.+)/); const c = nodes.find((x) => x.id === cid && !x.oculto); if (c && src) pick.push({ c, src }); }
+    if (!pick.length)
     for (let r = 0; pick.length < 8 && pools.some((p) => p.imgs[r]); r++) for (const p of pools) if (p.imgs[r] && pick.length < 8) pick.push({ c: p.c, src: p.imgs[r] });
     if (pick.length < 2) continue;
-    ag.html = `<div class="ag-mosaic n${pick.length}">${pick.map((x) => `<a href="#/${x.c.id}" data-node="${x.c.id}" title="${x.c.titulo.replace(/"/g, '&quot;')}"><img ${x.src.startsWith('vimeo:') ? `data-vimeo="${x.src.slice(6)}"` : `src="${x.src}"`} alt=""${x.c.titulo.replace(/"/g, '&quot;')}" loading="lazy"><span>${x.c.titulo}</span></a>`).join('')}</div>\n` + ag.html;
+    // Proporção original de cada asset (sem corte): linhas justificadas, cada linha fecha a largura toda
+    const arOf = (x) => {
+      if (x.src.startsWith('vimeo:')) return new RegExp('video vertical"><iframe src="https://player\\.vimeo\\.com/video/' + x.src.slice(6)).test(x.c.html) ? 9 / 16 : 16 / 9;
+      const d = imgDims(path.join(CONTENT, x.src.replace(/\?.*$/, '')));
+      return d ? d.w / d.h : 4 / 3;
+    };
+    const items = pick.map((x) => ({ ...x, ar: arOf(x) }));
+    const PER_ROW = 4.6; // soma das proporções por linha (largura / altura alvo)
+    const rows = []; let cur = [], sum = 0;
+    for (const it of items) { cur.push(it); sum += it.ar; if (sum >= PER_ROW) { rows.push(cur); cur = []; sum = 0; } }
+    if (cur.length) { if (rows.length && sum < PER_ROW * 0.55) rows[rows.length - 1].push(...cur); else rows.push(cur); }
+    const esc2 = (t) => t.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    ag.html = `<div class="ag-mosaic">${rows.map((r) => `<div class="ag-row">${r.map((x) => `<a href="#/${x.c.id}" data-node="${x.c.id}" title="${esc2(x.c.titulo)}" style="flex:${x.ar.toFixed(4)} 1 0;aspect-ratio:${x.ar.toFixed(4)}"><img ${x.src.startsWith('vimeo:') ? `data-vimeo="${x.src.slice(6)}"` : `src="${x.src}"`} alt="${esc2(x.c.titulo)}" loading="lazy"><span>${esc2(x.c.titulo)}</span></a>`).join('')}</div>`).join('')}</div>\n` + ag.html;
   }
 
   // Grade do Portfolio: data-tags de cada logo com case vêm do frontmatter do case (mercado + midias)
