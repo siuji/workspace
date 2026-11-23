@@ -474,7 +474,13 @@
       const tile = im.closest('a');
       fetch('https://vimeo.com/api/oembed.json?width=960&url=' + encodeURIComponent('https://vimeo.com/' + im.dataset.vimeo))
         .then((r) => (r.ok ? r.json() : Promise.reject())).then((j) => { if (!j.thumbnail_url) throw 0; im.src = j.thumbnail_url; })
-        .catch(() => { const r = tile.parentElement; tile.remove(); if (r && !r.children.length) r.remove(); });
+        .catch(() => {
+          // quadro sem miniatura sai, e o mosaico se reorganiza no mesmo padrão de linhas
+          const m = tile.closest('.ag-mosaic'); tile.remove(); if (!m) return;
+          const tiles = [...m.querySelectorAll('a')], P = { 1: [1], 2: [2], 3: [3], 4: [2, 2], 5: [2, 3], 6: [3, 3], 7: [2, 3, 2], 8: [2, 4, 2] };
+          m.textContent = ''; let k = 0;
+          for (const c of P[tiles.length] || [tiles.length]) { const r = document.createElement('div'); r.className = 'ag-row'; tiles.slice(k, k + c).forEach((t) => r.appendChild(t)); k += c; m.appendChild(r); }
+        });
     });
     requestAnimationFrame(fitSplit); setTimeout(fitSplit, 400); setTimeout(fitSplit, 1200);
     // Carrossel de fotos: troca sozinho, setas e pontos

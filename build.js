@@ -154,6 +154,7 @@ function makeGraph(notes, review = false) {
       logo: n.data.logo ? String(n.data.logo) : '',
       oculto: n.data.publicar === false,
       mosaico: [].concat(n.data.mosaico || []),
+      linhas: [].concat(n.data.mosaico_linhas || []),
       ordem: typeof n.data.ordem === 'number' ? n.data.ordem : 100,
       html: marked.parse(md),
     };
@@ -199,10 +200,12 @@ function makeGraph(notes, review = false) {
       return d ? d.w / d.h : 4 / 3;
     };
     const items = pick.map((x) => ({ ...x, ar: arOf(x) }));
-    const PER_ROW = 4.6; // soma das proporções por linha (largura / altura alvo)
-    const rows = []; let cur = [], sum = 0;
-    for (const it of items) { cur.push(it); sum += it.ar; if (sum >= PER_ROW) { rows.push(cur); cur = []; sum = 0; } }
-    if (cur.length) { if (rows.length && sum < PER_ROW * 0.55) rows[rows.length - 1].push(...cur); else rows.push(cur); }
+    // Linhas no padrão da Y&R: poucas imagens grandes por linha (ou frontmatter mosaico_linhas: [2, 4, 2])
+    const PATTERN = { 1: [1], 2: [2], 3: [3], 4: [2, 2], 5: [2, 3], 6: [3, 3], 7: [2, 3, 2], 8: [2, 4, 2] };
+    const plan = ag.linhas.length ? ag.linhas.map(Number) : PATTERN[items.length];
+    const rows = []; let k = 0;
+    for (const c of plan) { if (k >= items.length) break; rows.push(items.slice(k, k + c)); k += c; }
+    if (k < items.length) rows.push(items.slice(k));
     const esc2 = (t) => t.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
     ag.html = `<div class="ag-mosaic">${rows.map((r) => `<div class="ag-row">${r.map((x) => `<a href="#/${x.c.id}" data-node="${x.c.id}" title="${esc2(x.c.titulo)}" style="flex:${x.ar.toFixed(4)} 1 0;aspect-ratio:${x.ar.toFixed(4)}"><img ${x.src.startsWith('vimeo:') ? `data-vimeo="${x.src.slice(6)}"` : `src="${x.src}"`} alt="${esc2(x.c.titulo)}" loading="lazy"><span>${esc2(x.c.titulo)}</span></a>`).join('')}</div>`).join('')}</div>\n` + ag.html;
   }
