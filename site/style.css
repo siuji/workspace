@@ -699,3 +699,5 @@ body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
 .prose .ag-mosaic a:hover span { opacity: 1; }
 /* Links que envolvem imagem, logo ou vídeo não levam o sublinhado laranja dos links de texto */
 .prose a:has(img, video, iframe, .logo, .logo-text, .logo-c), .prose .ag-mosaic a, .prose ul.logos a { border-bottom: 0; }
+/* Galeria na mesma largura do vídeo e do texto (sem sangrar para os lados) */
+.prose .gallery { margin-left: 0; margin-right: 0; }
