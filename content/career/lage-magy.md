@@ -8,14 +8,12 @@ conecta: [career]
 ---
 ## 2002 – 2004
 
-- **Period** · Jan 2002 – Oct 2004
 - **Role** · Creative Art Director
 
 Clients from very different segments: luxury jewelers, department stores, schools, large popular clothing stores. Direct contact with big clients and the agency's leadership pushed my career forward.
 
 ## 1999 – 2000
 
-- **Period** · Jan 1999 – Aug 2000
 - **Role** · Art Director Assistant
 
 My first professional job, and my big school in what an advertising agency really is.
