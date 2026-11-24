@@ -7,7 +7,7 @@ data: Nov 2025 – present
 status: placeholder
 ordem: 1
 mosaico_linhas: [3, 1]
-mosaico: [macys:media/work/macys/bf-01.jpg, wikimedia:vimeo:1249014615, macys:media/work/macys/bf-03.jpg, quest:vimeo:1249010854]
+mosaico: [macys:media/work/macys/bf-01.jpg, wikimedia:vimeo:1249014615, macys:vimeo:1249012046, quest:vimeo:1249010854]
 conecta: [career]
 ---
 - **Role** · AI Group Creative Director
