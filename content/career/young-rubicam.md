@@ -6,6 +6,8 @@ tipo: path
 data: 2004 – 2007 · 2010 – 2020
 ordem: 3
 apelidos: [Y&R, YR, Young and Rubicam]
+mosaico_linhas: [2, 3, 2]
+mosaico: [casas-bahia:media/work/casas-bahia/05.jpg, pontofrio:media/work/pontofrio/03.jpg, casas-bahia:media/work/casas-bahia/06.jpg, casas-bahia:media/work/casas-bahia/07.jpg, pontofrio:media/work/pontofrio/06.jpg, casas-bahia:media/work/casas-bahia/08.jpg, pontofrio:media/work/pontofrio/07.jpg]
 conecta: [career, casas-bahia, pontofrio]
 ---
 ## 2010 – 2020
