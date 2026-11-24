@@ -18,7 +18,7 @@ Leroy Merlin Brazil, one of Brazil's largest home improvement retailers, with ov
 
 **A design system for everyone.** We built a design system able to handle the complexity of every material the client needed. It served the agency's internal team, and also Leroy Merlin's own team and its partners. It changed the way Leroy Merlin works, and became the base for teams in other countries.
 
-<div class="gallery"><video src="media/work/leroy-merlin/s06-06.mp4" poster="media/work/leroy-merlin/s06-06.jpg" width="1280" height="720" autoplay muted loop playsinline preload="auto"></video><img src="media/work/leroy-merlin/s06-01.jpg" width="1400" height="640" alt="Leroy Merlin" loading="lazy"><video src="media/work/leroy-merlin/s06-09.mp4" poster="media/work/leroy-merlin/s06-09.jpg" width="800" height="424" autoplay muted loop playsinline preload="auto"></video></div>
+<div class="gallery"><video src="media/work/leroy-merlin/s06-09.mp4" poster="media/work/leroy-merlin/s06-09.jpg" width="800" height="424" autoplay muted loop playsinline preload="auto"></video><img src="media/work/leroy-merlin/s06-01.jpg" width="1400" height="640" alt="Leroy Merlin" loading="lazy"><video src="media/work/leroy-merlin/s06-06.mp4" poster="media/work/leroy-merlin/s06-06.jpg" width="1280" height="720" autoplay muted loop playsinline preload="auto"></video></div>
 
 It was the first project with a truly AI-driven way of thinking from the start, and that is what brought this client to Monks.
 

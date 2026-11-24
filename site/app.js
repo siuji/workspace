@@ -464,6 +464,11 @@
       let ar = 240 / 426;
       if (v.tagName === 'IMG') { if (!v.naturalWidth) return v.addEventListener('load', fitSplit, { once: true }); ar = v.naturalWidth / v.naturalHeight; }
       else if (v.classList.contains('carousel')) ar = 4 / 5;
+      // Exceção (classe match-prev): a mídia fica com a mesma altura do vídeo logo acima, não do texto
+      if (sp.classList.contains('match-prev')) {
+        let pv = sp.previousElementSibling; while (pv && !pv.classList.contains('video')) pv = pv.previousElementSibling;
+        if (pv) { v.style.width = (pv.offsetHeight * ar).toFixed(1) + 'px'; return; }
+      }
       // largura em que a altura da mídia = altura do texto (bissecção; o texto cresce quando a mídia alarga)
       let lo = 120, hi = sp.clientWidth * 0.6;
       for (let i = 0; i < 12; i++) { const w = (lo + hi) / 2; v.style.width = w + 'px'; if (w / ar < t.offsetHeight) lo = w; else hi = w; }
