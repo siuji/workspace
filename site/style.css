@@ -701,3 +701,6 @@ body:not(.classic) .panel.wide .prose ul.logos.mini .logo-c { scale: .68; }
 .prose a:has(img, video, iframe, .logo, .logo-text, .logo-c), .prose .ag-mosaic a, .prose ul.logos a { border-bottom: 0; }
 /* Galeria na mesma largura do vídeo e do texto (sem sangrar para os lados) */
 .prose .gallery { margin-left: 0; margin-right: 0; }
+/* Espaçamento único entre blocos de mídia seguidos (vídeo, galeria, mosaico): o mesmo vão de 8px da grade */
+.prose .video + .gallery, .prose .gallery + .gallery, .prose .gallery + .video, .prose .video + .video { margin-top: 8px; }
+.prose .video:has(+ .gallery), .prose .video:has(+ .video), .prose .gallery:has(+ .gallery), .prose .gallery:has(+ .video) { margin-bottom: 0; }
